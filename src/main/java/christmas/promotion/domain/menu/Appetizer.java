@@ -1,19 +1,19 @@
-package christmas.promotion.domain.food;
+package christmas.promotion.domain.menu;
 
-public enum Beverage implements Menu {
-    ZERO_COLA("제로콜라", 3000.0) {
+public enum Appetizer implements Menu {
+    MUSHROOM_SOUP("양송이수프", 6000.0) {
         @Override
         public void applyDiscount() {
             // 할인 로직 구현
         }
     },
-    RED_WINE("레드와인", 60000.0) {
+    TAPAS("타파스", 5500.0) {
         @Override
         public void applyDiscount() {
             // 할인 로직 구현
         }
     },
-    CHAMPAGNE("샴페인", 25000.0) {
+    CAESAR_SALAD("시저샐러드", 8000.0) {
         @Override
         public void applyDiscount() {
             // 할인 로직 구현
@@ -23,12 +23,12 @@ public enum Beverage implements Menu {
     private final String name;
     private final double price;
 
-    Beverage(String name, double price) {
+    Appetizer(String name, double price) {
         this.name = name;
         this.price = price;
     }
 
     public static String description() {
-        return "<음료>";
+        return "<애피타이저>";
     }
 }

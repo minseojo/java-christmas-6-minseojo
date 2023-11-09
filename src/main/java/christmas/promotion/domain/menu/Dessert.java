@@ -1,4 +1,4 @@
-package christmas.promotion.domain.food;
+package christmas.promotion.domain.menu;
 
 public enum Dessert implements Menu {
     CHOCOLATE_CAKE("초코케이크", 15000.0),

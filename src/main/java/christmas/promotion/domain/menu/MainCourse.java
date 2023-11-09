@@ -1,4 +1,4 @@
-package christmas.promotion.domain.food;
+package christmas.promotion.domain.menu;
 
 public enum MainCourse implements Menu {
     T_BONE_STEAK("티본스테이크", 55000.0) {
