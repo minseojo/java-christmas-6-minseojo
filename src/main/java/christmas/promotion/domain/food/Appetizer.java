@@ -1,4 +1,4 @@
-package christmas.domain.food;
+package christmas.promotion.domain.food;
 
 public enum Appetizer implements Menu {
     MUSHROOM_SOUP("양송이수프", 6000.0) {

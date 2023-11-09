@@ -1,4 +1,4 @@
-package christmas.domain.food;
+package christmas.promotion.domain.food;
 
 public enum Beverage implements Menu {
     ZERO_COLA("제로콜라", 3000.0) {

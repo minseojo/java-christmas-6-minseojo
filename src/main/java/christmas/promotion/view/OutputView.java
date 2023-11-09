@@ -1,4 +1,4 @@
-package christmas.view;
+package christmas.promotion.view;
 
 public class OutputView {
     private enum Message {
