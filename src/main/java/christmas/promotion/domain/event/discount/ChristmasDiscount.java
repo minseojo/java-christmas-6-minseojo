@@ -10,21 +10,20 @@ public class ChristmasDiscount implements DiscountEvent {
     private static final int DAILY_DISCOUNT_INCREMENT = 100;
 
     @Override
-    public double applyDiscount(double price) {
-//        if (isBetweenDates()) {
-            int daysUntilChristmas = calculateDaysUntilChristmas();
-            double discountAmount = STARTING_DISCOUNT_AMOUNT + (DAILY_DISCOUNT_INCREMENT * daysUntilChristmas);
-            return discountAmount;
-//        }
+    public double applyDiscount(LocalDate date, double price) {
+        if (!isBetweenDates(date)) {
+            return NO_DISCOUNT;
+        }
 
-       // return 0;
+        int daysUntilChristmas = calculateDaysUntilChristmas(date);
+        return STARTING_DISCOUNT_AMOUNT + (DAILY_DISCOUNT_INCREMENT * daysUntilChristmas);
     }
 
-    private int calculateDaysUntilChristmas() {
-        return (int) ChronoUnit.DAYS.between(EVENT_PERIOD_START, EVENT_PERIOD_END);
+    private boolean isBetweenDates(LocalDate date) {
+        return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
     }
-//
-//    public boolean isBetweenDates(Bill bill) {
-//        return isBetweenDates(bill);
-//    }
+
+    private int calculateDaysUntilChristmas(LocalDate date) {
+        return (int) ChronoUnit.DAYS.between(EVENT_PERIOD_START, date);
+    }
 }

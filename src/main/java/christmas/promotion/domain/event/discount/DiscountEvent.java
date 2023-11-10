@@ -1,6 +1,9 @@
 package christmas.promotion.domain.event.discount;
 
-public interface DiscountEvent {
+import java.time.LocalDate;
 
-    double applyDiscount(double price);
+public interface DiscountEvent {
+    double NO_DISCOUNT = 0;
+
+    double applyDiscount(LocalDate date, double price);
 }
