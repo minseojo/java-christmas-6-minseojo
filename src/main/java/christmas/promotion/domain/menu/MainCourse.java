@@ -1,40 +1,49 @@
 package christmas.promotion.domain.menu;
 
-public enum MainCourse implements Menu {
-    T_BONE_STEAK("티본스테이크", 55000.0) {
-        @Override
-        public void applyDiscount() {
-            // 할인 로직 구현
-        }
-    },
-    BARBECUE_RIBS("바비큐립", 54000.0) {
-        @Override
-        public void applyDiscount() {
-            // 할인 로직 구현
-        }
-    },
-    SEAFOOD_PASTA("해산물파스타", 35000.0) {
-        @Override
-        public void applyDiscount() {
-            // 할인 로직 구현
-        }
-    },
-    CHRISTMAS_PASTA("크리스마스파스타", 25000.0) {
-        @Override
-        public void applyDiscount() {
-            // 할인 로직 구현
-        }
-    };
+import christmas.promotion.domain.event.discount.DiscountEvent;
+import christmas.promotion.domain.event.discount.WeekendDiscount;
 
-    private final String name;
-    private final double price;
+import java.util.Collections;
+import java.util.List;
+
+public enum MainCourse implements Menu {
+    T_BONE_STEAK("티본스테이크", 55000.0),
+    BARBECUE_RIBS("바비큐립", 54000.0),
+    SEAFOOD_PASTA("해산물파스타", 35000.0),
+    CHRISTMAS_PASTA("크리스마스파스타", 25000.0);
+
+    private final MenuItem mainCourse;
 
     MainCourse(String name, double price) {
-        this.name = name;
-        this.price = price;
+        this.mainCourse = new MenuItem(name, price, createDiscountEvents());
     }
 
-    public static String description() {
+    @Override
+    public String description() {
         return "<메인>";
+    }
+
+    @Override
+    public String getName() {
+        return mainCourse.getName();
+    }
+
+    @Override
+    public double getPrice() {
+        return mainCourse.getPrice();
+    }
+
+    @Override
+    public void applyDiscount() {
+        mainCourse.applyDiscount();
+    }
+
+    @Override
+    public List<DiscountEvent> getDiscountEvents() {
+        return mainCourse.getDiscountEvents();
+    }
+
+    private List<DiscountEvent> createDiscountEvents() {
+        return Collections.singletonList(new WeekendDiscount());
     }
 }
