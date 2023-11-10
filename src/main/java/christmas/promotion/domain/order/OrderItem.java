@@ -1,26 +1,31 @@
 package christmas.promotion.domain.order;
 
-import christmas.promotion.domain.menu.Menu;
-import christmas.promotion.dto.OrderItemsDto;
+import christmas.promotion.domain.menu.MenuItem;
+
+import java.time.LocalDate;
 
 public class OrderItem {
-    private final Menu menuItem;
+    private final MenuItem menu;
     private final int quantity;
 
-    public OrderItem(Menu menuItem, int quantity) {
-        this.menuItem = menuItem;
+    public OrderItem(MenuItem menu, int quantity) {
+        this.menu = menu;
         this.quantity = quantity;
     }
 
     public double calculateSubtotal() {
-        return menuItem.getPrice() * quantity;
+        return menu.getPrice() * quantity;
     }
 
-    public void discount() {
-        menuItem.applyDiscount();
+    public MenuItem getMenu() {
+        return menu;
     }
 
-    public OrderItemsDto toDto() {
-        return new OrderItemsDto(menuItem, quantity);
+    public double applyDiscount(LocalDate date) {
+        return menu.applyDiscount(date);
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

@@ -1,31 +1,54 @@
 package christmas.promotion.domain.order;
 
+import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.domain.menu.MenuItem;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Order {
-    private final Set<OrderItem> orderItems;
+    private final List<OrderItem> order;
+    private final double originalPrice;
+    private final LocalDate date;
+    private final MenuBoard menuBoard;
 
-    public Order() {
-        this.orderItems = new HashSet<>();
+    public Order(final Map<String, Integer> orderMenus, LocalDate date, final MenuBoard menuBoard) {
+        this.menuBoard = menuBoard;
+        this.date = date;
+        this.order = List.copyOf(createOrderFromMenuBoard(orderMenus));
+        this.originalPrice = calculateTotal();
     }
 
-    private boolean isMenuExists(String userInput) {
-        return orderItems.contains(userInput);
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void addOrderItem(MenuItem menuItem, int quantity) {
-        OrderItem orderItem = new OrderItem(menuItem, quantity);
-        orderItems.add(orderItem);
+    private List<OrderItem> createOrderFromMenuBoard(Map<String, Integer> orderMenus) {
+        List<OrderItem> menus = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> orderMenu : orderMenus.entrySet()) {
+            MenuItem menuItem = menuBoard.findMenu(orderMenu.getKey());
+            menus.add(new OrderItem(menuItem, orderMenu.getValue()));
+        }
+
+        return menus;
     }
 
-    public double calculateTotal() {
+    public List<OrderItem> getOrder() {
+        return order;
+    }
+
+    private double calculateTotal() {
         double total = 0.0;
-        for (OrderItem orderItem : orderItems) {
+        for (OrderItem orderItem : order) {
             total += orderItem.calculateSubtotal();
         }
         return total;
+    }
+
+    public double getOriginalPrice() {
+        return originalPrice;
     }
 }
