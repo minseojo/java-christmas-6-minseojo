@@ -6,44 +6,33 @@ import christmas.promotion.domain.event.discount.WeekendDiscount;
 import java.util.Collections;
 import java.util.List;
 
-public enum MainCourse implements Menu {
+public enum MainCourse {
     T_BONE_STEAK("티본스테이크", 55000.0),
     BARBECUE_RIBS("바비큐립", 54000.0),
     SEAFOOD_PASTA("해산물파스타", 35000.0),
     CHRISTMAS_PASTA("크리스마스파스타", 25000.0);
 
-    private final MenuItem mainCourse;
+    private final String name;
+    private final double price;
 
     MainCourse(String name, double price) {
-        this.mainCourse = new MenuItem(name, price, createDiscountEvents());
+        this.name = name;
+        this.price = price;
     }
 
-    @Override
     public String description() {
         return "<메인>";
     }
 
-    @Override
     public String getName() {
-        return mainCourse.getName();
+        return name;
     }
 
-    @Override
     public double getPrice() {
-        return mainCourse.getPrice();
+        return price;
     }
 
-    @Override
-    public void applyDiscount() {
-        mainCourse.applyDiscount();
-    }
-
-    @Override
     public List<DiscountEvent> getDiscountEvents() {
-        return mainCourse.getDiscountEvents();
-    }
-
-    private List<DiscountEvent> createDiscountEvents() {
         return Collections.singletonList(new WeekendDiscount());
     }
 }
