@@ -1,5 +1,7 @@
 package christmas.promotion.view;
 
+import christmas.promotion.domain.event.Event;
+
 import java.util.Map;
 
 public class OutputView {
@@ -38,14 +40,13 @@ public class OutputView {
         for (Map.Entry<String, Integer> orderMenu : orderMenus.entrySet()) {
             System.out.println(orderMenu.getKey() + " " + orderMenu.getValue() + "개");
         }
-        System.out.println();
-
+        printEmptyLine();
     }
 
     public void printTotalOrderPriceBeforeDiscount(double price) {
         System.out.println(Message.TOTAL_ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
-        System.out.printf("%,.0f원%n", price);
-        System.out.println();
+        printPrice(price);
+        printEmptyLine();
     }
 
     public void printGiftMenus(Map<String, Integer> gifts) {
@@ -53,31 +54,55 @@ public class OutputView {
         for (String gift : gifts.keySet()) {
             System.out.println(gift + " " + gifts.get(gift) + "개");
         }
-        System.out.println();
+        printEmptyLine();
     }
 
-    public void printBenefitDetails(Map<String, Double> benefitDetails) {
+    public void printBenefitDetails(Map<Event, Double> benefitDetails) {
         System.out.println(Message.BENEFIT_DETAILS.getMessage());
-        for (String eventName : benefitDetails.keySet()) {
-            System.out.println(eventName + ": " + String.format("%,.0f원", benefitDetails.get(eventName)));
+
+        benefitDetails.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0.0)
+                .forEach(entry -> System.out.printf("%s: -%,.0f%n",
+                        entry.getKey().getEventName(), entry.getValue()));
+
+        if (!hasBenefit(benefitDetails)) {
+            System.out.println("없음");
         }
-        System.out.println();
+
+        printEmptyLine();
+    }
+
+    private boolean hasBenefit(Map<Event, Double> benefitDetails) {
+        for (Double value : benefitDetails.values()) {
+            if (value > 0.0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void printTotalBenefitPrice(double price) {
         System.out.println(Message.TOTAL_BENEFIT_PRICE.getMessage());
-        System.out.printf("%,.0f원%n", price);
-        System.out.println();
+        printPrice(price);
+        printEmptyLine();
     }
 
     public void printExpectedPayment(double price) {
         System.out.println(Message.EXCEPTED_PAYMENT.getMessage());
-        System.out.printf("%,.0f원%n", price);
-        System.out.println();
+        printPrice(price);
+        printEmptyLine();
     }
 
     public void printDecemberEventBadge(String badgeName) {
         System.out.println(Message.DECEMBER_EVNET_BADGE.getMessage());
         System.out.println(badgeName);
+    }
+
+    private static void printPrice(double price) {
+        System.out.printf("%,.0f원%n", price);
+    }
+
+    private void printEmptyLine() {
+        System.out.println();
     }
 }
