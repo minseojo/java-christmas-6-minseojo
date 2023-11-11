@@ -1,6 +1,7 @@
 package christmas.promotion.view;
 
 import christmas.promotion.domain.event.Event;
+import christmas.promotion.domain.menu.Menu;
 
 import java.util.Map;
 
@@ -49,10 +50,10 @@ public class OutputView {
         printEmptyLine();
     }
 
-    public void printGiftMenus(Map<String, Integer> gifts) {
+    public void printGiftMenus(Map<Menu, Integer> gifts) {
         System.out.println(Message.GIFT_MENUS.message);
-        for (String gift : gifts.keySet()) {
-            System.out.println(gift + " " + gifts.get(gift) + "개");
+        for (Menu menu : gifts.keySet()) {
+            System.out.println(menu.getName() + " " + gifts.get(menu) + "개");
         }
         printEmptyLine();
     }
@@ -83,7 +84,7 @@ public class OutputView {
 
     public void printTotalBenefitPrice(double price) {
         System.out.println(Message.TOTAL_BENEFIT_PRICE.getMessage());
-        printPrice(price);
+        printPrice(-1 * price);
         printEmptyLine();
     }
 

@@ -1,8 +1,15 @@
 package christmas.promotion.domain.event;
 
-import christmas.promotion.domain.event.discount.*;
-import christmas.promotion.domain.event.gift.ChampagneGift;
+import christmas.promotion.domain.event.discount.DiscountEvent;
+import christmas.promotion.domain.event.discount.ChristmasDiscount;
+import christmas.promotion.domain.event.discount.SpecialDiscount;
+import christmas.promotion.domain.event.discount.WeekdayDiscount;
+import christmas.promotion.domain.event.discount.WeekendDiscount;
+
 import christmas.promotion.domain.event.gift.GiftEvent;
+import christmas.promotion.domain.event.gift.ChampagneGift;
+
+import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.domain.order.OrderItem;
 
@@ -14,13 +21,15 @@ public class EventManager {
     private final Order order;
     private double salePrice;
     private double giftPrice;
-    private final Map<Event, Double> globalEvents; // 크리스마스 디데이 할인, 특별 할인, 증정 이벤트
-    private final Map<Event, Double> events;
+    private final Map<Event, Double> globalEvents; // 공통 이벤트, 크리스마스 디데이 할인, 특별 할인, 증정 이벤트
+    private final Map<Event, Double> events; // 적용 된 모든 이벤트 (공통 + weekday, weekend)
+    private final Map<Menu, Integer> giftMenus;
 
     public EventManager(Order order) {
         this.order = order;
         globalEvents = new LinkedHashMap<>();
         events = new LinkedHashMap<>();
+        giftMenus = new LinkedHashMap<>();
         addGlobalEvents();
         addEvents();
         applyEvents();
@@ -52,9 +61,42 @@ public class EventManager {
 
     private void applyGlobalEvents() {
         for (Event event : globalEvents.keySet()) {
-            applyDiscountEvent(event);
-            applyGiftEvent(event);
+            if (isDiscountEvent(event)) {
+                applyDiscountEvent(event);
+            }
+            if (isGiftEvent(event)) {
+                applyGiftEvent(event);
+            }
         }
+    }
+
+    private boolean isDiscountEvent(Event event) {
+        return event instanceof DiscountEvent;
+    }
+
+    private boolean isGiftEvent(Event event) {
+        return event instanceof GiftEvent;
+    }
+
+    private void applyDiscountEvent(Event event) {
+        if (isEventApplicable(event)) {
+            double eventSalePrice = event.applyEvent(order.getDate(), order.getOriginalPrice());
+            salePrice += eventSalePrice;
+            events.put(event, eventSalePrice);
+        }
+    }
+
+    private void applyGiftEvent(Event event) {
+        if (isEventApplicable(event)) {
+            double eventGiftPrice = event.applyEvent(order.getDate(), order.getOriginalPrice());
+            giftPrice += eventGiftPrice;
+            events.put(event, eventGiftPrice);
+            addGiftMenu((GiftEvent) event);
+        }
+    }
+
+    private boolean isEventApplicable(Event event) {
+        return event.isBetweenDates(order.getDate());
     }
 
     private void applyMenuEvents() {
@@ -68,24 +110,14 @@ public class EventManager {
         }
     }
 
-    private void applyDiscountEvent(Event event) {
-        if (event instanceof DiscountEvent) {
-            double eventSalePrice = event.applyEvent(order.getDate(), order.getOriginalPrice());
-            salePrice += eventSalePrice;
-            events.put(event, eventSalePrice);
-        }
-    }
-
-    private void applyGiftEvent(Event event) {
-        if (event instanceof GiftEvent) {
-            double eventGiftPrice = event.applyEvent(order.getDate(), order.getOriginalPrice());
-            giftPrice += eventGiftPrice;
-            events.put(event, eventGiftPrice);
-        }
+    private void addGiftMenu(GiftEvent event) {
+        Menu menu = event.getGiftMenu();
+        int quantity = event.getGiftQuantity();
+        giftMenus.put(menu, quantity);
     }
 
     public void applyEventBadge() {
-        Badge badge = Badge.grantBadgeOnExceedingAmountThreshold(salePrice + giftPrice);
+        Badge badge = Badge.grantBadgeOnExceedingPriceThreshold(salePrice + giftPrice);
         order.updateEventBadge(badge);
     }
 
@@ -99,5 +131,9 @@ public class EventManager {
 
     public Map<Event, Double> getEvents() {
         return events;
+    }
+
+    public Map<Menu, Integer> getGiftMenus() {
+        return giftMenus;
     }
 }

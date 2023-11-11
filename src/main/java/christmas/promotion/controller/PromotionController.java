@@ -1,6 +1,7 @@
 package christmas.promotion.controller;
 
 import christmas.promotion.domain.event.EventManager;
+import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.domain.order.OrderParser;
@@ -9,7 +10,6 @@ import christmas.promotion.view.InputView;
 import christmas.promotion.view.OutputView;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PromotionController {
@@ -38,7 +38,7 @@ public class PromotionController {
         displayTotalOrderPriceBeforeDiscount(order);
         EventManager eventManager = new EventManager(order);
 
-        displayGiftMenus();
+        displayGiftMenus(eventManager.getGiftMenus());
         BenefitDetailsDto benefitDetailsDto = new BenefitDetailsDto(eventManager.getEvents());
         outputView.printBenefitDetails(benefitDetailsDto.getBenefitDetails());
         outputView.printTotalBenefitPrice(eventManager.getSalePrice() + eventManager.getGiftPrice());
@@ -48,9 +48,7 @@ public class PromotionController {
         outputView.printDecemberEventBadge(order.getBadgeName());
     }
 
-    private void displayGiftMenus() {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("샴페인", 1);
+    private void displayGiftMenus(Map<Menu, Integer> map) {
         outputView.printGiftMenus(map);
     }
 
