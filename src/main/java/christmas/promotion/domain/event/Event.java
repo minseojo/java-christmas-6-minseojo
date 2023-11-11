@@ -8,5 +8,9 @@ public interface Event {
     }
 
     double applyEvent(LocalDate date, double price);
+
+    default boolean isBetweenDates(LocalDate date) {
+        return false;
+    }
 }
 
