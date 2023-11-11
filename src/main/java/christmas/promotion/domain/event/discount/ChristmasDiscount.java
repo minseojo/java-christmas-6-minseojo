@@ -1,18 +1,21 @@
 package christmas.promotion.domain.event.discount;
 
 import christmas.promotion.domain.event.Event;
+import christmas.promotion.domain.event.GlobalEvent;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class ChristmasDiscount implements Event, DiscountEvent {
+public enum ChristmasDiscount implements Event, GlobalEvent, DiscountEvent {
+    INSTANCE;
+
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 25);
     private static final int STARTING_DISCOUNT_AMOUNT = 1000;
     private static final int DAILY_DISCOUNT_INCREMENT = 100;
 
     @Override
-    public double applyDiscount(LocalDate date, double price) {
+    public double applyEvent(LocalDate date, double price) {
         if (!isBetweenDates(date)) {
             return NO_DISCOUNT;
         }

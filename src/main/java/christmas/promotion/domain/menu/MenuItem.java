@@ -43,8 +43,8 @@ public class MenuItem {
         Map<Event, Double> eventMap = new LinkedHashMap<>();
 
         for (DiscountEvent discountEvent : discountEvents) {
-            salePrice += discountEvent.applyDiscount(date, salePrice);
-            eventMap.put((Event) discountEvent, salePrice);
+            salePrice += discountEvent.applyEvent(date, salePrice);
+            eventMap.put(discountEvent, salePrice);
         }
 
         return eventMap;
