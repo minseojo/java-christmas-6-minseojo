@@ -22,13 +22,24 @@ public class EventManager {
         globalEvents = new LinkedHashMap<>();
         events = new LinkedHashMap<>();
         addGlobalEvents();
+        addEvents();
         applyEvents();
     }
 
     private void addGlobalEvents() {
+        // 글로벌 이벤트, 글로벌 이벤트는 맵에 넣어두고 할인을 같이 적용 시킨다.
         globalEvents.put(ChristmasDiscount.INSTANCE, 0.0);
         globalEvents.put(SpecialDiscount.INSTANCE, 0.0);
         globalEvents.put(ChampagneGift.INSTANCE, 0.0);
+    }
+
+    private void addEvents() {
+        // 출력 순서를 유지하기 위해, LinkedHashMap 에 먼저 넣어 놓는다.
+        events.put(ChristmasDiscount.INSTANCE, 0.0);
+        events.put(WeekdayDiscount.INSTANCE, 0.0);
+        events.put(WeekendDiscount.INSTANCE, 0.0);
+        events.put(SpecialDiscount.INSTANCE, 0.0);
+        events.put(ChampagneGift.INSTANCE, 0.0);
     }
 
     private void applyEvents() {
@@ -84,5 +95,9 @@ public class EventManager {
 
     public double getGiftPrice() {
         return giftPrice;
+    }
+
+    public Map<Event, Double> getEvents() {
+        return events;
     }
 }

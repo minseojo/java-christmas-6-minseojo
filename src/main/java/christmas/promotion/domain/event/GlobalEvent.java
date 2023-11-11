@@ -2,11 +2,7 @@ package christmas.promotion.domain.event;
 
 import java.time.LocalDate;
 
-public interface Event {
-    default String getEventName() {
-        return "이벤트";
-    }
-
+public interface GlobalEvent extends Event {
+    @Override
     double applyEvent(LocalDate date, double price);
 }
-

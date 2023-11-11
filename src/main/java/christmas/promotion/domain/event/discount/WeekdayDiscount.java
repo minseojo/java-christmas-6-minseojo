@@ -14,6 +14,11 @@ public enum WeekdayDiscount implements Event, LocalEvent, DiscountEvent {
     private static final double DISCOUNT_PRICE = 2023;
 
     @Override
+    public String getEventName() {
+        return "평일 할인";
+    }
+
+    @Override
     public double applyEvent(LocalDate date, double price){
         if (!isBetweenDates(date)) {
             return NO_DISCOUNT;

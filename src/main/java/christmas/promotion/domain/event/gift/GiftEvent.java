@@ -9,4 +9,9 @@ public interface GiftEvent extends Event {
 
     @Override
     double applyEvent(LocalDate date, double price);
+
+    @Override
+    default String getEventName() {
+        return "증정 이벤트";
+    }
 }

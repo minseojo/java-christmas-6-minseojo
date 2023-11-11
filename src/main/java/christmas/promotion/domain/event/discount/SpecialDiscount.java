@@ -15,6 +15,11 @@ public enum SpecialDiscount implements Event, GlobalEvent, DiscountEvent {
     private static final double DISCOUNT_PRICE = 1000;
 
     @Override
+    public String getEventName() {
+        return "특별 할인";
+    }
+
+    @Override
     public double applyEvent(LocalDate date, double price){
         if (!isBetweenDates(date)) {
             return NO_DISCOUNT;
