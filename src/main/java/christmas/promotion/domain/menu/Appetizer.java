@@ -1,6 +1,6 @@
 package christmas.promotion.domain.menu;
 
-public enum Appetizer {
+public enum Appetizer implements Menu {
     MUSHROOM_SOUP("양송이수프", 6000.0),
     TAPAS("타파스", 5500.0),
     CAESAR_SALAD("시저샐러드", 8000.0);
@@ -13,14 +13,17 @@ public enum Appetizer {
         this.price = price;
     }
 
+    @Override
     public String description() {
         return "<애피타이저>";
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
