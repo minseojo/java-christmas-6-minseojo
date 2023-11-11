@@ -1,10 +1,11 @@
 package christmas.promotion.domain.event.gift;
 
+import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.Beverage;
 
 import java.time.LocalDate;
 
-public class ChampagneGift implements GiftEvent{
+public class ChampagneGift implements GiftEvent, Event {
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 31);
     private static final double THRESHOLD = 120_000.0;

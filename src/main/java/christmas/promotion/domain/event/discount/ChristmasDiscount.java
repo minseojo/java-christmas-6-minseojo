@@ -1,9 +1,11 @@
 package christmas.promotion.domain.event.discount;
 
+import christmas.promotion.domain.event.Event;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class ChristmasDiscount implements DiscountEvent {
+public class ChristmasDiscount implements Event, DiscountEvent {
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 25);
     private static final int STARTING_DISCOUNT_AMOUNT = 1000;
