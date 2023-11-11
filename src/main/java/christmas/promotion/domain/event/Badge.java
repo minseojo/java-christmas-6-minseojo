@@ -14,7 +14,7 @@ public enum Badge {
         this.threshold = threshold;
     }
 
-    public static Badge grantBadgeOnExceedingAmountThreshold(double price) {
+    public static Badge grantBadgeOnExceedingPriceThreshold(double price) {
         Badge badge = NONE;
         for (Badge value : Badge.values()) {
             if (isPriceExceedingBadgeThreshold(price, value)) {
