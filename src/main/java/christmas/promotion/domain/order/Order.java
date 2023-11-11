@@ -1,5 +1,6 @@
 package christmas.promotion.domain.order;
 
+import christmas.promotion.domain.event.Badge;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.domain.menu.MenuItem;
 
@@ -11,7 +12,9 @@ import java.util.Map;
 public class Order {
     private final List<OrderItem> order;
     private final double originalPrice;
+    private double salePrice;
     private final LocalDate date;
+    private Badge badge;
     private final MenuBoard menuBoard;
 
     public Order(final Map<String, Integer> orderMenus, LocalDate date, final MenuBoard menuBoard) {
@@ -19,6 +22,11 @@ public class Order {
         this.date = date;
         this.order = List.copyOf(createOrderFromMenuBoard(orderMenus));
         this.originalPrice = calculateTotal();
+        this.badge = Badge.NONE;
+    }
+
+    public boolean isPriceAtLeastTenThousandWon() {
+        return originalPrice >= 10000;
     }
 
     public LocalDate getDate() {
@@ -48,7 +56,19 @@ public class Order {
         return total;
     }
 
+    public void updateEventBadge(Badge badge) {
+        this.badge = badge;
+    }
+
     public double getOriginalPrice() {
         return originalPrice;
+    }
+
+    public String getBadgeName() {
+        return badge.getName();
+    }
+
+    public double getSalePrice() {
+        return salePrice;
     }
 }
