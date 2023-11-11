@@ -1,8 +1,10 @@
 package christmas.promotion.domain.order;
 
+import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.MenuItem;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class OrderItem {
     private final MenuItem menu;
@@ -21,8 +23,8 @@ public class OrderItem {
         return menu;
     }
 
-    public double applyDiscount(LocalDate date) {
-        return menu.applyDiscount(date);
+    public Map<Event, Double> applyDiscount(LocalDate date) {
+        return menu.applyEvent(date);
     }
 
     public int getQuantity() {
