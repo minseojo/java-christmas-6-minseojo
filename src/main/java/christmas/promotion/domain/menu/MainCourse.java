@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-public enum MainCourse implements LocalEvent {
+public enum MainCourse implements Menu, LocalEvent {
     T_BONE_STEAK("티본스테이크", 55000.0),
     BARBECUE_RIBS("바비큐립", 54000.0),
     SEAFOOD_PASTA("해산물파스타", 35000.0),
@@ -22,14 +22,17 @@ public enum MainCourse implements LocalEvent {
         this.price = price;
     }
 
+    @Override
     public String description() {
         return "<메인>";
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }

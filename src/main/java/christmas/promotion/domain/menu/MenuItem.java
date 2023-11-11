@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MenuItem {
+public class MenuItem implements Menu {
     private final String name;
     private final double price;
     private final String category;
@@ -30,10 +30,17 @@ public class MenuItem {
         return new MenuItem(name, price, category, discountEvents);
     }
 
+    @Override
+    public String description() {
+        return "메뉴";
+    }
+
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public double getPrice() {
         return price;
     }
@@ -43,10 +50,16 @@ public class MenuItem {
         Map<Event, Double> eventMap = new LinkedHashMap<>();
 
         for (DiscountEvent discountEvent : discountEvents) {
-            salePrice += discountEvent.applyEvent(date, salePrice);
-            eventMap.put(discountEvent, salePrice);
+            if (isEventApplicable(discountEvent, date)) {
+                salePrice += discountEvent.applyEvent(date, salePrice);
+                eventMap.put(discountEvent, salePrice);
+            }
         }
 
         return eventMap;
+    }
+
+    private boolean isEventApplicable(Event event, LocalDate date) {
+        return event.isBetweenDates(date);
     }
 }
