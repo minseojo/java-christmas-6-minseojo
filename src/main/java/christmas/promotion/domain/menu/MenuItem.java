@@ -1,10 +1,13 @@
 package christmas.promotion.domain.menu;
 
+import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.discount.DiscountEvent;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuItem {
     private final String name;
@@ -35,12 +38,15 @@ public class MenuItem {
         return price;
     }
 
-    public double applyDiscount(LocalDate date) {
+    public Map<Event, Double> applyEvent(LocalDate date) {
         double salePrice = 0;
+        Map<Event, Double> eventMap = new LinkedHashMap<>();
+
         for (DiscountEvent discountEvent : discountEvents) {
             salePrice += discountEvent.applyDiscount(date, salePrice);
+            eventMap.put((Event) discountEvent, salePrice);
         }
-        System.out.println(salePrice);
-        return salePrice;
+
+        return eventMap;
     }
 }
