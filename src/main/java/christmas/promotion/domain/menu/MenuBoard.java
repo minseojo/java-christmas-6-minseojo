@@ -3,19 +3,22 @@ package christmas.promotion.domain.menu;
 import christmas.promotion.domain.event.discount.WeekdayDiscount;
 import christmas.promotion.domain.event.discount.WeekendDiscount;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class MenuBoard {
 
-    private final List<MenuItem> menus;
+    private final List<EventfulMenu> menus;
 
     public MenuBoard() {
         this.menus = new ArrayList<>();
         initializeMenu();
     }
 
-    public Menu findMenu(String name) {
-        for (Menu menu : menus) {
+    public EventfulMenu findMenu(String name) {
+        for (EventfulMenu menu : menus) {
             if (name.equals(menu.getName())) {
                 return menu;
             }
@@ -33,29 +36,29 @@ public class MenuBoard {
 
     private void addAppetizer() {
         for (Appetizer value : Appetizer.values()) {
-            menus.add(MenuItem.createMenuItem(value));
+            menus.add(EventfulMenu.createMenuItem(value));
         }
     }
 
     private void addMainCourse() {
         for (MainCourse value : MainCourse.values()) {
-            menus.add(MenuItem.createMenuItemWithDiscount(value, Collections.singletonList(WeekendDiscount.INSTANCE)));
+            menus.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekendDiscount.INSTANCE)));
         }
     }
 
     private void addDessert() {
         for (Dessert value : Dessert.values()) {
-            menus.add(MenuItem.createMenuItemWithDiscount(value, Collections.singletonList(WeekdayDiscount.INSTANCE)));
+            menus.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekdayDiscount.INSTANCE)));
         }
     }
 
     private void addBeverage() {
         for (Beverage value : Beverage.values()) {
-            menus.add(MenuItem.createMenuItem(value));
+            menus.add(EventfulMenu.createMenuItem(value));
         }
     }
 
-    public List<MenuItem> getMenus() {
+    public List<EventfulMenu> getMenus() {
         return menus;
     }
 }

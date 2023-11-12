@@ -2,17 +2,17 @@ package christmas.promotion.domain.order;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.Menu;
-import christmas.promotion.domain.menu.MenuItem;
+import christmas.promotion.domain.menu.EventfulMenu;
 
 import java.time.LocalDate;
 import java.util.Map;
 
 public class OrderMenu {
-    private final MenuItem menu;
+    private final EventfulMenu menu;
     private final int quantity;
 
-    public OrderMenu(Menu menu, int quantity) {
-        this.menu = (MenuItem) menu;
+    public OrderMenu(EventfulMenu menu, int quantity) {
+        this.menu = menu;
         this.quantity = quantity;
     }
 

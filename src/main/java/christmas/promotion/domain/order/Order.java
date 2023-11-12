@@ -2,6 +2,7 @@ package christmas.promotion.domain.order;
 
 import christmas.promotion.domain.event.Badge;
 import christmas.promotion.domain.menu.Beverage;
+import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.dto.OrderMenusDto;
@@ -32,7 +33,7 @@ public class Order {
     private List<OrderMenu> createOrderFromMenuBoard(Map<String, Integer> order) {
         List<OrderMenu> menus = new ArrayList<>();
         for (Map.Entry<String, Integer> orderMenu : order.entrySet()) {
-            Menu menu = menuBoard.findMenu(orderMenu.getKey());
+            EventfulMenu menu = menuBoard.findMenu(orderMenu.getKey());
             menus.add(new OrderMenu(menu, orderMenu.getValue()));
         }
         return menus;
@@ -90,7 +91,7 @@ public class Order {
     }
 
     private boolean isNotBeverage(Menu menu) {
-        return !(menu instanceof Beverage) || menu.getClass() != Beverage.class;
+        return !(menu instanceof Beverage);
     }
 
     public void updateEventBadge(Badge badge) {
