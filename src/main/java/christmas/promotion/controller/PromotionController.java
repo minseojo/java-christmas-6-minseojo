@@ -98,7 +98,7 @@ public class PromotionController {
     }
 
     private void displayTotalOrderPriceBeforeDiscount(Order order) {
-        outputView.printTotalOrderPriceBeforeDiscount(order.calculateTotal());
+        outputView.printTotalOrderPriceBeforeDiscount(Price.of(order.getOrderPrice()));
     }
 
     private void displayEventBenefitsOnDecember(VisitDay visitDay) {

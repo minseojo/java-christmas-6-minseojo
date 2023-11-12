@@ -29,7 +29,7 @@ public class EventManager {
         this.eventGifts = new LinkedHashMap<>();
 
         this.menuDiscountEventManager = new MenuDiscountEventManager();
-        this.globalEventManager = new GlobalEventManager();
+        this.globalEventManager = new GlobalEventManager(order);
         this.badgeManager = new BadgeManager();
         this.eventBenefitCalculator = new EventBenefitCalculator();
         addEvents();
@@ -45,8 +45,11 @@ public class EventManager {
     }
 
     public void applyEvents() {
+        if (order.getOrderPrice() < 10000) {
+            return;
+        }
         menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
-        globalEventManager.applyGlobalEvents(order, eventBenefits, eventGifts);
+        globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
         badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
     }
 
@@ -85,7 +88,7 @@ public class EventManager {
     }
 
     public Price getExceptedDiscountPrice() {
-        return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.calculateTotal().price() - getDiscountPrice()).price());
+        return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.getOrderPrice() - getDiscountPrice()).price());
 
     }
 

@@ -6,7 +6,6 @@ import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.dto.OrderMenusDto;
-import christmas.promotion.vo.Price;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,6 +14,7 @@ public class Order {
     private static final int ORDER_MENU_MAX_SIZE = 20;
 
     private final List<OrderMenu> orderMenus;
+    private final double orderPrice;
     private final LocalDate date;
     private Badge badge;
     private final MenuBoard menuBoard;
@@ -23,6 +23,7 @@ public class Order {
         this.menuBoard = menuBoard; // orderMenu 하기전에 메뉴판을 동적으로 초기화 해줘야함.
         this.orderMenus = List.copyOf(createOrderFromMenuBoard(order));
         validate();
+        this.orderPrice = calculateTotal();
         this.date = date;
         this.badge = Badge.NONE;
     }
@@ -44,12 +45,16 @@ public class Order {
         return orderMenus;
     }
 
-    public Price calculateTotal() {
+    private double calculateTotal() {
         double total = 0.0;
         for (OrderMenu orderMenu : this.orderMenus) {
             total += orderMenu.calculateSubtotal();
         }
-        return new Price(total);
+        return total;
+    }
+
+    public double getOrderPrice() {
+        return orderPrice;
     }
 
     private void validate() {
