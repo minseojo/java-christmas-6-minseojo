@@ -28,10 +28,6 @@ public enum ChampagneGift implements Event, GlobalEvent, GiftEvent {
 
     @Override
     public double applyEvent(LocalDate date, double price){
-        if (!isPriceThresholdAboveOrEqual(price)) {
-            return NO_DISCOUNT;
-        }
-
         return GIFT_MENU.getPrice() * GIFT_QUANTITY;
     }
 

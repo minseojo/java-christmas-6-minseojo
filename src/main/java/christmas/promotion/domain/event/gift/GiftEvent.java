@@ -5,8 +5,6 @@ import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.menu.Menu;
 
 public interface GiftEvent extends Event, GlobalEvent {
-    double NO_DISCOUNT = 0;
-
     Menu getGiftMenu();
 
     Integer getGiftQuantity();
