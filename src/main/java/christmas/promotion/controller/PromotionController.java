@@ -1,14 +1,15 @@
 package christmas.promotion.controller;
 
 import christmas.promotion.domain.event.EventManager;
-import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.domain.order.OrderMenusParser;
-import christmas.promotion.dto.BenefitDetailsDto;
+import christmas.promotion.dto.EventBenefitsDto;
+import christmas.promotion.dto.GiftMenusDto;
 import christmas.promotion.dto.OrderMenusDto;
 import christmas.promotion.view.InputView;
 import christmas.promotion.view.OutputView;
+import christmas.promotion.vo.Price;
 import christmas.promotion.vo.VisitDay;
 
 import java.time.LocalDate;
@@ -39,11 +40,17 @@ public class PromotionController {
         displayTotalOrderPriceBeforeDiscount(order);
         EventManager eventManager = new EventManager(order);
 
-        displayGiftMenus(eventManager.getGiftMenus());
-        BenefitDetailsDto benefitDetailsDto = new BenefitDetailsDto(eventManager.getEvents());
-        outputView.printBenefitDetails(benefitDetailsDto.getBenefitDetails());
-        outputView.printTotalBenefitPrice(eventManager.getSalePrice() + eventManager.getGiftPrice());
-        outputView.printExpectedPayment(eventManager.getOrderOriginalPrice() - eventManager.getSalePrice());
+        GiftMenusDto giftMenusDto = eventManager.getGiftMenusDto();
+        displayGiftMenus(giftMenusDto);
+
+        EventBenefitsDto eventBenefitsDto = eventManager.getEventBenefitsDto();
+        outputView.printBenefitDetails(eventBenefitsDto);
+
+        Price totalEvnetBenefitPrice = eventManager.getTotalEvnetBenefitPrice();
+        outputView.printTotalBenefitPrice(totalEvnetBenefitPrice);
+
+        Price exceptedPayMent = eventManager.getExceptedPayMent();
+        outputView.printExceptedPayment(exceptedPayMent);
 
         eventManager.applyEventBadge();
         outputView.printDecemberEventBadge(order.getBadgeName());
@@ -87,8 +94,8 @@ public class PromotionController {
         return OrderMenusParser.parse(orderDetails);
     }
 
-    private void displayGiftMenus(Map<Menu, Integer> map) {
-        outputView.printGiftMenus(map);
+    private void displayGiftMenus(GiftMenusDto giftMenus) {
+        outputView.printGiftMenus(giftMenus);
     }
 
     private void displayTotalOrderPriceBeforeDiscount(Order order) {

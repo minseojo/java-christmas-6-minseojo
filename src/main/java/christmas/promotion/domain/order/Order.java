@@ -6,6 +6,7 @@ import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.dto.OrderMenusDto;
+import christmas.promotion.vo.Price;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -43,12 +44,12 @@ public class Order {
         return orderMenus;
     }
 
-    public double calculateTotal() {
+    public Price calculateTotal() {
         double total = 0.0;
         for (OrderMenu orderMenu : this.orderMenus) {
             total += orderMenu.calculateSubtotal();
         }
-        return total;
+        return new Price(total);
     }
 
     private void validate() {

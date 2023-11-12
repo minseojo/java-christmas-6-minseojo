@@ -1,11 +1,10 @@
 package christmas.promotion.view;
 
-import christmas.promotion.domain.event.Event;
-import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.order.OrderMenu;
+import christmas.promotion.dto.EventBenefitsDto;
+import christmas.promotion.dto.GiftMenusDto;
 import christmas.promotion.dto.OrderMenusDto;
-
-import java.util.Map;
+import christmas.promotion.vo.Price;
 
 public class OutputView {
     private enum Message {
@@ -48,37 +47,39 @@ public class OutputView {
         printEmptyLine();
     }
 
-    public void printTotalOrderPriceBeforeDiscount(double price) {
+    public void printTotalOrderPriceBeforeDiscount(Price price) {
         System.out.println(Message.TOTAL_ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
         printPrice(price);
         printEmptyLine();
     }
 
-    public void printGiftMenus(Map<Menu, Integer> gifts) {
+    public void printGiftMenus(GiftMenusDto gifts) {
         System.out.println(Message.GIFT_MENUS.message);
-        for (Menu menu : gifts.keySet()) {
-            System.out.println(menu.getName() + " " + gifts.get(menu) + "개");
-        }
+
+        gifts.giftMenus().forEach(
+                (menu, quantity) ->
+                        System.out.println(menu.getName() + " " + quantity + "개"));
+
         printEmptyLine();
     }
 
-    public void printBenefitDetails(Map<Event, Double> benefitDetails) {
+    public void printBenefitDetails(EventBenefitsDto eventBenefitsDto) {
         System.out.println(Message.BENEFIT_DETAILS.getMessage());
 
-        benefitDetails.entrySet().stream()
+        eventBenefitsDto.eventBenefits().entrySet().stream()
                 .filter(entry -> entry.getValue() > 0.0)
                 .forEach(entry -> System.out.printf("%s: -%,.0f원\n",
                         entry.getKey().getEventName(), entry.getValue()));
 
-        if (!hasBenefit(benefitDetails)) {
+        if (!hasBenefit(eventBenefitsDto)) {
             System.out.println("없음");
         }
 
         printEmptyLine();
     }
 
-    private boolean hasBenefit(Map<Event, Double> benefitDetails) {
-        for (Double value : benefitDetails.values()) {
+    private boolean hasBenefit(EventBenefitsDto eventBenefitsDto) {
+        for (Double value : eventBenefitsDto.eventBenefits().values()) {
             if (value > 0.0) {
                 return true;
             }
@@ -86,13 +87,13 @@ public class OutputView {
         return false;
     }
 
-    public void printTotalBenefitPrice(double price) {
+    public void printTotalBenefitPrice(Price price) {
         System.out.println(Message.TOTAL_BENEFIT_PRICE.getMessage());
-        printPrice(-1 * price);
+        printPrice(price);
         printEmptyLine();
     }
 
-    public void printExpectedPayment(double price) {
+    public void printExceptedPayment(Price price) {
         System.out.println(Message.EXCEPTED_PAYMENT.getMessage());
         printPrice(price);
         printEmptyLine();
@@ -107,8 +108,8 @@ public class OutputView {
         System.out.println(message);
     }
 
-    private static void printPrice(double price) {
-        System.out.printf("%,.0f원%n", price);
+    private static void printPrice(Price price) {
+        System.out.printf("%,.0f원%n", price.price());
     }
 
     private void printEmptyLine() {

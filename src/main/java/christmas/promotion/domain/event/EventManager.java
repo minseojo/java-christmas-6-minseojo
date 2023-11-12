@@ -13,6 +13,9 @@ import christmas.promotion.domain.event.gift.ChampagneGift;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.domain.order.OrderMenu;
+import christmas.promotion.dto.EventBenefitsDto;
+import christmas.promotion.dto.GiftMenusDto;
+import christmas.promotion.vo.Price;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,16 +28,16 @@ public class EventManager {
     private double discountPrice;
     private double giftPrice;
     private final Map<GlobalEvent, Double> globalEvents; // 크리스마스 디데이 할인, 특별 할인, 샴페인 증정 이벤트
-    private final Map<Event, Double> events; // 크리스마스 디데이 할인, 평일 할인, 주말 할인, 특별 할인, 증정 이벤트
+    private final Map<Event, Double> eventBenefits; // 크리스마스 디데이 할인, 평일 할인, 주말 할인, 특별 할인, 증정 이벤트
     private final Map<Menu, Integer> giftMenus; // 증정 이벤트를 통해 사용자가 얻은 (메뉴, 메뉴 총 수량)
 
     public EventManager(Order order) {
         this.order = order;
-        orderOriginalPrice = order.calculateTotal();
+        orderOriginalPrice = order.calculateTotal().price();
         // 이벤트 출력 순서를 맞추기 위해, LinkedHashMap 고정 (변경 x)
         globalEvents = new LinkedHashMap<>();
         giftMenus = new LinkedHashMap<>();
-        events = new LinkedHashMap<>();
+        eventBenefits = new LinkedHashMap<>();
         addGlobalEvents();
         addEvents();
         applyEvents();
@@ -50,15 +53,15 @@ public class EventManager {
 
     private void addEvents() {
         // 출력 순서를 유지하기 위해, LinkedHashMap 에 먼저 넣어 놓는다.
-        events.put(ChristmasDiscount.INSTANCE, 0.0);
-        events.put(WeekdayDiscount.INSTANCE, 0.0);
-        events.put(WeekendDiscount.INSTANCE, 0.0);
-        events.put(SpecialDiscount.INSTANCE, 0.0);
-        events.put(ChampagneGift.INSTANCE, 0.0);
+        eventBenefits.put(ChristmasDiscount.INSTANCE, 0.0);
+        eventBenefits.put(WeekdayDiscount.INSTANCE, 0.0);
+        eventBenefits.put(WeekendDiscount.INSTANCE, 0.0);
+        eventBenefits.put(SpecialDiscount.INSTANCE, 0.0);
+        eventBenefits.put(ChampagneGift.INSTANCE, 0.0);
     }
 
     private void applyEvents() {
-        if (order.calculateTotal() < EVENT_MINIMUM_PRICE) {
+        if (orderOriginalPrice < EVENT_MINIMUM_PRICE) {
             return;
         }
         applyGlobalEvents();
@@ -80,7 +83,7 @@ public class EventManager {
         if (isPossibleGlobalEvent(event)) {
             double eventSalePrice = event.applyEvent(order.getDate(), orderOriginalPrice);
             discountPrice += eventSalePrice;
-            events.put(event, eventSalePrice);
+            eventBenefits.put(event, eventSalePrice);
         }
     }
 
@@ -88,7 +91,7 @@ public class EventManager {
         if (isPossibleGlobalEvent(event)) {
             double eventGiftPrice = event.applyEvent(order.getDate(), orderOriginalPrice);
             giftPrice += eventGiftPrice;
-            events.put(event, eventGiftPrice);
+            eventBenefits.put(event, eventGiftPrice);
             addGiftMenu((GiftEvent) event);
         }
     }
@@ -108,7 +111,7 @@ public class EventManager {
             Map<Event, Double> map = orderMenu.applyDiscount(order.getDate());
             for (Event event : map.keySet()) {
                 double eventSalePrice = map.getOrDefault(event, 0.0) * orderMenu.getQuantity();
-                events.put(event, events.getOrDefault(event, 0.0) + eventSalePrice);
+                eventBenefits.put(event, eventBenefits.getOrDefault(event, 0.0) + eventSalePrice);
                 discountPrice += eventSalePrice;
             }
         }
@@ -122,23 +125,18 @@ public class EventManager {
         }
     }
 
-    public double getOrderOriginalPrice() {
-        return orderOriginalPrice;
+    public Price getTotalEvnetBenefitPrice() {
+        return new Price(-1 * (discountPrice + giftPrice));
     }
 
-    public double getSalePrice() {
-        return discountPrice;
+    public Price getExceptedPayMent() {
+        return new Price(orderOriginalPrice - discountPrice);
     }
 
-    public double getGiftPrice() {
-        return giftPrice;
+    public GiftMenusDto getGiftMenusDto() {
+        return new GiftMenusDto(giftMenus);
     }
-
-    public Map<Event, Double> getEvents() {
-        return events;
-    }
-
-    public Map<Menu, Integer> getGiftMenus() {
-        return giftMenus;
+    public EventBenefitsDto getEventBenefitsDto() {
+        return new EventBenefitsDto(eventBenefits);
     }
 }
