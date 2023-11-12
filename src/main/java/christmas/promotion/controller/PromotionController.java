@@ -39,20 +39,19 @@ public class PromotionController {
 
         displayTotalOrderPriceBeforeDiscount(order);
         EventManager eventManager = new EventManager(order);
-
+        eventManager.applyEvents();
         GiftMenusDto giftMenusDto = eventManager.getGiftMenusDto();
         displayGiftMenus(giftMenusDto);
 
         EventBenefitsDto eventBenefitsDto = eventManager.getEventBenefitsDto();
         outputView.printBenefitDetails(eventBenefitsDto);
 
-        Price totalEvnetBenefitPrice = eventManager.getTotalEvnetBenefitPrice();
+        Price totalEvnetBenefitPrice = eventManager.getTotalEventBenefitPrice();
         outputView.printTotalBenefitPrice(totalEvnetBenefitPrice);
 
-        Price exceptedPayMent = eventManager.getExceptedPayMent();
+        Price exceptedPayMent = eventManager.getExceptedDiscountPrice();
         outputView.printExceptedPayment(exceptedPayMent);
 
-        eventManager.applyEventBadge();
         outputView.printDecemberEventBadge(order.getBadgeName());
     }
 
