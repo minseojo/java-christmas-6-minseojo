@@ -6,7 +6,7 @@ import christmas.promotion.domain.menu.Menu;
 
 import java.time.LocalDate;
 
-public enum ChampagneGift implements GlobalEvent<Double>, GiftEvent<Double> {
+public enum ChampagneGift implements GlobalEvent<Double>, GiftEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -27,6 +27,10 @@ public enum ChampagneGift implements GlobalEvent<Double>, GiftEvent<Double> {
 
     @Override
     public Double applyEvent(LocalDate date, Double price) {
+        if (!isPossibleEvent(date, price)) {
+            return 0.0;
+        }
+
         return GIFT_MENU.getPrice() * GIFT_QUANTITY;
     }
 

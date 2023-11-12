@@ -5,7 +5,7 @@ import christmas.promotion.domain.event.LocalEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public enum WeekdayDiscount implements LocalEvent<Double>, DiscountEvent<Double> {
+public enum WeekdayDiscount implements LocalEvent, DiscountEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -18,13 +18,18 @@ public enum WeekdayDiscount implements LocalEvent<Double>, DiscountEvent<Double>
         return EVENT_NAME;
     }
 
+
     @Override
     public boolean isPossibleEvent(LocalDate date) {
         return isBetweenDates(date) && isWeekday(date);
     }
 
     @Override
-    public Double applyEvent(LocalDate date, Double price) {
+    public Double applyEvent(LocalDate date) {
+        if (!isPossibleEvent(date)) {
+            return 0.0;
+        }
+
         return DISCOUNT_PRICE;
     }
 

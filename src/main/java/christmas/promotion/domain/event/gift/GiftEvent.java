@@ -1,9 +1,9 @@
 package christmas.promotion.domain.event.gift;
 
-import christmas.promotion.domain.event.GlobalEvent;
+import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.Menu;
 
-public interface GiftEvent<T> extends GlobalEvent<T> {
+public interface GiftEvent extends Event {
     Menu getGiftMenu();
 
     Integer getGiftQuantity();

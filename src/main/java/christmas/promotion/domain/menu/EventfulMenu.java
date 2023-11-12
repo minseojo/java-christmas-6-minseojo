@@ -32,7 +32,7 @@ public class EventfulMenu {
 
         for (LocalEvent localEvent : localEvents) {
             if (isPossibleEvent(localEvent, date)) {
-                salePrice = (double) localEvent.applyEvent(date, salePrice);
+                salePrice = (double) localEvent.applyEvent(date);
                 eventBenefit.put(localEvent, salePrice * quantity);
             }
         }

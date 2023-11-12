@@ -5,7 +5,7 @@ import christmas.promotion.domain.event.GlobalEvent;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public enum ChristmasDiscount implements GlobalEvent<Double>, DiscountEvent<Double> {
+public enum ChristmasDiscount implements GlobalEvent<Double>, DiscountEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -27,6 +27,10 @@ public enum ChristmasDiscount implements GlobalEvent<Double>, DiscountEvent<Doub
 
     @Override
     public Double applyEvent(LocalDate date, Double price) {
+        if (!isPossibleEvent(date, price)) {
+            return 0.0;
+        }
+
         int daysUntilChristmas = calculateDaysUntilChristmas(date);
         return (double) (STARTING_DISCOUNT_AMOUNT + (DAILY_DISCOUNT_INCREMENT * daysUntilChristmas));
     }

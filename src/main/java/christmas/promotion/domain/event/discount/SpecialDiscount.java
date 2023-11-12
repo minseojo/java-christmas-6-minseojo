@@ -5,7 +5,7 @@ import christmas.promotion.domain.event.GlobalEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public enum SpecialDiscount implements GlobalEvent<Double>, DiscountEvent<Double> {
+public enum SpecialDiscount implements GlobalEvent<Double>, DiscountEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -26,6 +26,10 @@ public enum SpecialDiscount implements GlobalEvent<Double>, DiscountEvent<Double
 
     @Override
     public Double applyEvent(LocalDate date, Double price) {
+        if (!isPossibleEvent(date, price)) {
+            return 0.0;
+        }
+
         return DISCOUNT_PRICE;
     }
 
