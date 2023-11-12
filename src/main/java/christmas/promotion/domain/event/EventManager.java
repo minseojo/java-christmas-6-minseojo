@@ -11,7 +11,7 @@ import christmas.promotion.domain.event.gift.ChampagneGift;
 
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.order.Order;
-import christmas.promotion.domain.order.OrderItem;
+import christmas.promotion.domain.order.OrderMenu;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -95,10 +95,10 @@ public class EventManager {
     }
 
     private void applyMenuDiscountEvents() {
-        for (OrderItem orderItem : order.getOrder()) {
-            Map<Event, Double> map = orderItem.applyDiscount(order.getDate());
+        for (OrderMenu orderMenu : order.getOrder()) {
+            Map<Event, Double> map = orderMenu.applyDiscount(order.getDate());
             for (Event event : map.keySet()) {
-                double eventSalePrice = map.getOrDefault(event, 0.0) * orderItem.getQuantity();
+                double eventSalePrice = map.getOrDefault(event, 0.0) * orderMenu.getQuantity();
                 events.put(event, events.getOrDefault(event, 0.0) + eventSalePrice);
                 salePrice += eventSalePrice;
             }
