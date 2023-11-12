@@ -1,11 +1,13 @@
 package christmas.promotion.domain.event.gift;
 
+import christmas.promotion.domain.event.Event;
+import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.Menu;
 
 import java.time.LocalDate;
 
-public enum ChampagneGift implements GiftEvent {
+public enum ChampagneGift implements Event, GlobalEvent, GiftEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -33,6 +35,19 @@ public enum ChampagneGift implements GiftEvent {
         return GIFT_MENU.getPrice() * GIFT_QUANTITY;
     }
 
+    @Override
+    public boolean isPossibleEvent(LocalDate date, double price) {
+        if (!isBetweenDates(date)) {
+            return false;
+        }
+        if (!isPriceThresholdAboveOrEqual(price)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean isBetweenDates(LocalDate date) {
         return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
     }

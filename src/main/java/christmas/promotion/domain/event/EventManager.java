@@ -23,8 +23,7 @@ public class EventManager {
     private final double orderOriginalPrice;
     private double salePrice;
     private double giftPrice;
-    private final Map<DiscountEvent, Double> globalDiscountEvents; // 크리스마스 디데이 할인, 특별 할인
-    private final Map<GiftEvent, Double> globalGiftEvents; // 샴페인 증정 이벤트
+    private final Map<GlobalEvent, Double> globalEvents; // 크리스마스 디데이 할인, 특별 할인, 샴페인 증정 이벤트
     private final Map<Event, Double> events; // 크리스마스 디데이 할인, 평일 할인, 주말 할인, 특별 할인, 증정 이벤트
     private final Map<Menu, Integer> giftMenus; // 증정 이벤트를 통해 사용자가 얻은 (메뉴, 메뉴 총 수량)
 
@@ -32,8 +31,7 @@ public class EventManager {
         this.order = order;
         orderOriginalPrice = order.calculateTotal();
         // 이벤트 출력 순서를 맞추기 위해, LinkedHashMap 고정 (변경 x)
-        globalDiscountEvents = new LinkedHashMap<>();
-        globalGiftEvents = new LinkedHashMap<>();
+        globalEvents = new LinkedHashMap<>();
         giftMenus = new LinkedHashMap<>();
         events = new LinkedHashMap<>();
         addGlobalEvents();
@@ -43,10 +41,10 @@ public class EventManager {
 
     private void addGlobalEvents() {
         // 글로벌 이벤트, 글로벌 이벤트는 맵에 넣어두고 할인을 같이 적용 시킨다.
-        globalDiscountEvents.put(ChristmasDiscount.INSTANCE, 0.0);
-        globalDiscountEvents.put(SpecialDiscount.INSTANCE, 0.0);
+        globalEvents.put(ChristmasDiscount.INSTANCE, 0.0);
+        globalEvents.put(SpecialDiscount.INSTANCE, 0.0);
 
-        globalGiftEvents.put(ChampagneGift.INSTANCE, 0.0);
+        globalEvents.put(ChampagneGift.INSTANCE, 0.0);
     }
 
     private void addEvents() {
@@ -67,25 +65,26 @@ public class EventManager {
     }
 
     private void applyGlobalEvents() {
-        for (Event event : globalDiscountEvents.keySet()) {
-            applyDiscountEvent(event);
-        }
-
-        for (Event event : globalGiftEvents.keySet()) {
-            applyGiftEvent(event);
+        for (GlobalEvent globalEvent : globalEvents.keySet()) {
+            if (globalEvent instanceof DiscountEvent) {
+                applyDiscountEvent(globalEvent);
+            }
+            if (globalEvent instanceof GiftEvent) {
+                applyGiftEvent(globalEvent);
+            }
         }
     }
 
-    private void applyDiscountEvent(Event event) {
-        if (isEventDates(event)) {
+    private void applyDiscountEvent(GlobalEvent event) {
+        if (isPossibleGlobalEvent(event)) {
             double eventSalePrice = event.applyEvent(order.getDate(), orderOriginalPrice);
             salePrice += eventSalePrice;
             events.put(event, eventSalePrice);
         }
     }
 
-    private void applyGiftEvent(Event event) {
-        if (isEventDates(event)) {
+    private void applyGiftEvent(GlobalEvent event) {
+        if (isPossibleGlobalEvent(event)) {
             double eventGiftPrice = event.applyEvent(order.getDate(), orderOriginalPrice);
             giftPrice += eventGiftPrice;
             events.put(event, eventGiftPrice);
@@ -93,8 +92,14 @@ public class EventManager {
         }
     }
 
-    private boolean isEventDates(Event event) {
-        return event.isBetweenDates(order.getDate());
+    private boolean isPossibleGlobalEvent(GlobalEvent event) {
+        return event.isPossibleEvent(order.getDate(), orderOriginalPrice);
+    }
+
+    private void addGiftMenu(GiftEvent event) {
+        Menu menu = event.getGiftMenu();
+        int quantity = event.getGiftQuantity();
+        giftMenus.put(menu, quantity);
     }
 
     private void applyMenuDiscountEvents() {
@@ -106,12 +111,6 @@ public class EventManager {
                 salePrice += eventSalePrice;
             }
         }
-    }
-
-    private void addGiftMenu(GiftEvent event) {
-        Menu menu = event.getGiftMenu();
-        int quantity = event.getGiftQuantity();
-        giftMenus.put(menu, quantity);
     }
 
     public void applyEventBadge() {

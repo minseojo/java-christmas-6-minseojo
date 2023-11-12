@@ -1,9 +1,10 @@
 package christmas.promotion.domain.event.gift;
 
 import christmas.promotion.domain.event.Event;
+import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.menu.Menu;
 
-public interface GiftEvent extends Event {
+public interface GiftEvent extends Event, GlobalEvent {
     double NO_DISCOUNT = 0;
 
     Menu getGiftMenu();
