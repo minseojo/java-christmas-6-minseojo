@@ -2,6 +2,8 @@ package christmas.promotion.view;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.Menu;
+import christmas.promotion.domain.order.OrderMenu;
+import christmas.promotion.dto.OrderMenusDto;
 
 import java.util.Map;
 
@@ -36,10 +38,12 @@ public class OutputView {
         System.out.print(String.format(Message.DECEMBER_EVENT_BENEFITS.getMessage(), day) + "\n\n");
     }
 
-    public void printOrderMenus(Map<String, Integer> orderMenus) {
+    public void printOrderMenus(OrderMenusDto orderMenus) {
         System.out.println(Message.ORDER_MENUS.getMessage());
-        for (Map.Entry<String, Integer> orderMenu : orderMenus.entrySet()) {
-            System.out.println(orderMenu.getKey() + " " + orderMenu.getValue() + "개");
+        for (OrderMenu orderMenu : orderMenus.getOrderMenus()) {
+            String menuName = orderMenu.getMenu().getName();
+            int menuQuantity = orderMenu.getQuantity();
+            System.out.println(menuName + " " + menuQuantity + "개");
         }
         printEmptyLine();
     }
@@ -97,6 +101,10 @@ public class OutputView {
     public void printDecemberEventBadge(String badgeName) {
         System.out.println(Message.DECEMBER_EVNET_BADGE.getMessage());
         System.out.println(badgeName);
+    }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
     }
 
     private static void printPrice(double price) {

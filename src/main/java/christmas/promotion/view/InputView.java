@@ -18,17 +18,33 @@ public class InputView {
         System.out.println(Message.VISIT_DATE_IN_DECEMBER.message);
     }
 
-    public String readDecemberVisitDate() {
-        String decemberVisitData = Console.readLine();
-        return decemberVisitData;
-    }
-
     public void requestOrderDetails() {
         System.out.println(Message.ORDER_DETAILS.message);
     }
 
-    public String readOrderDetails() {
+    public String readDecemberVisitDate() {
         String decemberVisitData = Console.readLine();
+        validateDecemberVisitDate(decemberVisitData);
         return decemberVisitData;
+    }
+
+    public String readOrderDetails() {
+        String orderDetails = Console.readLine();
+        validateOrderDetails(orderDetails);
+        return orderDetails;
+    }
+
+    private void validateDecemberVisitDate(String decemberVisitData) {
+        int dateMaxLength = 2;
+        if (decemberVisitData.isBlank() || decemberVisitData.length() > dateMaxLength) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private static void validateOrderDetails(String orderDetails) {
+        int orderDetailsMaxLength = 1000;
+        if(orderDetails.isBlank() || orderDetails.length() > orderDetailsMaxLength) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        }
     }
 }

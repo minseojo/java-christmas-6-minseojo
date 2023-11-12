@@ -1,8 +1,9 @@
 package christmas.promotion.domain.order;
 
 import christmas.promotion.domain.event.Badge;
+import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
-import christmas.promotion.domain.menu.MenuItem;
+import christmas.promotion.dto.OrderMenusDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,17 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Order {
-    private final List<OrderItem> order;
+    private final List<OrderMenu> orderMenus;
     private final double originalPrice;
-    private double salePrice;
     private final LocalDate date;
     private Badge badge;
     private final MenuBoard menuBoard;
 
-    public Order(final Map<String, Integer> orderMenus, LocalDate date, final MenuBoard menuBoard) {
+    public Order(final Map<String, Integer> order, LocalDate date, final MenuBoard menuBoard) {
         this.menuBoard = menuBoard;
         this.date = date;
-        this.order = List.copyOf(createOrderFromMenuBoard(orderMenus));
+        this.orderMenus = List.copyOf(createOrderFromMenuBoard(order));
         this.originalPrice = calculateTotal();
         this.badge = Badge.NONE;
     }
@@ -33,25 +33,25 @@ public class Order {
         return date;
     }
 
-    private List<OrderItem> createOrderFromMenuBoard(Map<String, Integer> orderMenus) {
-        List<OrderItem> menus = new ArrayList<>();
+    private List<OrderMenu> createOrderFromMenuBoard(Map<String, Integer> order) {
+        List<OrderMenu> menus = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> orderMenu : orderMenus.entrySet()) {
-            MenuItem menuItem = menuBoard.findMenu(orderMenu.getKey());
-            menus.add(new OrderItem(menuItem, orderMenu.getValue()));
+        for (Map.Entry<String, Integer> orderMenu : order.entrySet()) {
+            Menu menu = menuBoard.findMenu(orderMenu.getKey());
+            menus.add(new OrderMenu(menu, orderMenu.getValue()));
         }
 
         return menus;
     }
 
-    public List<OrderItem> getOrder() {
-        return order;
+    public List<OrderMenu> getOrder() {
+        return orderMenus;
     }
 
     private double calculateTotal() {
         double total = 0.0;
-        for (OrderItem orderItem : order) {
-            total += orderItem.calculateSubtotal();
+        for (OrderMenu orderMenu : this.orderMenus) {
+            total += orderMenu.calculateSubtotal();
         }
         return total;
     }
@@ -68,7 +68,7 @@ public class Order {
         return badge.getName();
     }
 
-    public double getSalePrice() {
-        return salePrice;
+    public OrderMenusDto toOrderMenusDto() {
+        return new OrderMenusDto(orderMenus);
     }
 }

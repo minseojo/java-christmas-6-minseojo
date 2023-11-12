@@ -11,14 +11,14 @@ public class MenuBoard {
         initializeMenu();
     }
 
-    public MenuItem findMenu(String name) {
-        for (MenuItem menu : menus) {
+    public Menu findMenu(String name) {
+        for (Menu menu : menus) {
             if (name.equals(menu.getName())) {
                 return menu;
             }
         }
 
-        throw new NoSuchElementException("[ERROR] " + name + " 메뉴를 찾을 수 없습니다. 다시 입력해 주세요.");
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
     }
 
     private void initializeMenu() {
