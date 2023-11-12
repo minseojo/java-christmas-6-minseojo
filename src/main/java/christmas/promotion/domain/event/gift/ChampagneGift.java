@@ -1,13 +1,11 @@
 package christmas.promotion.domain.event.gift;
 
-import christmas.promotion.domain.event.Event;
-import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.Menu;
 
 import java.time.LocalDate;
 
-public enum ChampagneGift implements Event, GlobalEvent, GiftEvent {
+public enum ChampagneGift implements GiftEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
