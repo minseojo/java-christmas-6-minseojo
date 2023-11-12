@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrderParser {
+public class OrderMenusParser {
     private static final String menuItemsSplitRegex = ",";
     private static final String menuDetailSplitRegex = "-";
     private static final int menuDetailNameIndex = 0;
@@ -17,8 +17,8 @@ public class OrderParser {
         List<String> menuItems = splitOrderMenus(input);
         for (String menuItem : menuItems) {
             List<String> menuDetail = splitOrderMenuDetail(menuItem);
-            OrderValidator.validateSize(menuDetail);
-            OrderValidator.validateInteger(menuDetail.get(menuDetailQuantityIndex));
+            OrderMenusValidator.validateSize(menuDetail);
+            OrderMenusValidator.validateInteger(menuDetail.get(menuDetailQuantityIndex));
             addMenuDetail(orderMenuDetails, menuDetail);
         }
 
