@@ -1,6 +1,8 @@
-package christmas.promotion.domain.event;
+package christmas.promotion.domain.event.manager;
 
 
+import christmas.promotion.domain.event.Event;
+import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.event.discount.ChristmasDiscount;
 import christmas.promotion.domain.event.discount.DiscountEvent;
 import christmas.promotion.domain.event.discount.SpecialDiscount;
@@ -66,6 +68,5 @@ public class GlobalEventManager {
         int quantity = event.getGiftQuantity();
         eventGifts.put(menu, quantity);
     }
-
 }
 

@@ -1,7 +1,8 @@
-package christmas.promotion.domain.event;
+package christmas.promotion.domain.event.manager;
 
 // ... (다른 import 생략)
 
+import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.dto.EventBenefitsDto;
 import christmas.promotion.dto.GiftMenusDto;
@@ -26,6 +27,5 @@ public class EventBenefitCalculator {
     public EventBenefitsDto getEventBenefitsDto(Map<Event, Price> eventBenefits) {
         return new EventBenefitsDto(eventBenefits);
     }
-
 }
 

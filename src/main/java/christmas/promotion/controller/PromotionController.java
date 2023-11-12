@@ -1,6 +1,6 @@
 package christmas.promotion.controller;
 
-import christmas.promotion.domain.event.EventManager;
+import christmas.promotion.domain.event.manager.EventManager;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.domain.order.OrderMenusParser;

@@ -1,4 +1,4 @@
-package christmas.promotion.domain.event;
+package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.order.Order;

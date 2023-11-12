@@ -1,5 +1,6 @@
-package christmas.promotion.domain.event;
+package christmas.promotion.domain.event.manager;
 
+import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.discount.*;
 import christmas.promotion.domain.event.gift.ChampagneGift;
 import christmas.promotion.domain.event.gift.GiftEvent;
