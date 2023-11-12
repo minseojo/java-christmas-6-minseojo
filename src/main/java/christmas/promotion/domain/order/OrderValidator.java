@@ -15,9 +15,8 @@ public class OrderValidator {
     static void validateInteger(String number) {
         try {
             Integer.parseInt(number);
-        } catch (NumberFormatException exception) {
-            exception.printStackTrace();
-            throw new NumberFormatException(ERROR_MESSAGE);
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
 }
