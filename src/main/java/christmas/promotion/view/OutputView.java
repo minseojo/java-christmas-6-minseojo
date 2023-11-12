@@ -67,7 +67,7 @@ public class OutputView {
 
         benefitDetails.entrySet().stream()
                 .filter(entry -> entry.getValue() > 0.0)
-                .forEach(entry -> System.out.printf("%s: -%,.0f%n",
+                .forEach(entry -> System.out.printf("%s: -%,.0f원\n",
                         entry.getKey().getEventName(), entry.getValue()));
 
         if (!hasBenefit(benefitDetails)) {
