@@ -17,7 +17,7 @@ public class OrderMenu {
     }
 
     public Map<Event, Double> applyDiscount(LocalDate date) {
-        return menu.applyEvent(date);
+        return menu.applyEvent(date, quantity);
     }
 
     public double calculateSubtotal() {

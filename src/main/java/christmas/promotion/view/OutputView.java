@@ -67,9 +67,9 @@ public class OutputView {
         System.out.println(Message.BENEFIT_DETAILS.getMessage());
 
         eventBenefitsDto.eventBenefits().entrySet().stream()
-                .filter(entry -> entry.getValue() > 0.0)
+                .filter(entry -> entry.getValue().price() > 0.0)
                 .forEach(entry -> System.out.printf("%s: -%,.0f원\n",
-                        entry.getKey().getEventName(), entry.getValue()));
+                        entry.getKey().getEventName(), entry.getValue().price()));
 
         if (!hasBenefit(eventBenefitsDto)) {
             System.out.println("없음");
@@ -79,8 +79,8 @@ public class OutputView {
     }
 
     private boolean hasBenefit(EventBenefitsDto eventBenefitsDto) {
-        for (Double value : eventBenefitsDto.eventBenefits().values()) {
-            if (value > 0.0) {
+        for (Price value : eventBenefitsDto.eventBenefits().values()) {
+            if (value.price() > 0.0) {
                 return true;
             }
         }

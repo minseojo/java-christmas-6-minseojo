@@ -26,18 +26,19 @@ public class EventfulMenu {
         return new EventfulMenu(menu, localEvents);
     }
 
-    public Map<Event, Double> applyEvent(LocalDate date) {
+    public Map<Event, Double> applyEvent(LocalDate date, int quantity) {
         double salePrice = 0;
-        Map<Event, Double> eventMap = new LinkedHashMap<>();
+        Map<Event, Double> eventBenefit = new LinkedHashMap<>();
 
         for (LocalEvent localEvent : localEvents) {
             if (isPossibleEvent(localEvent, date)) {
-                salePrice += localEvent.applyEvent(date, salePrice);
-                eventMap.put(localEvent, salePrice);
+                salePrice = localEvent.applyEvent(date, salePrice);
+                System.out.println("a " + salePrice + " " + quantity + " " + salePrice);
+                eventBenefit.put(localEvent, salePrice * quantity);
             }
         }
 
-        return eventMap;
+        return eventBenefit;
     }
 
     private boolean isPossibleEvent(LocalEvent event, LocalDate date) {
