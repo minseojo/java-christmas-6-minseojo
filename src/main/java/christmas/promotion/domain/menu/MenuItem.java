@@ -59,7 +59,7 @@ public class MenuItem implements Menu {
         return eventMap;
     }
 
-    private boolean isEventApplicable(Event event, LocalDate date) {
+    private boolean isEventApplicable(DiscountEvent event, LocalDate date) {
         return event.isBetweenDates(date);
     }
 }

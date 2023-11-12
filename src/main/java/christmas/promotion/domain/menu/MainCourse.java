@@ -1,14 +1,12 @@
 package christmas.promotion.domain.menu;
 
-import christmas.promotion.domain.event.LocalEvent;
 import christmas.promotion.domain.event.discount.DiscountEvent;
 import christmas.promotion.domain.event.discount.WeekendDiscount;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-public enum MainCourse implements Menu, LocalEvent {
+public enum MainCourse implements Menu {
     T_BONE_STEAK("티본스테이크", 55000.0),
     BARBECUE_RIBS("바비큐립", 54000.0),
     SEAFOOD_PASTA("해산물파스타", 35000.0),
@@ -16,33 +14,27 @@ public enum MainCourse implements Menu, LocalEvent {
 
     private final String name;
     private final double price;
+    private final List<DiscountEvent> discountEvents;
 
     MainCourse(String name, double price) {
         this.name = name;
         this.price = price;
+        this.discountEvents = Collections.singletonList(WeekendDiscount.INSTANCE);
     }
 
-    @Override
     public String description() {
         return "<메인>";
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public double getPrice() {
         return price;
     }
 
     public List<DiscountEvent> getDiscountEvents() {
-        return Collections.singletonList(WeekendDiscount.INSTANCE);
-    }
-
-    @Override
-    public double applyEvent(LocalDate date, double price) {
-        return WeekendDiscount.INSTANCE.applyEvent(date, price);
+        return discountEvents;
     }
 }
