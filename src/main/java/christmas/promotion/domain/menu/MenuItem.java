@@ -10,24 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuItem implements Menu {
-    private final String name;
-    private final double price;
-    private final String category;
+    Menu menu;
     private final List<DiscountEvent> discountEvents;
 
-    private MenuItem(String name, double price, String category, List<DiscountEvent> discountEvents) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
+    private MenuItem(Menu menu, List<DiscountEvent> discountEvents) {
+        this.menu = menu;
         this.discountEvents = discountEvents;
     }
 
-    public static MenuItem createMenuItem(String name, double price, String category) {
-        return new MenuItem(name, price, category, Collections.emptyList());
+    public static MenuItem createMenuItem(Menu menu) {
+        return new MenuItem(menu, Collections.emptyList());
     }
 
-    public static MenuItem createMenuItemWithDiscount(String name, double price, String category, List<DiscountEvent> discountEvents) {
-        return new MenuItem(name, price, category, discountEvents);
+    public static MenuItem createMenuItemWithDiscount(Menu menu, List<DiscountEvent> discountEvents) {
+        return new MenuItem(menu, discountEvents);
     }
 
     @Override
@@ -35,14 +31,18 @@ public class MenuItem implements Menu {
         return "메뉴";
     }
 
+    public Menu getMenu() {
+        return menu;
+    }
+
     @Override
     public String getName() {
-        return name;
+        return menu.getName();
     }
 
     @Override
     public double getPrice() {
-        return price;
+        return menu.getPrice();
     }
 
     public Map<Event, Double> applyEvent(LocalDate date) {
@@ -50,7 +50,7 @@ public class MenuItem implements Menu {
         Map<Event, Double> eventMap = new LinkedHashMap<>();
 
         for (DiscountEvent discountEvent : discountEvents) {
-            if (isEventApplicable(discountEvent, date)) {
+            if (isEventPeriod(discountEvent, date)) {
                 salePrice += discountEvent.applyEvent(date, salePrice);
                 eventMap.put(discountEvent, salePrice);
             }
@@ -59,7 +59,7 @@ public class MenuItem implements Menu {
         return eventMap;
     }
 
-    private boolean isEventApplicable(DiscountEvent event, LocalDate date) {
+    private boolean isEventPeriod(DiscountEvent event, LocalDate date) {
         return event.isBetweenDates(date);
     }
 }

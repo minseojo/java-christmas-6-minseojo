@@ -1,11 +1,5 @@
 package christmas.promotion.domain.menu;
 
-import christmas.promotion.domain.event.discount.DiscountEvent;
-import christmas.promotion.domain.event.discount.WeekendDiscount;
-
-import java.util.Collections;
-import java.util.List;
-
 public enum MainCourse implements Menu {
     T_BONE_STEAK("티본스테이크", 55000.0),
     BARBECUE_RIBS("바비큐립", 54000.0),
@@ -14,12 +8,10 @@ public enum MainCourse implements Menu {
 
     private final String name;
     private final double price;
-    private final List<DiscountEvent> discountEvents;
 
     MainCourse(String name, double price) {
         this.name = name;
         this.price = price;
-        this.discountEvents = Collections.singletonList(WeekendDiscount.INSTANCE);
     }
 
     public String description() {
@@ -32,9 +24,5 @@ public enum MainCourse implements Menu {
 
     public double getPrice() {
         return price;
-    }
-
-    public List<DiscountEvent> getDiscountEvents() {
-        return discountEvents;
     }
 }
