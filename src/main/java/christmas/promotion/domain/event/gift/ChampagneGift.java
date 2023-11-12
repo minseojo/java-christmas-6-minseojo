@@ -30,7 +30,7 @@ public enum ChampagneGift implements GiftEvent {
             return NO_DISCOUNT;
         }
 
-        return Beverage.CHAMPAGNE.getPrice();
+        return GIFT_MENU.getPrice() * GIFT_QUANTITY;
     }
 
     public boolean isBetweenDates(LocalDate date) {
