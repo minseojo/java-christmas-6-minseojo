@@ -17,8 +17,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class EventManager {
+    private static final double EVENT_MINIMUM_PRICE = 10_000.0;
 
     private final Order order;
+    private final double orderOriginalPrice;
     private double salePrice;
     private double giftPrice;
     private final Map<DiscountEvent, Double> globalDiscountEvents; // 크리스마스 디데이 할인, 특별 할인
@@ -28,6 +30,7 @@ public class EventManager {
 
     public EventManager(Order order) {
         this.order = order;
+        orderOriginalPrice = order.calculateTotal();
         // 이벤트 출력 순서를 맞추기 위해, LinkedHashMap 고정 (변경 x)
         globalDiscountEvents = new LinkedHashMap<>();
         globalGiftEvents = new LinkedHashMap<>();
@@ -56,7 +59,7 @@ public class EventManager {
     }
 
     private void applyEvents() {
-        if (!order.isPriceAtLeastTenThousandWon()) {
+        if (order.calculateTotal() < EVENT_MINIMUM_PRICE) {
             return;
         }
         applyGlobalEvents();
@@ -75,7 +78,7 @@ public class EventManager {
 
     private void applyDiscountEvent(Event event) {
         if (isEventDates(event)) {
-            double eventSalePrice = event.applyEvent(order.getDate(), order.getOriginalPrice());
+            double eventSalePrice = event.applyEvent(order.getDate(), orderOriginalPrice);
             salePrice += eventSalePrice;
             events.put(event, eventSalePrice);
         }
@@ -83,7 +86,7 @@ public class EventManager {
 
     private void applyGiftEvent(Event event) {
         if (isEventDates(event)) {
-            double eventGiftPrice = event.applyEvent(order.getDate(), order.getOriginalPrice());
+            double eventGiftPrice = event.applyEvent(order.getDate(), orderOriginalPrice);
             giftPrice += eventGiftPrice;
             events.put(event, eventGiftPrice);
             addGiftMenu((GiftEvent) event);
@@ -114,6 +117,10 @@ public class EventManager {
     public void applyEventBadge() {
         Badge badge = Badge.grantBadgeOnExceedingPriceThreshold(salePrice + giftPrice);
         order.updateEventBadge(badge);
+    }
+
+    public double getOrderOriginalPrice() {
+        return orderOriginalPrice;
     }
 
     public double getSalePrice() {

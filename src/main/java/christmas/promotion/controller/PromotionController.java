@@ -4,7 +4,7 @@ import christmas.promotion.domain.event.EventManager;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.domain.order.Order;
-import christmas.promotion.domain.order.OrderParser;
+import christmas.promotion.domain.order.OrderMenusParser;
 import christmas.promotion.dto.BenefitDetailsDto;
 import christmas.promotion.dto.OrderMenusDto;
 import christmas.promotion.view.InputView;
@@ -32,9 +32,9 @@ public class PromotionController {
         VisitDay visitDay = processUserVisitDay();
 
         Order order = processOrder(visitDay);
+        displayEventBenefitsOnDecember(visitDay);
         displayOrderMenus(order.toOrderMenusDto());
 
-        displayEventBenefitsOnDecember(visitDay);
 
         displayTotalOrderPriceBeforeDiscount(order);
         EventManager eventManager = new EventManager(order);
@@ -43,7 +43,7 @@ public class PromotionController {
         BenefitDetailsDto benefitDetailsDto = new BenefitDetailsDto(eventManager.getEvents());
         outputView.printBenefitDetails(benefitDetailsDto.getBenefitDetails());
         outputView.printTotalBenefitPrice(eventManager.getSalePrice() + eventManager.getGiftPrice());
-        outputView.printExpectedPayment(order.getOriginalPrice() - eventManager.getSalePrice());
+        outputView.printExpectedPayment(eventManager.getOrderOriginalPrice() - eventManager.getSalePrice());
 
         eventManager.applyEventBadge();
         outputView.printDecemberEventBadge(order.getBadgeName());
@@ -84,7 +84,7 @@ public class PromotionController {
     }
 
     private Map<String, Integer> parseOrderMenuDetails(String orderDetails) {
-        return OrderParser.parse(orderDetails);
+        return OrderMenusParser.parse(orderDetails);
     }
 
     private void displayGiftMenus(Map<Menu, Integer> map) {
@@ -92,7 +92,7 @@ public class PromotionController {
     }
 
     private void displayTotalOrderPriceBeforeDiscount(Order order) {
-        outputView.printTotalOrderPriceBeforeDiscount(order.getOriginalPrice());
+        outputView.printTotalOrderPriceBeforeDiscount(order.calculateTotal());
     }
 
     private void displayEventBenefitsOnDecember(VisitDay visitDay) {

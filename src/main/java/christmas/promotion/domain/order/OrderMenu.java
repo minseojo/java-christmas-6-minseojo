@@ -25,7 +25,7 @@ public class OrderMenu {
     }
 
     public Menu getMenu() {
-        return menu;
+        return menu.getMenu();
     }
 
     public int getQuantity() {
