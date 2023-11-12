@@ -1,5 +1,6 @@
 package christmas.promotion.domain.event;
 
+import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.event.discount.DiscountEvent;
 import christmas.promotion.domain.event.discount.ChristmasDiscount;
 import christmas.promotion.domain.event.discount.SpecialDiscount;
@@ -21,7 +22,7 @@ public class EventManager {
 
     private final Order order;
     private final double orderOriginalPrice;
-    private double salePrice;
+    private double discountPrice;
     private double giftPrice;
     private final Map<GlobalEvent, Double> globalEvents; // 크리스마스 디데이 할인, 특별 할인, 샴페인 증정 이벤트
     private final Map<Event, Double> events; // 크리스마스 디데이 할인, 평일 할인, 주말 할인, 특별 할인, 증정 이벤트
@@ -78,7 +79,7 @@ public class EventManager {
     private void applyDiscountEvent(GlobalEvent event) {
         if (isPossibleGlobalEvent(event)) {
             double eventSalePrice = event.applyEvent(order.getDate(), orderOriginalPrice);
-            salePrice += eventSalePrice;
+            discountPrice += eventSalePrice;
             events.put(event, eventSalePrice);
         }
     }
@@ -108,14 +109,17 @@ public class EventManager {
             for (Event event : map.keySet()) {
                 double eventSalePrice = map.getOrDefault(event, 0.0) * orderMenu.getQuantity();
                 events.put(event, events.getOrDefault(event, 0.0) + eventSalePrice);
-                salePrice += eventSalePrice;
+                discountPrice += eventSalePrice;
             }
         }
     }
 
     public void applyEventBadge() {
-        Badge badge = Badge.grantBadgeOnExceedingPriceThreshold(salePrice + giftPrice);
-        order.updateEventBadge(badge);
+        if (Badge.isPossibleEvent(order.getDate())) {
+            double totalEventPrice = discountPrice + giftPrice;
+            Badge badge = Badge.applyEvent(totalEventPrice);
+            order.updateEventBadge(badge);
+        }
     }
 
     public double getOrderOriginalPrice() {
@@ -123,7 +127,7 @@ public class EventManager {
     }
 
     public double getSalePrice() {
-        return salePrice;
+        return discountPrice;
     }
 
     public double getGiftPrice() {

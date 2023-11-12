@@ -1,6 +1,6 @@
 package christmas.promotion.domain.order;
 
-import christmas.promotion.domain.event.Badge;
+import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.Menu;
