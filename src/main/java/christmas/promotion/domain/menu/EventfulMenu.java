@@ -32,7 +32,7 @@ public class EventfulMenu {
 
         for (LocalEvent localEvent : localEvents) {
             if (isPossibleEvent(localEvent, date)) {
-                salePrice = localEvent.applyEvent(date, salePrice);
+                salePrice = (double) localEvent.applyEvent(date, salePrice);
                 eventBenefit.put(localEvent, salePrice * quantity);
             }
         }
@@ -43,7 +43,7 @@ public class EventfulMenu {
     private boolean isPossibleEvent(LocalEvent event, LocalDate date) {
         return event.isPossibleEvent(date);
     }
-    
+
     public Menu getMenu() {
         return menu;
     }

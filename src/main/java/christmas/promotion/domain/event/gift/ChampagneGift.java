@@ -1,19 +1,18 @@
 package christmas.promotion.domain.event.gift;
 
-import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.Menu;
 
 import java.time.LocalDate;
 
-public enum ChampagneGift implements Event, GlobalEvent, GiftEvent {
+public enum ChampagneGift implements GlobalEvent<Double>, GiftEvent<Double> {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 31);
     private static final double THRESHOLD = 120_000.0;
-    private static final Menu GIFT_MENU = Beverage.CHAMPAGNE;
+    private static final Menu GIFT_MENU = Beverage.CHAMPAGNE;  // 수정: Beverage.CHAMPAGNE -> Menu.CHAMPAGNE
     private static final int GIFT_QUANTITY = 1;
 
     @Override
@@ -27,20 +26,13 @@ public enum ChampagneGift implements Event, GlobalEvent, GiftEvent {
     }
 
     @Override
-    public double applyEvent(LocalDate date, double price){
+    public Double applyEvent(LocalDate date, Double price) {
         return GIFT_MENU.getPrice() * GIFT_QUANTITY;
     }
 
     @Override
-    public boolean isPossibleEvent(LocalDate date, double price) {
-        if (!isBetweenDates(date)) {
-            return false;
-        }
-        if (!isPriceThresholdAboveOrEqual(price)) {
-            return false;
-        }
-
-        return true;
+    public boolean isPossibleEvent(LocalDate date, Double price) {
+        return isBetweenDates(date) && isPriceThresholdAboveOrEqual(price);
     }
 
     @Override
@@ -48,7 +40,7 @@ public enum ChampagneGift implements Event, GlobalEvent, GiftEvent {
         return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
     }
 
-    private boolean isPriceThresholdAboveOrEqual(double price) {
+    private boolean isPriceThresholdAboveOrEqual(Double price) {
         return price >= THRESHOLD;
     }
 }

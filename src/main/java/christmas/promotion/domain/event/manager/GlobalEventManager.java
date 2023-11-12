@@ -44,7 +44,7 @@ public class GlobalEventManager {
 
     private void applyDiscountEvent(GlobalEvent event, Map<Event, Price> eventBenefits) {
         if (isPossibleGlobalEvent(event)) {
-            double discountPrice = event.applyEvent(order.getDate(), order.getOrderPrice());
+            double discountPrice = (double) event.applyEvent(order.getDate(), order.getOrderPrice());
             Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
             eventBenefits.put(event, currentPrice.add(discountPrice));
         }
@@ -54,7 +54,7 @@ public class GlobalEventManager {
                                 Map<Menu, Integer> eventGifts) {
 
         if (isPossibleGlobalEvent(event)) {
-            double giftPrice = event.applyEvent(order.getDate(), order.getOrderPrice());
+            double giftPrice = (double) event.applyEvent(order.getDate(), order.getOrderPrice());
             Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
             eventBenefits.put(event, currentPrice.add(giftPrice));
             addGiftMenu((GiftEvent) event, eventGifts);

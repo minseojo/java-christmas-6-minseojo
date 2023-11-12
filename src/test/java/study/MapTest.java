@@ -17,9 +17,9 @@ public class MapTest {
     @Test
     void test() {
 
-        map.put(new ChristmasDiscount(), 0.0);
-        map.put(new SpecialDiscount(), 0.0);
-        map.put(new ChampagneGift(), 0.0);
+        map.put(ChristmasDiscount.INSTANCE, 0.0);
+        map.put(SpecialDiscount.INSTANCE, 0.0);
+        map.put(ChampagneGift.INSTANCE, 0.0);
 
         System.out.println("name        " + map.getClass().getName());
         System.out.println("class       " + map.getClass().getClass());

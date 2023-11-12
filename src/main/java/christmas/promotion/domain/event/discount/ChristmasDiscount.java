@@ -1,12 +1,11 @@
 package christmas.promotion.domain.event.discount;
 
-import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.GlobalEvent;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public enum ChristmasDiscount implements Event, GlobalEvent, DiscountEvent {
+public enum ChristmasDiscount implements GlobalEvent<Double>, DiscountEvent<Double> {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -20,20 +19,22 @@ public enum ChristmasDiscount implements Event, GlobalEvent, DiscountEvent {
         return EVENT_NAME;
     }
 
+
     @Override
-    public boolean isPossibleEvent(LocalDate date, double price) {
+    public boolean isPossibleEvent(LocalDate date, Double price) {
         return isBetweenDates(date);
     }
 
     @Override
-    public double applyEvent(LocalDate date, double price) {
+    public Double applyEvent(LocalDate date, Double price) {
         int daysUntilChristmas = calculateDaysUntilChristmas(date);
-        return STARTING_DISCOUNT_AMOUNT + (DAILY_DISCOUNT_INCREMENT * daysUntilChristmas);
+        return (double) (STARTING_DISCOUNT_AMOUNT + (DAILY_DISCOUNT_INCREMENT * daysUntilChristmas));
     }
 
     public boolean isBetweenDates(LocalDate date) {
         return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
     }
+
     private int calculateDaysUntilChristmas(LocalDate date) {
         return (int) ChronoUnit.DAYS.between(EVENT_PERIOD_START, date);
     }

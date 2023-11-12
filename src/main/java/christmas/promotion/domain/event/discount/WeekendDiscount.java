@@ -1,17 +1,16 @@
 package christmas.promotion.domain.event.discount;
 
-import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.LocalEvent;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public enum WeekendDiscount implements Event, LocalEvent, DiscountEvent {
+public enum WeekendDiscount implements LocalEvent<Double>, DiscountEvent<Double> {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 31);
-    private static final double DISCOUNT_PRICE = 2023;
+    private static final double DISCOUNT_PRICE = 2023.0;  // 수정: double 타입으로 변경
     private static final String EVENT_NAME = "주말 할인";
 
     @Override
@@ -21,21 +20,15 @@ public enum WeekendDiscount implements Event, LocalEvent, DiscountEvent {
 
     @Override
     public boolean isPossibleEvent(LocalDate date) {
-        if (!isBetweenDates(date)) {
-            return false;
-        }
-        if (!isWeekend(date)) {
-            return false;
-        }
-
-        return true;
+        return isBetweenDates(date) && isWeekend(date);
     }
 
     @Override
-    public double applyEvent(LocalDate date, double price) {
+    public Double applyEvent(LocalDate date, Double price) {
         return DISCOUNT_PRICE;
     }
 
+    @Override
     public boolean isBetweenDates(LocalDate date) {
         return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
     }

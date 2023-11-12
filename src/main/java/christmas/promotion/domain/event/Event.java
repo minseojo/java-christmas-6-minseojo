@@ -2,11 +2,10 @@ package christmas.promotion.domain.event;
 
 import java.time.LocalDate;
 
-public interface Event {
+public interface Event<T> {
     String getEventName();
 
-    double applyEvent(LocalDate date, double price);
+    T applyEvent(LocalDate date, T value);
 
     boolean isBetweenDates(LocalDate date);
 }
-

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +22,7 @@ public class MenuBoardTest {
     @Test
     @DisplayName("s")
     void 정상_케이스() {
+
         for (EventfulMenu eventfulMenu : menuBoard.getMenus()) {
             if (eventfulMenu.getMenu() instanceof  Beverage) {
                 System.out.println("eventfulMenu " + eventfulMenu.getName());
