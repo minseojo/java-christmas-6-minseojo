@@ -9,7 +9,8 @@ public enum Badge {
     SANTA("산타", 20000.0);
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
-    private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 25);
+    private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 31);
+    private static final double BADGE_MINIMUM_QUALIFY = STAR.threshold;
 
     private final String name;
     private final double threshold;
@@ -20,7 +21,7 @@ public enum Badge {
     }
 
     public static boolean isPossibleEvent(LocalDate date, double discountPrice) {
-        return isBetweenDates(date) && discountPrice >= 0;
+        return isBetweenDates(date) && discountPrice >= BADGE_MINIMUM_QUALIFY;
     }
 
     private static boolean isBetweenDates(LocalDate date) {
