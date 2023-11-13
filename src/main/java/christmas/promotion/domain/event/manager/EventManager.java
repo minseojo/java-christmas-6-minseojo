@@ -50,12 +50,15 @@ public class EventManager {
     }
 
     public void applyEvents() {
-        if (order.getOrderPrice().price() < EVENT_PARTICIPATION_COST) {
-            return;
+        if (isEventApplicable()) {
+            menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
+            globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
+            this.badge = badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
         }
-        menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
-        globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
-        this.badge = badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
+    }
+
+    private boolean isEventApplicable() {
+        return order.getOrderPrice().price() >= EVENT_PARTICIPATION_COST;
     }
 
     private double getDiscountPrice() {
