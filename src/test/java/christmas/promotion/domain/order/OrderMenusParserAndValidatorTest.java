@@ -25,7 +25,7 @@ class OrderMenusParserAndValidatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            " 타파스-1,제로콜라-1",
+            "    타파스-1,제로콜라-1",
             "타파스-1,제로콜라-1 ",
             "타파스-1, 제로콜라-1",
             "타파스-1:제로콜라-1",
