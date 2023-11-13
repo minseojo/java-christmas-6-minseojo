@@ -1,12 +1,14 @@
 package christmas.promotion.domain.menu;
 
+import christmas.promotion.exception.OrderMenuException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class MenuBoardTest {
 
@@ -48,8 +50,8 @@ public class MenuBoardTest {
     @DisplayName("존재하는 메뉴 이름으로 찾기, 성공")
     void 존재하는_메뉴_찾기(String input) {
         EventfulMenu menu = menuBoard.findMenu(input);
-        assertNotNull(input);
-        assertEquals(menu.getName(), input);
+        assertThat(input).isNotNull();
+        assertThat(menu.getName()).isEqualTo(input);
     }
 
     @ParameterizedTest
@@ -65,7 +67,9 @@ public class MenuBoardTest {
     })
     @DisplayName("존재하지 않는 메뉴 이름으로 찾기, 예외")
     void 존재하지_않는_메뉴_찾기(String input) {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> menuBoard.findMenu(input));
-        assertEquals("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.", exception.getMessage());
+        assertThatThrownBy(() -> menuBoard.findMenu(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(OrderMenuException.class)
+                .hasMessageContaining(OrderMenuException.ErrorMessage.ORDER_MENU_ERROR.getMessage());
     }
 }
