@@ -13,6 +13,8 @@ import christmas.promotion.vo.Price;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static christmas.promotion.domain.event.Event.EVENT_PARTICIPATION_COST;
+
 public class EventManager {
     private final MenuDiscountEventManager menuDiscountEventManager;
     private final GlobalEventManager globalEventManager;
@@ -34,6 +36,7 @@ public class EventManager {
         this.globalEventManager = new GlobalEventManager(order);
         this.badgeManager = new BadgeManager();
         this.eventBenefitCalculator = new EventBenefitCalculator();
+
         addEvents();
     }
 
@@ -47,7 +50,7 @@ public class EventManager {
     }
 
     public void applyEvents() {
-        if (order.getOrderPrice().price() < 10000) {
+        if (order.getOrderPrice().price() < EVENT_PARTICIPATION_COST) {
             return;
         }
         menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
