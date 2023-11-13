@@ -44,8 +44,10 @@ public class GlobalEventManager {
 
     private void applyDiscountEvent(GlobalEvent event, Map<Event, Price> eventBenefits) {
         Price discountPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
-        Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
-        eventBenefits.put(event, currentPrice.add(discountPrice.price()));
+        if (discountPrice.price() > 0) { // 할인을 한 경우
+            Price currentPrice = eventBenefits.get(event);
+            eventBenefits.put(event, currentPrice.add(discountPrice.price()));
+        }
     }
 
     private void applyGiftEvent(GlobalEvent event, Map<Event, Price> eventBenefits,
