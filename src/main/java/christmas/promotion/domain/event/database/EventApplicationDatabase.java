@@ -6,13 +6,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public enum EventApplicationDatabase {
     INSTANCE;
 
-
     // 스레드 세이프하기 위해, DoubleAdder, AtomicInteger 이용
-    private final DoubleAdder salePrice = new DoubleAdder();
+    private final DoubleAdder eventfulMenuSalePrice = new DoubleAdder();
     private final AtomicInteger eventParticipationCount = new AtomicInteger(0);
 
-    public void updateSalePrice(double salePrice) {
-        this.salePrice.add(salePrice);
+    public void updateSalePrice(double eventfulMenuSalePrice) {
+        this.eventfulMenuSalePrice.add(eventfulMenuSalePrice);
     }
 
     public void updateEventParticipationCount() {
@@ -20,7 +19,7 @@ public enum EventApplicationDatabase {
     }
 
     public double getSalePrice() {
-        return salePrice.sum();
+        return eventfulMenuSalePrice.sum();
     }
 
     public int getEventParticipationCount() {

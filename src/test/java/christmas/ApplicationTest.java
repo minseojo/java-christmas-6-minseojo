@@ -5,23 +5,38 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
 import christmas.promotion.domain.event.database.EventApplicationDatabase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.DoubleAdder;
 
 class ApplicationTest extends NsTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    @BeforeEach
+    void beforeEach() throws NoSuchFieldException, IllegalAccessException {
+        Field eventfulMenuSalePrice = EventApplicationDatabase.class.getDeclaredField("eventfulMenuSalePrice");
+        eventfulMenuSalePrice.setAccessible(true);
+        eventfulMenuSalePrice.set(EventApplicationDatabase.INSTANCE, new DoubleAdder());
+
+        Field eventParticipationCount = EventApplicationDatabase.class.getDeclaredField("eventParticipationCount");
+        eventParticipationCount.setAccessible(true);
+        eventParticipationCount.set(EventApplicationDatabase.INSTANCE, new AtomicInteger(0));
+    }
 
     @Test
     void 모든_타이틀_출력() {
         assertSimpleTest(() -> {
             run("3", "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
             assertThat(output()).contains(
-                "<주문 메뉴>",
-                "<할인 전 총주문 금액>",
-                "<증정 메뉴>",
-                "<혜택 내역>",
-                "<총혜택 금액>",
-                "<할인 후 예상 결제 금액>",
-                "<12월 이벤트 배지>"
+                    "<주문 메뉴>",
+                    "<할인 전 총주문 금액>",
+                    "<증정 메뉴>",
+                    "<혜택 내역>",
+                    "<총혜택 금액>",
+                    "<할인 후 예상 결제 금액>",
+                    "<12월 이벤트 배지>"
             );
         });
     }
