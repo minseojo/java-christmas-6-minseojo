@@ -23,6 +23,7 @@ public class OrderMenusParser {
             OrderMenusValidator.validateMenuNameBlank(menuDetail.get(menuDetailNameIndex));
             OrderMenusValidator.validateMenuSizeInteger(menuDetail.get(menuDetailQuantityIndex));
             OrderMenusValidator.validateMenuMinimumSize(menuDetail.get(menuDetailQuantityIndex));
+            OrderMenusValidator.validateMenuDuplicate(orderMenuDetails, menuDetail.get(menuDetailNameIndex));
             addMenuDetail(orderMenuDetails, menuDetail);
         }
 

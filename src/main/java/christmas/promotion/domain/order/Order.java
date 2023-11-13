@@ -31,7 +31,6 @@ public class Order {
             EventfulMenu menu = menuBoard.findMenu(orderMenu.getKey());
             menus.add(new OrderMenu(menu, new Quantity(orderMenu.getValue()), this.date));
         }
-
         return menus;
     }
 
@@ -45,7 +44,6 @@ public class Order {
 
     private void validate() {
         validateMenuMaxSize();
-        validateMenuDuplicate();
         validateMenuOnlyBeverage();
     }
 
@@ -55,20 +53,6 @@ public class Order {
             size += orderMenu.getQuantity().quantity();
         }
         if (size > ORDER_MENU_MAX_SIZE) {
-            throw new OrderMenuException();
-        }
-    }
-
-    private void validateMenuDuplicate() {
-        int initialSize = orderMenus.size();
-
-        Set<String> uniqueMenu = new HashSet<>();
-        for (OrderMenu menu : orderMenus) {
-            uniqueMenu.add(menu.getMenu().getName());
-        }
-
-        int uniqueMenuSize = uniqueMenu.size();
-        if (initialSize != uniqueMenuSize) {
             throw new OrderMenuException();
         }
     }

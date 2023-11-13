@@ -3,6 +3,7 @@ package christmas.promotion.domain.order;
 import christmas.promotion.exception.OrderMenuException;
 
 import java.util.List;
+import java.util.Map;
 
 public class OrderMenusValidator {
     private static final int menuDetailsFactorSize = 2;
@@ -43,5 +44,14 @@ public class OrderMenusValidator {
         } catch (IllegalArgumentException exception) {
             throw new OrderMenuException();
         }
+    }
+
+    static void validateMenuDuplicate(Map<String, Integer> orderMenuDetails, String orderMenuName) {
+        for (String orderedMenuName : orderMenuDetails.keySet()) {
+            if (orderedMenuName.equals(orderMenuName)) {
+                throw new OrderMenuException();
+            }
+        }
+
     }
 }
