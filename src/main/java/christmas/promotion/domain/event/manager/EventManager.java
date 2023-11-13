@@ -2,7 +2,7 @@ package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.badge.Badge;
-import christmas.promotion.domain.event.database.december2023.EventApplicationDatabase;
+import christmas.promotion.domain.event.database.EventApplicationDatabase;
 import christmas.promotion.domain.event.discount.*;
 import christmas.promotion.domain.event.gift.ChampagneGift;
 import christmas.promotion.domain.event.gift.GiftEvent;

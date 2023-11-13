@@ -1,4 +1,4 @@
-package christmas.promotion.domain.event.database.december2023;
+package christmas.promotion.domain.event.database;
 
 import java.util.concurrent.atomic.DoubleAdder;
 import java.util.concurrent.atomic.AtomicInteger;

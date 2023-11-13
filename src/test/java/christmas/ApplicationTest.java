@@ -4,7 +4,7 @@ import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
-import christmas.promotion.domain.event.database.december2023.EventApplicationDatabase;
+import christmas.promotion.domain.event.database.EventApplicationDatabase;
 import org.junit.jupiter.api.Test;
 
 class ApplicationTest extends NsTest {
