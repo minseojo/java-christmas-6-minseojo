@@ -14,7 +14,7 @@ import christmas.promotion.vo.Price;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static christmas.promotion.domain.event.Event.EVENT_PARTICIPATION_COST;
+import static christmas.promotion.domain.event.Event.EVENT_PARTICIPATION_THRESHOLD;
 
 public class EventManager {
     private final MenuDiscountEventManager menuDiscountEventManager;
@@ -65,7 +65,7 @@ public class EventManager {
     }
 
     private boolean isEventApplicable() {
-        return order.getOrderPrice().price() >= EVENT_PARTICIPATION_COST;
+        return order.getOrderPrice().price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
     private double getDiscountPrice() {

@@ -31,7 +31,7 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
 
     @Override
     public boolean isPossibleEvent(LocalDate date, Price price) {
-        return isBetweenDates(date) && isSpecialDate(date);
+        return isBetweenDates(date) && isSpecialDate(date) && isPriceAboveMinimumThreshold(price);
     }
 
     @Override
@@ -41,6 +41,10 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
 
     private boolean isSpecialDate(LocalDate date) {
         return isSunday(date) || isChristmas(date);
+    }
+
+    private boolean isPriceAboveMinimumThreshold(Price price) {
+        return price.price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
     private boolean isSunday(LocalDate date) {

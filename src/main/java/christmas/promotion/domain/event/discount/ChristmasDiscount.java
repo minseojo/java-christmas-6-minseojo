@@ -32,7 +32,11 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
 
     @Override
     public boolean isPossibleEvent(LocalDate date, Price price) {
-        return isBetweenDates(date);
+        return isBetweenDates(date) && isPriceAboveMinimumThreshold(price);
+    }
+
+    private boolean isPriceAboveMinimumThreshold(Price price) {
+        return price.price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
     public boolean isBetweenDates(LocalDate date) {
