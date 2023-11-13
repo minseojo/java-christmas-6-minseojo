@@ -13,6 +13,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -22,6 +23,12 @@ class WeekendDiscountTest {
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 31);
 
     LocalEvent weekendDiscount = WeekendDiscount.INSTANCE;
+
+    @Test
+    @DisplayName("이벤트 이름 확인")
+    void eventName() {
+        assertThat(weekendDiscount.getEventName()).isEqualTo("주말 할인");
+    }
 
     @ParameterizedTest
     @CsvSource({

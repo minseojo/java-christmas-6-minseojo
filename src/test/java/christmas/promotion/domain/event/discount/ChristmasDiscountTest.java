@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -17,6 +18,12 @@ class ChristmasDiscountTest {
     private static final LocalDate EVENT_PERIOD_END = LocalDate.of(2023, 12, 25);
 
     GlobalEvent christmasDiscount = ChristmasDiscount.INSTANCE;
+
+    @Test
+    @DisplayName("이벤트 이름 확인")
+    void eventName() {
+        assertThat(christmasDiscount.getEventName()).isEqualTo("크리스마스 디데이 할인");
+    }
 
     @ParameterizedTest
     @CsvSource({
