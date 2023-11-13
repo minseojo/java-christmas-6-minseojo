@@ -43,26 +43,18 @@ public class GlobalEventManager {
     }
 
     private void applyDiscountEvent(GlobalEvent event, Map<Event, Price> eventBenefits) {
-        if (isPossibleGlobalEvent(event)) {
-            Price discountPrice = (Price) event.applyEvent(order.getDate(), order.getOrderPrice());
-            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
-            eventBenefits.put(event, currentPrice.add(discountPrice.price()));
-        }
+        Price discountPrice = (Price) event.applyEvent(order.getDate(), order.getOrderPrice());
+        Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
+        eventBenefits.put(event, currentPrice.add(discountPrice.price()));
     }
 
     private void applyGiftEvent(GlobalEvent event, Map<Event, Price> eventBenefits,
                                 Map<Menu, Integer> eventGifts) {
 
-        if (isPossibleGlobalEvent(event)) {
-            Price giftPrice = (Price) event.applyEvent(order.getDate(), order.getOrderPrice());
-            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
-            eventBenefits.put(event, currentPrice.add(giftPrice.price()));
-            addGiftMenu((GiftEvent) event, eventGifts);
-        }
-    }
-
-    private boolean isPossibleGlobalEvent(GlobalEvent event) {
-        return event.isPossibleEvent(order.getDate(), order.getOrderPrice());
+        Price giftPrice = (Price) event.applyEvent(order.getDate(), order.getOrderPrice());
+        Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
+        eventBenefits.put(event, currentPrice.add(giftPrice.price()));
+        addGiftMenu((GiftEvent) event, eventGifts);
     }
 
     private void addGiftMenu(GiftEvent event, Map<Menu, Integer> eventGifts) {

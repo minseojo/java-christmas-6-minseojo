@@ -21,17 +21,17 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
     }
 
     @Override
-    public boolean isPossibleEvent(LocalDate date, Price price) {
-        return isBetweenDates(date) && isSpecialDate(date);
-    }
-
-    @Override
     public Price applyEvent(LocalDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
             return Price.zero();
         }
 
         return DISCOUNT_PRICE;
+    }
+
+    @Override
+    public boolean isPossibleEvent(LocalDate date, Price price) {
+        return isBetweenDates(date) && isSpecialDate(date);
     }
 
     @Override

@@ -20,17 +20,17 @@ public enum WeekendDiscount implements LocalEvent, DiscountEvent {
     }
 
     @Override
-    public boolean isPossibleEvent(LocalDate date) {
-        return isBetweenDates(date) && isWeekend(date);
-    }
-
-    @Override
     public Price applyEvent(LocalDate date) {
         if (!isPossibleEvent(date)) {
             return Price.zero();
         }
 
         return DISCOUNT_PRICE;
+    }
+
+    @Override
+    public boolean isPossibleEvent(LocalDate date) {
+        return isBetweenDates(date) && isWeekend(date);
     }
 
     @Override
