@@ -19,7 +19,7 @@ public class Order {
     private final MenuBoard menuBoard;
 
     public Order(final Map<String, Integer> order, LocalDate date, final MenuBoard menuBoard) {
-        this.menuBoard = menuBoard; // orderMenu 하기전에 메뉴판을 동적으로 초기화 해줘야함.
+        this.menuBoard = menuBoard; // createOrderFromMenuBoard 하기전에 메뉴판을 동적으로 초기화 해줘야함.
         this.orderMenus = List.copyOf(createOrderFromMenuBoard(order));
         validate();
         this.orderPrice = Price.of(calculateTotal().price());
