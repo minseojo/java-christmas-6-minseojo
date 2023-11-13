@@ -1,5 +1,7 @@
 package christmas.promotion.vo;
 
+import christmas.promotion.exception.VisitDayException;
+
 import java.util.Objects;
 
 public class VisitDay {
@@ -15,15 +17,22 @@ public class VisitDay {
     }
 
     private void validate(String visitDay) {
+        validateInteger(visitDay);
+        validateRangeVisitDay(visitDay);
+    }
+
+    private static void validateInteger(String visitDay) {
         try {
             Integer.parseInt(visitDay);
         } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+            throw new VisitDayException();
         }
+    }
 
+    private static void validateRangeVisitDay(String visitDay) {
         int value = Integer.parseInt(visitDay);
         if (value < DECEMBER_START_DAY || value > DECEMBER_END_DAY) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+            throw new VisitDayException();
         }
     }
 

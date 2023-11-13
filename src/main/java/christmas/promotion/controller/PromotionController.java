@@ -8,6 +8,8 @@ import christmas.promotion.domain.order.OrderMenusParser;
 import christmas.promotion.dto.EventBenefitsDto;
 import christmas.promotion.dto.EventfulOrderDto;
 import christmas.promotion.dto.GiftMenusDto;
+import christmas.promotion.exception.OrderMenuException;
+import christmas.promotion.exception.VisitDayException;
 import christmas.promotion.view.InputView;
 import christmas.promotion.view.OutputView;
 import christmas.promotion.vo.Price;
@@ -50,7 +52,7 @@ public class PromotionController {
                 inputView.requestDecemberVisitDate();
                 String userVisitDay = inputView.readDecemberVisitDay();
                 return new VisitDay(userVisitDay);
-            } catch (IllegalArgumentException exception) {
+            } catch (VisitDayException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
@@ -65,7 +67,7 @@ public class PromotionController {
                 String orderMenuDetails = inputView.readOrderDetails();
                 Map<String, Integer> orderMenus = parseOrderMenuDetails(orderMenuDetails);
                 return new Order(orderMenus, LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay.getVisitDay()), menuBoard);
-            } catch (IllegalArgumentException exception) {
+            } catch (OrderMenuException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
@@ -82,9 +84,7 @@ public class PromotionController {
     private EventfulOrder processOrderEventTransaction(Order order) {
         EventManager eventManager = new EventManager(order);
         eventManager.applyEvents();
-        EventfulOrder eventfulOrder = eventManager.createEventfulOrder();
-
-        return  eventfulOrder;
+        return  eventManager.createEventfulOrder();
     }
 
     private void displayEventfulOrder(EventfulOrder eventfulOrder) {

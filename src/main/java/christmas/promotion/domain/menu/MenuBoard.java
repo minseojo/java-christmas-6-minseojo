@@ -2,6 +2,7 @@ package christmas.promotion.domain.menu;
 
 import christmas.promotion.domain.event.discount.WeekdayDiscount;
 import christmas.promotion.domain.event.discount.WeekendDiscount;
+import christmas.promotion.exception.OrderMenuException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +25,7 @@ public class MenuBoard {
             }
         }
 
-        throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        throw new OrderMenuException();
     }
 
     private void initializeMenu() {
