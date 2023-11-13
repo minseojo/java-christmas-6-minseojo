@@ -60,7 +60,7 @@ public class EventManager {
     }
 
     private void updateEventDatabase() {
-        EventApplicationDatabase.INSTANCE.updateSalePrice(getDiscountPrice());
+        EventApplicationDatabase.INSTANCE.updateSalePrice(getExceptedDiscountPrice().price());
         EventApplicationDatabase.INSTANCE.updateEventParticipationCount();
     }
 
