@@ -39,7 +39,7 @@ public class OutputView {
 
     public void printOrderMenus(OrderMenusDto orderMenus) {
         System.out.println(Message.ORDER_MENUS.getMessage());
-        for (OrderMenu orderMenu : orderMenus.getOrderMenus()) {
+        for (OrderMenu orderMenu : orderMenus.orderMenus()) {
             String menuName = orderMenu.getMenu().getName();
             int menuQuantity = orderMenu.getQuantity();
             System.out.println(menuName + " " + menuQuantity + "개");
