@@ -62,9 +62,12 @@ public class Order {
     private void validateMenuDuplicate() {
         int initialSize = orderMenus.size();
 
-        Set<OrderMenu> uniqueMenu = new HashSet<>(orderMenus);
-        int uniqueMenuSize = uniqueMenu.size();
+        Set<String> uniqueMenu = new HashSet<>();
+        for (OrderMenu menu : orderMenus) {
+            uniqueMenu.add(menu.getMenu().getName());
+        }
 
+        int uniqueMenuSize = uniqueMenu.size();
         if (initialSize != uniqueMenuSize) {
             throw new OrderMenuException();
         }
