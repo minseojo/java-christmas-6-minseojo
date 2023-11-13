@@ -56,9 +56,10 @@ public class VisitDay {
 
     @Override
     public int hashCode() {
-        if (visitDay == null) {
-            return 0;
-        }
+//        validate 를 통해, null이 될 수 없음.
+//        if (visitDay == null) {
+//            return 0;
+//        }
 
         return visitDay.hashCode();
     }
