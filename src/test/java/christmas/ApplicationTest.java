@@ -4,6 +4,7 @@ import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import christmas.promotion.domain.event.database.december2023.EventApplicationDatabase;
 import org.junit.jupiter.api.Test;
 
 class ApplicationTest extends NsTest {
@@ -29,6 +30,8 @@ class ApplicationTest extends NsTest {
     void 모든_내용_출력() {
         assertSimpleTest(() -> {
             run("3", "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
+            assertThat(EventApplicationDatabase.INSTANCE.getSalePrice()).isEqualTo(135754);
+            assertThat(EventApplicationDatabase.INSTANCE.getEventParticipationCount()).isEqualTo(1);
             assertThat(output()).contains(
                     "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.",
                     "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)",
@@ -65,6 +68,15 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             run("26", "타파스-1,제로콜라-1");
             assertThat(output()).contains("<혜택 내역>" + LINE_SEPARATOR + "없음");
+        });
+    }
+
+    @Test
+    void 데이터베이스_테스트() {
+        assertSimpleTest(() -> {
+            run("3", "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
+            assertThat(EventApplicationDatabase.INSTANCE.getSalePrice()).isEqualTo(135_754.0);
+            assertThat(EventApplicationDatabase.INSTANCE.getEventParticipationCount()).isEqualTo(1);
         });
     }
 
