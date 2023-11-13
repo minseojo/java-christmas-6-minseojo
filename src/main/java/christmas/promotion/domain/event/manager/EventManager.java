@@ -47,7 +47,7 @@ public class EventManager {
     }
 
     public void applyEvents() {
-        if (order.getOrderPrice() < 10000) {
+        if (order.getOrderPrice().price() < 10000) {
             return;
         }
         menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
@@ -90,12 +90,12 @@ public class EventManager {
     }
 
     public Price getExceptedDiscountPrice() {
-        return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.getOrderPrice() - getDiscountPrice()).price());
+        return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.getOrderPrice().price() - getDiscountPrice()).price());
     }
 
     public EventfulOrder createEventfulOrder() {
         return new EventfulOrder(order.getOrder(),
-                Price.of(order.getOrderPrice()),
+                Price.of(order.getOrderPrice().price()),
                 eventGifts,
                 eventBenefits,
                 getEventBenefitPrice(),

@@ -4,6 +4,8 @@ import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
+import christmas.promotion.vo.Price;
+import christmas.promotion.vo.Quantity;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -12,7 +14,7 @@ public class Order {
     private static final int ORDER_MENU_MAX_SIZE = 20;
 
     private final List<OrderMenu> orderMenus;
-    private final double orderPrice;
+    private final Price orderPrice;
     private final LocalDate date;
     private final MenuBoard menuBoard;
 
@@ -20,7 +22,7 @@ public class Order {
         this.menuBoard = menuBoard; // orderMenu 하기전에 메뉴판을 동적으로 초기화 해줘야함.
         this.orderMenus = List.copyOf(createOrderFromMenuBoard(order));
         validate();
-        this.orderPrice = calculateTotal();
+        this.orderPrice = Price.of(calculateTotal().price());
         this.date = date;
     }
 
@@ -32,7 +34,7 @@ public class Order {
         List<OrderMenu> menus = new ArrayList<>();
         for (Map.Entry<String, Integer> orderMenu : order.entrySet()) {
             EventfulMenu menu = menuBoard.findMenu(orderMenu.getKey());
-            menus.add(new OrderMenu(menu, orderMenu.getValue()));
+            menus.add(new OrderMenu(menu, new Quantity(orderMenu.getValue())));
         }
         return menus;
     }
@@ -41,15 +43,15 @@ public class Order {
         return orderMenus;
     }
 
-    private double calculateTotal() {
+    private Price calculateTotal() {
         double total = 0.0;
         for (OrderMenu orderMenu : this.orderMenus) {
             total += orderMenu.calculateSubtotal();
         }
-        return total;
+        return Price.of(total);
     }
 
-    public double getOrderPrice() {
+    public Price getOrderPrice() {
         return orderPrice;
     }
 
@@ -63,7 +65,7 @@ public class Order {
         int size = 0;
 
         for (OrderMenu orderMenu : orderMenus) {
-            size += orderMenu.getQuantity();
+            size += orderMenu.getQuantity().quantity();
         }
 
         if (size > ORDER_MENU_MAX_SIZE) {

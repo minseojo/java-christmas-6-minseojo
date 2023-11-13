@@ -2,6 +2,7 @@ package christmas.promotion.domain.menu;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.LocalEvent;
+import christmas.promotion.vo.Quantity;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -26,14 +27,14 @@ public class EventfulMenu {
         return new EventfulMenu(menu, localEvents);
     }
 
-    public Map<Event, Double> applyEvent(LocalDate date, int quantity) {
+    public Map<Event, Double> applyEvent(LocalDate date, Quantity quantity) {
         double salePrice = 0;
         Map<Event, Double> eventBenefit = new LinkedHashMap<>();
 
         for (LocalEvent localEvent : localEvents) {
             if (isPossibleEvent(localEvent, date)) {
                 salePrice = (double) localEvent.applyEvent(date);
-                eventBenefit.put(localEvent, salePrice * quantity);
+                eventBenefit.put(localEvent, salePrice * quantity.quantity());
             }
         }
 
