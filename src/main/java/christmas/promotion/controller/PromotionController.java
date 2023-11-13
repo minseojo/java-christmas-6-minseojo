@@ -6,6 +6,7 @@ import christmas.promotion.domain.order.EventfulOrder;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.domain.order.OrderMenusParser;
 import christmas.promotion.dto.EventBenefitsDto;
+import christmas.promotion.dto.EventfulOrderDto;
 import christmas.promotion.dto.GiftMenusDto;
 import christmas.promotion.view.InputView;
 import christmas.promotion.view.OutputView;
@@ -87,44 +88,46 @@ public class PromotionController {
     }
 
     private void displayEventfulOrder(EventfulOrder eventfulOrder) {
-        displayOrderMenus(eventfulOrder);                       // 주문 메뉴
-        displayTotalOrderPriceBeforeDiscount(eventfulOrder);    // 할인 전 총 주문 금액
-        displayGiftMenus(eventfulOrder);                        // 증정 메뉴
-        displayEvnetBenefits(eventfulOrder);                    // 혜택 내역
-        displayTotalEventBenefitsPrice(eventfulOrder);          // 총 혜택 금액
-        displayExceptedPayMent(eventfulOrder);                  // 할인 후 예상 결제 금액
-        displayEventBadge(eventfulOrder);                       // 이벤트 배지
+        EventfulOrderDto eventfulOrderDto = eventfulOrder.toEventfulOrderDto();
+
+        displayOrderMenus(eventfulOrderDto);                       // 주문 메뉴
+        displayTotalOrderPriceBeforeDiscount(eventfulOrderDto);    // 할인 전 총 주문 금액
+        displayGiftMenus(eventfulOrderDto);                        // 증정 메뉴
+        displayEvnetBenefits(eventfulOrderDto);                    // 혜택 내역
+        displayTotalEventBenefitsPrice(eventfulOrderDto);          // 총 혜택 금액
+        displayExceptedPayMent(eventfulOrderDto);                  // 할인 후 예상 결제 금액
+        displayEventBadge(eventfulOrderDto);                       // 이벤트 배지
     }
 
-    private void displayOrderMenus(EventfulOrder eventfulOrder) {
-        outputView.printOrderMenus(eventfulOrder.getOrderMenusDto());
+    private void displayOrderMenus(EventfulOrderDto eventfulOrder) {
+        outputView.printOrderMenus(eventfulOrder.getOrderMenus());
     }
 
-    private void displayTotalOrderPriceBeforeDiscount(EventfulOrder eventfulOrder) {
+    private void displayTotalOrderPriceBeforeDiscount(EventfulOrderDto eventfulOrder) {
         outputView.printTotalOrderPriceBeforeDiscount(eventfulOrder.getOriginalPrice());
     }
 
-    private void displayGiftMenus(EventfulOrder eventfulOrder) {
-        GiftMenusDto giftMenusDto = eventfulOrder.getGiftMenusDto();
+    private void displayGiftMenus(EventfulOrderDto eventfulOrder) {
+        GiftMenusDto giftMenusDto = eventfulOrder.getGiftMenus();
         outputView.printGiftMenus(giftMenusDto);
     }
 
-    private void displayEvnetBenefits(EventfulOrder eventfulOrder) {
-        EventBenefitsDto eventBenefitsDto = eventfulOrder.getEventBenefitsDto();
+    private void displayEvnetBenefits(EventfulOrderDto eventfulOrder) {
+        EventBenefitsDto eventBenefitsDto = eventfulOrder.getEventBenefits();
         outputView.printBenefitDetails(eventBenefitsDto);
     }
 
-    private void displayTotalEventBenefitsPrice(EventfulOrder eventfulOrder) {
+    private void displayTotalEventBenefitsPrice(EventfulOrderDto eventfulOrder) {
         Price totalEvnetBenefitPrice = eventfulOrder.getTotalBenefitPrice();
         outputView.printTotalBenefitPrice(totalEvnetBenefitPrice);
     }
 
-    private void displayExceptedPayMent(EventfulOrder eventfulOrder) {
+    private void displayExceptedPayMent(EventfulOrderDto eventfulOrder) {
         Price exceptedPayMent = eventfulOrder.getDiscountedPrice();
         outputView.printExceptedPayment(exceptedPayMent);
     }
 
-    private void displayEventBadge(EventfulOrder eventfulOrder) {
+    private void displayEventBadge(EventfulOrderDto eventfulOrder) {
         outputView.printDecemberEventBadge(eventfulOrder.getBadge().getName());
     }
 }

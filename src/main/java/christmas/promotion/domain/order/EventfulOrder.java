@@ -3,9 +3,7 @@ package christmas.promotion.domain.order;
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.menu.Menu;
-import christmas.promotion.dto.EventBenefitsDto;
-import christmas.promotion.dto.GiftMenusDto;
-import christmas.promotion.dto.OrderMenusDto;
+import christmas.promotion.dto.EventfulOrderDto;
 import christmas.promotion.vo.Price;
 
 import java.util.Collections;
@@ -39,31 +37,13 @@ public class EventfulOrder {
         this.badge = badge;
     }
 
-    public OrderMenusDto getOrderMenusDto() {
-        return new OrderMenusDto(orderMenus);
-    }
-
-    public Price getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public GiftMenusDto getGiftMenusDto() {
-        return new GiftMenusDto(giftMenus);
-    }
-
-    public EventBenefitsDto getEventBenefitsDto() {
-        return new EventBenefitsDto(eventBenefits);
-    }
-
-    public Price getTotalBenefitPrice() {
-        return totalBenefitPrice;
-    }
-
-    public Price getDiscountedPrice() {
-        return discountedPrice;
-    }
-
-    public Badge getBadge() {
-        return badge;
+    public EventfulOrderDto toEventfulOrderDto() {
+        return new EventfulOrderDto(orderMenus,
+                originalPrice,
+                giftMenus,
+                eventBenefits,
+                totalBenefitPrice,
+                discountedPrice,
+                badge);
     }
 }
