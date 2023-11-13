@@ -17,7 +17,7 @@ import java.util.Map;
 import static christmas.promotion.domain.event.Event.EVENT_PARTICIPATION_THRESHOLD;
 
 public class EventManager {
-    private final MenuDiscountEventManager menuDiscountEventManager;
+    private final LocalEventManager localEventManager;
     private final GlobalEventManager globalEventManager;
     private final BadgeManager badgeManager;
     private final EventBenefitCalculator eventBenefitCalculator;
@@ -33,7 +33,7 @@ public class EventManager {
         this.eventBenefits = new LinkedHashMap<>();
         this.eventGifts = new LinkedHashMap<>();
 
-        this.menuDiscountEventManager = new MenuDiscountEventManager();
+        this.localEventManager = new LocalEventManager();
         this.globalEventManager = new GlobalEventManager(order);
         this.badgeManager = new BadgeManager();
         this.eventBenefitCalculator = new EventBenefitCalculator();
@@ -52,7 +52,7 @@ public class EventManager {
 
     public void applyEvents() {
         if (isEventApplicable()) {
-            menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
+            localEventManager.applyMenuDiscountEvents(order, eventBenefits);
             globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
             this.badge = badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
             updateEventDatabase();

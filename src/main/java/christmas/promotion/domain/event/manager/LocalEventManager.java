@@ -8,7 +8,7 @@ import christmas.promotion.vo.Price;
 
 import java.util.Map;
 
-public class MenuDiscountEventManager {
+public class LocalEventManager {
     public void applyMenuDiscountEvents(Order order, Map<Event, Price> eventBenefits) {
         for (OrderMenu orderMenu : order.getOrder()) {
             Map<Event, Double> map = orderMenu.applyDiscount(order.getDate());
