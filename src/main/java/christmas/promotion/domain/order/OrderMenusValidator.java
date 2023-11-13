@@ -5,26 +5,27 @@ import java.util.List;
 public class OrderMenusValidator {
     private static final String ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     private static final int menuDetailsFactorSize = 2;
+    private static final int menusMinimumSize = 1;
 
-    public static void validateCommaStartOrEnd(String menuDetails) {
+    public static void validateMenuDetailsCommaStartOrEnd(String menuDetails) {
         if (menuDetails.startsWith(",") || menuDetails.endsWith(",")) {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
 
-    static void validateSize(List<String> menuDetail) {
+    static void validateMenuDtailSize(List<String> menuDetail) {
         if (menuDetail.size() != menuDetailsFactorSize) {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
 
-    static void validateBlank(String menuName) {
+    static void validateMenuNameBlank(String menuName) {
         if (menuName.isBlank() || menuName.contains(" ")) {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
 
-    static void validateInteger(String number) {
+    static void validateMenuSizeInteger(String number) {
         try {
             Integer.parseInt(number);
         } catch (IllegalArgumentException exception) {
@@ -32,10 +33,10 @@ public class OrderMenusValidator {
         }
     }
 
-    static void validateRange(String number) {
+    static void validateMenuMinimumSize(String number) {
         try {
             int parseNumber = Integer.parseInt(number);
-            if (parseNumber < 1) {
+            if (parseNumber < menusMinimumSize) {
                 throw new IllegalArgumentException(ERROR_MESSAGE);
             }
         } catch (IllegalArgumentException exception) {

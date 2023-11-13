@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-class OrderMenusParserTest {
+class OrderMenusParserAndValidatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {

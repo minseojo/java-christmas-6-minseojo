@@ -12,17 +12,17 @@ public class OrderMenusParser {
 
 
     public static Map<String, Integer> parse(final String input) {
-        OrderMenusValidator.validateCommaStartOrEnd(input);
+        OrderMenusValidator.validateMenuDetailsCommaStartOrEnd(input);
 
         Map<String, Integer> orderMenuDetails = new LinkedHashMap<>();
 
         List<String> menuItems = splitOrderMenus(input);
         for (String menuItem : menuItems) {
             List<String> menuDetail = splitOrderMenuDetail(menuItem);
-            OrderMenusValidator.validateSize(menuDetail);
-            OrderMenusValidator.validateBlank(menuDetail.get(menuDetailNameIndex));
-            OrderMenusValidator.validateInteger(menuDetail.get(menuDetailQuantityIndex));
-            OrderMenusValidator.validateRange(menuDetail.get(menuDetailQuantityIndex));
+            OrderMenusValidator.validateMenuDtailSize(menuDetail);
+            OrderMenusValidator.validateMenuNameBlank(menuDetail.get(menuDetailNameIndex));
+            OrderMenusValidator.validateMenuSizeInteger(menuDetail.get(menuDetailQuantityIndex));
+            OrderMenusValidator.validateMenuMinimumSize(menuDetail.get(menuDetailQuantityIndex));
             addMenuDetail(orderMenuDetails, menuDetail);
         }
 
