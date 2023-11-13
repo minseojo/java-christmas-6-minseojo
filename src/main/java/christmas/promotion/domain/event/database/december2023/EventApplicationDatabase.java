@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public enum EventApplicationDatabase {
     INSTANCE;
 
+
+    // 스레드 세이프하기 위해, DoubleAdder, AtomicInteger 이용
     private final DoubleAdder salePrice = new DoubleAdder();
     private final AtomicInteger eventParticipationCount = new AtomicInteger(0);
 
