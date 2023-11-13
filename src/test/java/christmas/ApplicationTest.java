@@ -83,6 +83,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             run("26", "타파스-1,제로콜라-1");
             assertThat(output()).contains("<혜택 내역>" + LINE_SEPARATOR + "없음");
+            assertThat(output()).doesNotContain("샴페인 1개");
         });
     }
 

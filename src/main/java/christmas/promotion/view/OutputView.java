@@ -58,11 +58,13 @@ public class OutputView {
 
         if (gifts.getGiftMenusSize() == 0) {
             System.out.println("없음");
-        } else if (gifts.getGiftMenusSize() != 0) {
-            gifts.giftMenus().forEach(
-                    (menu, quantity) ->
-                            System.out.println(menu.getName() + " " + quantity + "개"));
+            printEmptyLine();
+            return;
         }
+
+        gifts.giftMenus().forEach(
+                (menu, quantity) ->
+                        System.out.println(menu.getName() + " " + quantity + "개"));
 
         printEmptyLine();
     }
@@ -112,12 +114,13 @@ public class OutputView {
         System.out.println(message);
     }
 
-    private static void printPrice(Price price) {
+    private void printPrice(Price price) {
         if (price.price() == 0.0) {
             System.out.printf("%,.0f원%n", Math.abs(price.price()));
-        } else {
-            System.out.printf("%,.0f원%n", price.price());
+            return;
         }
+
+        System.out.printf("%,.0f원%n", price.price());
     }
 
     private void printEmptyLine() {
