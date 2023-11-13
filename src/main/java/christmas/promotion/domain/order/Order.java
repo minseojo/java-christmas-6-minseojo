@@ -1,11 +1,9 @@
 package christmas.promotion.domain.order;
 
-import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.MenuBoard;
-import christmas.promotion.dto.OrderMenusDto;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,7 +14,6 @@ public class Order {
     private final List<OrderMenu> orderMenus;
     private final double orderPrice;
     private final LocalDate date;
-    private Badge badge;
     private final MenuBoard menuBoard;
 
     public Order(final Map<String, Integer> order, LocalDate date, final MenuBoard menuBoard) {
@@ -25,7 +22,6 @@ public class Order {
         validate();
         this.orderPrice = calculateTotal();
         this.date = date;
-        this.badge = Badge.NONE;
     }
 
     public LocalDate getDate() {
@@ -98,17 +94,5 @@ public class Order {
 
     private boolean isNotBeverage(Menu menu) {
         return !(menu instanceof Beverage);
-    }
-
-    public void updateEventBadge(Badge badge) {
-        this.badge = badge;
-    }
-
-    public String getBadgeName() {
-        return badge.getName();
-    }
-
-    public OrderMenusDto toOrderMenusDto() {
-        return new OrderMenusDto(orderMenus);
     }
 }

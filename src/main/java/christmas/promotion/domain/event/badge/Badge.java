@@ -16,25 +16,33 @@ public enum Badge {
 
     Badge(String name, double threshold) {
         this.name = name;
-        this.threshold = threshold;
+        this.threshold = threshold;  // 수정: Badge.None 대신에 threshold 값을 할당
     }
 
-    public static boolean isPossibleEvent(LocalDate date) {
+    public static boolean isPossibleEvent(LocalDate date, double discountPrice) {
+        return isBetweenDates(date) && discountPrice >= 0;
+    }
+
+    private static boolean isBetweenDates(LocalDate date) {
         return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
     }
 
-    public static Badge applyEvent(double price) {
-        Badge badge = NONE;
-        for (Badge value : Badge.values()) {
-            if (isPriceExceedingBadgeThreshold(price, value)) {
-                badge = value;
+    public static Badge applyEvent(LocalDate date, double discountPrice) {
+        if (!isPossibleEvent(date, discountPrice)) {
+            return NONE;
+        }
+
+        Badge newBadge = NONE;
+        for (Badge badge : Badge.values()) {
+            if (badge.isPriceExceedingBadgeThreshold(discountPrice)) {
+                newBadge = badge;
             }
         }
-        return badge;
+        return newBadge;
     }
 
-    private static boolean isPriceExceedingBadgeThreshold(double price, Badge value) {
-        return price >= value.threshold;
+    private boolean isPriceExceedingBadgeThreshold(double price) {
+        return price >= threshold;
     }
 
     public String getName() {

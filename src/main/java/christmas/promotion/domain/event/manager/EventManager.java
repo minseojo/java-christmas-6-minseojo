@@ -1,13 +1,13 @@
 package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
+import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.event.discount.*;
 import christmas.promotion.domain.event.gift.ChampagneGift;
 import christmas.promotion.domain.event.gift.GiftEvent;
 import christmas.promotion.domain.menu.Menu;
+import christmas.promotion.domain.order.EventfulOrder;
 import christmas.promotion.domain.order.Order;
-import christmas.promotion.dto.EventBenefitsDto;
-import christmas.promotion.dto.GiftMenusDto;
 import christmas.promotion.vo.Price;
 
 import java.util.LinkedHashMap;
@@ -22,9 +22,11 @@ public class EventManager {
     private final Order order;
     private final Map<Event, Price> eventBenefits;
     private final Map<Menu, Integer> eventGifts;
+    private Badge badge;
 
     public EventManager(Order order) {
         this.order = order;
+        this.badge = Badge.NONE;
         this.eventBenefits = new LinkedHashMap<>();
         this.eventGifts = new LinkedHashMap<>();
 
@@ -50,7 +52,7 @@ public class EventManager {
         }
         menuDiscountEventManager.applyMenuDiscountEvents(order, eventBenefits);
         globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
-        badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
+        this.badge = badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
     }
 
     private double getDiscountPrice() {
@@ -83,20 +85,21 @@ public class EventManager {
         return giftPrice;
     }
 
-    public Price getTotalEventBenefitPrice() {
+    public Price getEventBenefitPrice() {
         return eventBenefitCalculator.getTotalEvnetBenefitPrice(getDiscountPrice(), getGiftPrice());
     }
 
     public Price getExceptedDiscountPrice() {
         return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.getOrderPrice() - getDiscountPrice()).price());
-
     }
 
-    public GiftMenusDto getGiftMenusDto() {
-        return eventBenefitCalculator.getGiftMenusDto(eventGifts);
-    }
-
-    public EventBenefitsDto getEventBenefitsDto() {
-        return eventBenefitCalculator.getEventBenefitsDto(eventBenefits);
+    public EventfulOrder createEventfulOrder() {
+        return new EventfulOrder(order.getOrder(),
+                Price.of(order.getOrderPrice()),
+                eventGifts,
+                eventBenefits,
+                getEventBenefitPrice(),
+                getExceptedDiscountPrice(),
+                badge);
     }
 }

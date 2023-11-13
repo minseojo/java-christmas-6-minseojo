@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public record Price(Double price) {
-
     // 캐시된 Price 객체를 저장할 맵
     private static final Map<Double, Price> priceCache = new HashMap<>();
 

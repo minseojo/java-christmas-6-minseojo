@@ -5,7 +5,7 @@ import christmas.promotion.domain.event.GlobalEvent;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public enum ChristmasDiscount implements GlobalEvent<Double>, DiscountEvent {
+public enum ChristmasDiscount implements GlobalEvent<Double, Double>, DiscountEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);

@@ -56,9 +56,13 @@ public class OutputView {
     public void printGiftMenus(GiftMenusDto gifts) {
         System.out.println(Message.GIFT_MENUS.message);
 
-        gifts.giftMenus().forEach(
-                (menu, quantity) ->
-                        System.out.println(menu.getName() + " " + quantity + "개"));
+        if (gifts.getGiftMenusSize() == 0) {
+            System.out.println("없음");
+        } else if (gifts.getGiftMenusSize() != 0) {
+            gifts.giftMenus().forEach(
+                    (menu, quantity) ->
+                            System.out.println(menu.getName() + " " + quantity + "개"));
+        }
 
         printEmptyLine();
     }
@@ -109,7 +113,11 @@ public class OutputView {
     }
 
     private static void printPrice(Price price) {
-        System.out.printf("%,.0f원%n", price.price());
+        if (price.price() == 0.0) {
+            System.out.printf("%,.0f원%n", Math.abs(price.price()));
+        } else {
+            System.out.printf("%,.0f원%n", price.price());
+        }
     }
 
     private void printEmptyLine() {
