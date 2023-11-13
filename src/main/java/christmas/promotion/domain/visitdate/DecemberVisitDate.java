@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import static christmas.promotion.constant.Constants.EVENT_MONTH;
 import static christmas.promotion.constant.Constants.EVENT_YEAR;
 
-public class VisitDate {
+public class DecemberVisitDate {
     private static final int DECEMBER_START_DAY = 1;
     private static final int DECEMBER_END_DAY = 31;
     private static final LocalDate CHRISTMAS = LocalDate.of(2023, 12, 25);
@@ -16,13 +16,13 @@ public class VisitDate {
     //Integer 는 -128 ~ 127까지 캐싱 되므로, 1 ~ 31일은 캐싱 데이터를 안 만들었다.
     private final LocalDate visitDate;
 
-    public VisitDate(String value) {
+    public DecemberVisitDate(String value) {
         validate(value);
         int visitDay = Integer.parseInt(value);
         this.visitDate = LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay);
     }
 
-    public VisitDate(LocalDate value) {
+    public DecemberVisitDate(LocalDate value) {
         this.visitDate = value;
     }
 
@@ -83,9 +83,9 @@ public class VisitDate {
             return false;
         }
 
-        VisitDate visitDate1 = (VisitDate) o;
+        DecemberVisitDate decemberVisitDate1 = (DecemberVisitDate) o;
 
-        return visitDate.equals(visitDate1.visitDate);
+        return visitDate.equals(decemberVisitDate1.visitDate);
     }
 
     @Override

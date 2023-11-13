@@ -4,16 +4,16 @@ import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.vo.Quantity;
-import christmas.promotion.domain.visitdate.VisitDate;
+import christmas.promotion.domain.visitdate.DecemberVisitDate;
 
 import java.util.Map;
 
 public class OrderMenu {
     private final EventfulMenu menu;
     private final Quantity quantity;
-    private final VisitDate date;
+    private final DecemberVisitDate date;
 
-    public OrderMenu(EventfulMenu menu, Quantity quantity, VisitDate date) {
+    public OrderMenu(EventfulMenu menu, Quantity quantity, DecemberVisitDate date) {
         this.menu = menu;
         this.quantity = quantity;
         this.date = date;

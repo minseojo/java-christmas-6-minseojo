@@ -7,7 +7,7 @@ import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.exception.OrderMenuException;
 import christmas.promotion.vo.Price;
 import christmas.promotion.vo.Quantity;
-import christmas.promotion.domain.visitdate.VisitDate;
+import christmas.promotion.domain.visitdate.DecemberVisitDate;
 
 import java.util.*;
 
@@ -15,12 +15,12 @@ public class Order {
     private static final int ORDER_MENU_MAX_SIZE = 20;
 
     private final List<OrderMenu> orderMenus;
-    private final VisitDate date;
+    private final DecemberVisitDate date;
     private final MenuBoard menuBoard;
 
-    public Order(final Map<String, Integer> order, final VisitDate visitDate, final MenuBoard menuBoard) {
+    public Order(final Map<String, Integer> order, final DecemberVisitDate decemberVisitDate, final MenuBoard menuBoard) {
         this.menuBoard = menuBoard; // createOrderFromMenuBoard 하기 전, 메뉴판을 동적으로 초기화 해줘야함. 아니면 null
-        this.date = visitDate; // createOrderFromMenuBoard 하기 전, 날짜 먼저 동적으로 최기화 해줘야함. 아니면 null
+        this.date = decemberVisitDate; // createOrderFromMenuBoard 하기 전, 날짜 먼저 동적으로 최기화 해줘야함. 아니면 null
         this.orderMenus = List.copyOf(createOrderFromMenuBoard(order));
         validate();
     }
@@ -88,7 +88,7 @@ public class Order {
         return orderMenus;
     }
 
-    public VisitDate getDate() {
+    public DecemberVisitDate getDate() {
         return date;
     }
 }
