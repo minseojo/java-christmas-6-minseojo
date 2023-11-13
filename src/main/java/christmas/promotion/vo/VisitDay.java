@@ -1,5 +1,7 @@
 package christmas.promotion.vo;
 
+import java.util.Objects;
+
 public class VisitDay {
     private static final int DECEMBER_START_DAY = 1;
     private static final int DECEMBER_END_DAY = 31;
@@ -27,5 +29,28 @@ public class VisitDay {
 
     public Integer getVisitDay() {
         return visitDay;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        VisitDay other = (VisitDay) o;
+
+        return Objects.equals(visitDay, other.visitDay);
+    }
+
+    @Override
+    public int hashCode() {
+        if (visitDay == null) {
+            return 0;
+        }
+
+        return visitDay.hashCode();
     }
 }
