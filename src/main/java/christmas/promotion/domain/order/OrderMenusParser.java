@@ -19,6 +19,7 @@ public class OrderMenusParser {
             List<String> menuDetail = splitOrderMenuDetail(menuItem);
             OrderMenusValidator.validateSize(menuDetail);
             OrderMenusValidator.validateInteger(menuDetail.get(menuDetailQuantityIndex));
+            OrderMenusValidator.validateRange(menuDetail.get(menuDetailQuantityIndex));
             addMenuDetail(orderMenuDetails, menuDetail);
         }
 

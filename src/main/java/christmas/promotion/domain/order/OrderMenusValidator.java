@@ -19,4 +19,15 @@ public class OrderMenusValidator {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
+
+    static void validateRange(String number) {
+        try {
+            int parseNumber = Integer.parseInt(number);
+            if (parseNumber < 1) {
+                throw new IllegalArgumentException(ERROR_MESSAGE);
+            }
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(ERROR_MESSAGE);
+        }
+    }
 }
