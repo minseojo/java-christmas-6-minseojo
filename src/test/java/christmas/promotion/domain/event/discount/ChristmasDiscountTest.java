@@ -2,6 +2,7 @@ package christmas.promotion.domain.event.discount;
 
 import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.vo.Price;
+import christmas.promotion.domain.visitdate.VisitDate;
 import org.junit.jupiter.api.DisplayName;
 
 import java.time.LocalDate;
@@ -35,7 +36,7 @@ class ChristmasDiscountTest {
     @DisplayName("크리스마스 이벤트 할인 적용 테스트")
     void applyDiscount(LocalDate date, double excepted) {
         Price dumpPrice = Price.of(142_000.0); // 만원 이상 이면 얼마든 상관 없음, 만원 이하면 할인 적용 x
-        Price actual = (Price) christmasDiscount.applyEvent(date, dumpPrice);
+        Price actual = (Price) christmasDiscount.applyEvent(new VisitDate(date), dumpPrice);
         assertThat(actual.price()).isEqualTo(excepted);
     }
 
@@ -49,7 +50,7 @@ class ChristmasDiscountTest {
     })
     @DisplayName("날짜에 대한 이벤트 가능 판단 테스트, 2023-12-1 부터 2023-12-31까지 가능")
     void isPossibleEvnet_날짜(LocalDate date, Double price, boolean expected) {
-        assertThat(christmasDiscount.isPossibleEvent(date, Price.of(price))).isEqualTo(expected);
+        assertThat(christmasDiscount.isPossibleEvent(new VisitDate(date), Price.of(price))).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -61,6 +62,6 @@ class ChristmasDiscountTest {
     })
     @DisplayName("금액에 대한 이벤트 가능 판단 테스트, 최소 만원 이상 이어야 이벤트 가능")
     void isPossibleEvnet_금액(LocalDate date, Double price, boolean expected) {
-        assertThat(christmasDiscount.isPossibleEvent(date, Price.of(price))).isEqualTo(expected);
+        assertThat(christmasDiscount.isPossibleEvent(new VisitDate(date), Price.of(price))).isEqualTo(expected);
     }
 }

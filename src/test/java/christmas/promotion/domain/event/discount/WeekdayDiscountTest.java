@@ -6,6 +6,7 @@ import christmas.promotion.domain.menu.EventfulMenu;
 import christmas.promotion.domain.menu.MenuBoard;
 import christmas.promotion.vo.Price;
 import christmas.promotion.vo.Quantity;
+import christmas.promotion.domain.visitdate.VisitDate;
 import org.junit.jupiter.api.DisplayName;
 
 import java.time.LocalDate;
@@ -46,7 +47,7 @@ class WeekdayDiscountTest {
         EventfulMenu eventfulMenu = menuBoard.findMenu(menuName);
 
         // 디저트 인 경우에만 작동
-        Map<Event, Double> actual = eventfulMenu.applyEvent(date, new Quantity(quantity));
+        Map<Event, Double> actual = eventfulMenu.applyEvent(new VisitDate(date), new Quantity(quantity));
         double total = 0;
         for (Double price : actual.values()) {
             total += price;
@@ -66,7 +67,7 @@ class WeekdayDiscountTest {
     })
     @DisplayName("날짜에 대한 이벤트 가능 판단 테스트,2023-12-1 ~ 2023-12-31 & 평일만 적용")
     void isPossibleEvnet_날짜(LocalDate date, boolean expected) {
-        assertThat(weekdayDiscount.isPossibleEvent(date)).isEqualTo(expected);
+        assertThat(weekdayDiscount.isPossibleEvent(new VisitDate(date))).isEqualTo(expected);
     }
 
     /**

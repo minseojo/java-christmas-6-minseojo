@@ -2,6 +2,7 @@ package christmas.promotion.domain.event.discount;
 
 import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.vo.Price;
+import christmas.promotion.domain.visitdate.VisitDate;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -21,7 +22,7 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
     }
 
     @Override
-    public Price applyEvent(LocalDate date, Price price) {
+    public Price applyEvent(VisitDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
             return Price.zero();
         }
@@ -31,7 +32,7 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
     }
 
     @Override
-    public boolean isPossibleEvent(LocalDate date, Price price) {
+    public boolean isPossibleEvent(VisitDate date, Price price) {
         return isBetweenDates(date) && isPriceAboveMinimumThreshold(price);
     }
 
@@ -39,11 +40,11 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
         return price.price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
-    public boolean isBetweenDates(LocalDate date) {
-        return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
+    public boolean isBetweenDates(VisitDate date) {
+        return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 
-    private int calculateDaysUntilChristmas(LocalDate date) {
-        return (int) ChronoUnit.DAYS.between(EVENT_PERIOD_START, date);
+    private int calculateDaysUntilChristmas(VisitDate date) {
+        return (int) ChronoUnit.DAYS.between(EVENT_PERIOD_START, date.getVisitDate());
     }
 }

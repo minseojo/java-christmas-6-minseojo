@@ -1,10 +1,10 @@
 package christmas.promotion.domain.event;
 
-import java.time.LocalDate;
+import christmas.promotion.domain.visitdate.VisitDate;
 
 public interface Event {
     double EVENT_PARTICIPATION_THRESHOLD = 10_000.0;
     String getEventName();
 
-    boolean isBetweenDates(LocalDate date);
+    boolean isBetweenDates(VisitDate date);
 }

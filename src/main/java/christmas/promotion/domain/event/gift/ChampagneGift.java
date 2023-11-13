@@ -4,6 +4,7 @@ import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.domain.menu.Beverage;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.vo.Price;
+import christmas.promotion.domain.visitdate.VisitDate;
 
 import java.time.LocalDate;
 
@@ -27,7 +28,7 @@ public enum ChampagneGift implements GlobalEvent<Price, Price>, GiftEvent {
     }
 
     @Override
-    public Price applyEvent(LocalDate date, Price price) {
+    public Price applyEvent(VisitDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
             return Price.zero();
         }
@@ -37,13 +38,13 @@ public enum ChampagneGift implements GlobalEvent<Price, Price>, GiftEvent {
 
 
     @Override
-    public boolean isPossibleEvent(LocalDate date, Price price) {
+    public boolean isPossibleEvent(VisitDate date, Price price) {
         return isBetweenDates(date) && isPriceThresholdAboveOrEqual(price);
     }
 
     @Override
-    public boolean isBetweenDates(LocalDate date) {
-        return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
+    public boolean isBetweenDates(VisitDate date) {
+        return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 
     private boolean isPriceThresholdAboveOrEqual(Price price) {

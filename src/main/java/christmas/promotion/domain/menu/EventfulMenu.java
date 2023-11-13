@@ -4,8 +4,8 @@ import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.LocalEvent;
 import christmas.promotion.vo.Price;
 import christmas.promotion.vo.Quantity;
+import christmas.promotion.domain.visitdate.VisitDate;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,13 +28,13 @@ public class EventfulMenu {
         return new EventfulMenu(menu, localEvents);
     }
 
-    public Map<Event, Double> applyEvent(LocalDate date, Quantity quantity) {
+    public Map<Event, Double> applyEvent(VisitDate date, Quantity quantity) {
         Map<Event, Double> eventBenefit = new LinkedHashMap<>();
 
-        Price salePrice = Price.zero();
+        Price discountPrice = Price.zero();
         for (LocalEvent localEvent : localEvents) {
-            salePrice = (Price) localEvent.applyEvent(date);
-            eventBenefit.put(localEvent, salePrice.price() * quantity.quantity());
+            discountPrice = (Price) localEvent.applyEvent(date);
+            eventBenefit.put(localEvent, discountPrice.price() * quantity.quantity());
         }
 
         return eventBenefit;

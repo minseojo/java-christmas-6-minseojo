@@ -13,13 +13,9 @@ import christmas.promotion.exception.VisitDayException;
 import christmas.promotion.view.InputView;
 import christmas.promotion.view.OutputView;
 import christmas.promotion.vo.Price;
-import christmas.promotion.vo.VisitDay;
+import christmas.promotion.domain.visitdate.VisitDate;
 
-import java.time.LocalDate;
 import java.util.Map;
-
-import static christmas.promotion.constant.Constants.EVENT_MONTH;
-import static christmas.promotion.constant.Constants.EVENT_YEAR;
 
 public class PromotionController {
     private final InputView inputView;
@@ -33,10 +29,10 @@ public class PromotionController {
     public void run() {
         displayDecemberWelcomeMessage();
 
-        VisitDay visitDay = processUserVisitDayTransaction();
+        VisitDate visitDate = processUserVisitDateTransaction();
 
-        Order order = processOrderTransaction(visitDay);
-        displayEventBenefitsOnDecember(visitDay);
+        Order order = processOrderTransaction(visitDate);
+        displayEventBenefitsOnDecember(visitDate);
 
         EventfulOrder eventfulOrder = processOrderEventTransaction(order);
         displayEventfulOrder(eventfulOrder);
@@ -46,19 +42,19 @@ public class PromotionController {
         outputView.printDecemberWelcomeMessage();
     }
 
-    private VisitDay processUserVisitDayTransaction() {
+    private VisitDate processUserVisitDateTransaction() {
         while (true) {
             try {
                 inputView.requestDecemberVisitDate();
                 String userVisitDay = inputView.readDecemberVisitDay();
-                return new VisitDay(userVisitDay);
+                return new VisitDate(userVisitDay);
             } catch (VisitDayException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
     }
 
-    private Order processOrderTransaction(VisitDay visitDay) {
+    private Order processOrderTransaction(VisitDate visitDate) {
         MenuBoard menuBoard = new MenuBoard();
 
         while (true) {
@@ -66,7 +62,7 @@ public class PromotionController {
                 inputView.requestOrderDetails();
                 String orderMenuDetails = inputView.readOrderDetails();
                 Map<String, Integer> orderMenus = parseOrderMenuDetails(orderMenuDetails);
-                return new Order(orderMenus, LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay.getVisitDay()), menuBoard);
+                return new Order(orderMenus, visitDate ,menuBoard);
             } catch (OrderMenuException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
@@ -77,8 +73,8 @@ public class PromotionController {
         return OrderMenusParser.parse(orderDetails);
     }
 
-    private void displayEventBenefitsOnDecember(VisitDay visitDay) {
-        outputView.printEventBenefitsOnDecemberMessage(visitDay.getVisitDay());
+    private void displayEventBenefitsOnDecember(VisitDate visitDate) {
+        outputView.printEventBenefitsOnDecemberMessage(visitDate.getVisitDay());
     }
 
     private EventfulOrder processOrderEventTransaction(Order order) {

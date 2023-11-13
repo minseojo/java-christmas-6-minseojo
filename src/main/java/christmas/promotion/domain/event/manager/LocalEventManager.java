@@ -10,14 +10,21 @@ import java.util.Map;
 
 public class LocalEventManager {
     public void applyMenuDiscountEvents(Order order, Map<Event, Price> eventBenefits) {
-        for (OrderMenu orderMenu : order.getOrder()) {
-            Map<Event, Double> map = orderMenu.applyDiscount(order.getDate());
+        findAndApplyMenuLocalEvent(order, eventBenefits);
+    }
 
-            for (Map.Entry<Event, Double> event : map.entrySet()) {
-                double discountPrice = event.getValue();
-                Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
-                eventBenefits.put(event.getKey(), currentPrice.add(discountPrice));
-            }
+    private static void findAndApplyMenuLocalEvent(Order order, Map<Event, Price> eventBenefits) {
+        for (OrderMenu orderMenu : order.getOrderMenus()) {
+            Map<Event, Double> menuLocalEvent = orderMenu.applyDiscount();
+            applyMenuLocalEvent(eventBenefits, menuLocalEvent);
+        }
+    }
+
+    private static void applyMenuLocalEvent(Map<Event, Price> eventBenefits, Map<Event, Double> map) {
+        for (Map.Entry<Event, Double> event : map.entrySet()) {
+            double discountPrice = event.getValue();
+            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
+            eventBenefits.put(event.getKey(), currentPrice.add(discountPrice));
         }
     }
 }

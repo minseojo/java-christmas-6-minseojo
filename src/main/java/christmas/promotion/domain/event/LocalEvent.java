@@ -1,8 +1,8 @@
 package christmas.promotion.domain.event;
 
-import java.time.LocalDate;
+import christmas.promotion.domain.visitdate.VisitDate;
 
 public interface LocalEvent<T> extends Event {
-    boolean isPossibleEvent(LocalDate date);
-    T applyEvent(LocalDate date);
+    boolean isPossibleEvent(VisitDate date);
+    T applyEvent(VisitDate date);
 }

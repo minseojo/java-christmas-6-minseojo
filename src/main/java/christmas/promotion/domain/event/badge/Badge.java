@@ -1,5 +1,7 @@
 package christmas.promotion.domain.event.badge;
 
+import christmas.promotion.domain.visitdate.VisitDate;
+
 import java.time.LocalDate;
 
 public enum Badge {
@@ -20,15 +22,15 @@ public enum Badge {
         this.threshold = threshold;  // 수정: Badge.None 대신에 threshold 값을 할당
     }
 
-    public static boolean isPossibleEvent(LocalDate date, double discountPrice) {
+    public static boolean isPossibleEvent(VisitDate date, double discountPrice) {
         return isBetweenDates(date) && discountPrice >= BADGE_MINIMUM_QUALIFY;
     }
 
-    private static boolean isBetweenDates(LocalDate date) {
-        return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
+    private static boolean isBetweenDates(VisitDate date) {
+        return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 
-    public static Badge applyEvent(LocalDate date, double discountPrice) {
+    public static Badge applyEvent(VisitDate date, double discountPrice) {
         if (!isPossibleEvent(date, discountPrice)) {
             return NONE;
         }

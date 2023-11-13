@@ -65,7 +65,7 @@ public class EventManager {
     }
 
     private boolean isEventApplicable() {
-        return order.getOrderPrice().price() >= EVENT_PARTICIPATION_THRESHOLD;
+        return order.calculateOriginalPrice().price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
     private double getDiscountPrice() {
@@ -103,12 +103,12 @@ public class EventManager {
     }
 
     public Price getExceptedDiscountPrice() {
-        return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.getOrderPrice().price() - getDiscountPrice()).price());
+        return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.calculateOriginalPrice().price() - getDiscountPrice()).price());
     }
 
     public EventfulOrder createEventfulOrder() {
-        return new EventfulOrder(order.getOrder(),
-                Price.of(order.getOrderPrice().price()),
+        return new EventfulOrder(order.getOrderMenus(),
+                Price.of(order.calculateOriginalPrice().price()),
                 eventGifts,
                 eventBenefits,
                 getEventBenefitPrice(),

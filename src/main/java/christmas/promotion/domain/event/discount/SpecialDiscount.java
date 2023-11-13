@@ -2,8 +2,8 @@ package christmas.promotion.domain.event.discount;
 
 import christmas.promotion.domain.event.GlobalEvent;
 import christmas.promotion.vo.Price;
+import christmas.promotion.domain.visitdate.VisitDate;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent {
@@ -21,7 +21,7 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
     }
 
     @Override
-    public Price applyEvent(LocalDate date, Price price) {
+    public Price applyEvent(VisitDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
             return Price.zero();
         }
@@ -30,28 +30,19 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
     }
 
     @Override
-    public boolean isPossibleEvent(LocalDate date, Price price) {
+    public boolean isPossibleEvent(VisitDate date, Price price) {
         return isBetweenDates(date) && isSpecialDate(date) && isPriceAboveMinimumThreshold(price);
     }
 
     @Override
-    public boolean isBetweenDates(LocalDate date) {
-        return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
+    public boolean isBetweenDates(VisitDate date) {
+        return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
-
-    private boolean isSpecialDate(LocalDate date) {
-        return isSunday(date) || isChristmas(date);
+    private boolean isSpecialDate(VisitDate date) {
+        return date.isSunday() || date.isChristmas();
     }
 
     private boolean isPriceAboveMinimumThreshold(Price price) {
         return price.price() >= EVENT_PARTICIPATION_THRESHOLD;
-    }
-
-    private boolean isSunday(LocalDate date) {
-        return date.getDayOfWeek() == DayOfWeek.SUNDAY;
-    }
-
-    private boolean isChristmas(LocalDate date) {
-        return date.equals(CHRISTMAS_DATE);
     }
 }

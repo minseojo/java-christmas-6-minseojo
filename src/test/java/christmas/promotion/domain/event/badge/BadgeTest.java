@@ -1,5 +1,6 @@
 package christmas.promotion.domain.event.badge;
 
+import christmas.promotion.domain.visitdate.VisitDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -31,7 +32,7 @@ class BadgeTest {
          * 1만 원 이상: 트리
          * 2만 원 이상: 산타
          */
-        Badge badge = Badge.applyEvent(date, orderPrice);
+        Badge badge = Badge.applyEvent(new VisitDate(date), orderPrice);
         assertThat(badge.getName()).isEqualTo(badgeName);
     }
 
@@ -45,7 +46,7 @@ class BadgeTest {
     })
     @DisplayName("날짜에 대한 이벤트 가능 판단 테스트,2023-12-1 ~ 2023-12-31")
     void isPossibleEvnet_날짜(LocalDate date, double price, boolean expected) {
-        assertThat(Badge.isPossibleEvent(date, price)).isEqualTo(expected);
+        assertThat(Badge.isPossibleEvent(new VisitDate(date), price)).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -58,6 +59,6 @@ class BadgeTest {
     })
     @DisplayName("금액에 대한 이벤트 가능 판단 테스트, 최소 5000원 이상 이어야 이벤트 가능")
     void isPossibleEvnet_금액(LocalDate date, double price, boolean expected) {
-        assertThat(Badge.isPossibleEvent(date, price)).isEqualTo(expected);
+        assertThat(Badge.isPossibleEvent(new VisitDate(date), price)).isEqualTo(expected);
     }
 }

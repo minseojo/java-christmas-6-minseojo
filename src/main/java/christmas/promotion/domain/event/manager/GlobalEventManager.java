@@ -43,7 +43,7 @@ public class GlobalEventManager {
     }
 
     private void applyDiscountEvent(GlobalEvent event, Map<Event, Price> eventBenefits) {
-        Price discountPrice = (Price) event.applyEvent(order.getDate(), order.getOrderPrice());
+        Price discountPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
         Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
         eventBenefits.put(event, currentPrice.add(discountPrice.price()));
     }
@@ -51,7 +51,7 @@ public class GlobalEventManager {
     private void applyGiftEvent(GlobalEvent event, Map<Event, Price> eventBenefits,
                                 Map<Menu, Integer> eventGifts) {
 
-        Price giftPrice = (Price) event.applyEvent(order.getDate(), order.getOrderPrice());
+        Price giftPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
         Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
         eventBenefits.put(event, currentPrice.add(giftPrice.price()));
         addGiftMenu((GiftEvent) event, eventGifts);

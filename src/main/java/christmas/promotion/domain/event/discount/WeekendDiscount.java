@@ -2,8 +2,8 @@ package christmas.promotion.domain.event.discount;
 
 import christmas.promotion.domain.event.LocalEvent;
 import christmas.promotion.vo.Price;
+import christmas.promotion.domain.visitdate.VisitDate;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public enum WeekendDiscount implements LocalEvent, DiscountEvent {
@@ -20,7 +20,7 @@ public enum WeekendDiscount implements LocalEvent, DiscountEvent {
     }
 
     @Override
-    public Price applyEvent(LocalDate date) {
+    public Price applyEvent(VisitDate date) {
         if (!isPossibleEvent(date)) {
             return Price.zero();
         }
@@ -29,16 +29,12 @@ public enum WeekendDiscount implements LocalEvent, DiscountEvent {
     }
 
     @Override
-    public boolean isPossibleEvent(LocalDate date) {
-        return isBetweenDates(date) && isWeekend(date);
+    public boolean isPossibleEvent(VisitDate date) {
+        return isBetweenDates(date) && date.isWeekend();
     }
 
     @Override
-    public boolean isBetweenDates(LocalDate date) {
-        return !date.isBefore(EVENT_PERIOD_START) && !date.isAfter(EVENT_PERIOD_END);
-    }
-
-    private boolean isWeekend(LocalDate date) {
-        return date.getDayOfWeek() == DayOfWeek.FRIDAY || date.getDayOfWeek() == DayOfWeek.SATURDAY;
+    public boolean isBetweenDates(VisitDate date) {
+        return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 }
