@@ -37,7 +37,6 @@ public class EventManager {
         this.globalEventManager = new GlobalEventManager(order);
         this.badgeManager = new BadgeManager();
         this.eventBenefitCalculator = new EventBenefitCalculator();
-
         addEvents();
     }
 

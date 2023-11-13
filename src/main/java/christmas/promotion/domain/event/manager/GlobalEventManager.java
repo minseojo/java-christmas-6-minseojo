@@ -52,9 +52,11 @@ public class GlobalEventManager {
                                 Map<Menu, Integer> eventGifts) {
 
         Price giftPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
-        Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
-        eventBenefits.put(event, currentPrice.add(giftPrice.price()));
-        addGiftMenu((GiftEvent) event, eventGifts);
+        if (giftPrice.price() > 0) { // 선물을 증정한 경우
+            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
+            eventBenefits.put(event, currentPrice.add(giftPrice.price()));
+            addGiftMenu((GiftEvent) event, eventGifts);
+        }
     }
 
     private void addGiftMenu(GiftEvent event, Map<Menu, Integer> eventGifts) {
