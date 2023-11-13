@@ -1,5 +1,6 @@
 package christmas.promotion.vo;
 
+import christmas.promotion.exception.VisitDayException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -38,11 +39,12 @@ class VisitDayTest {
             "-1",
             "0",
             "32",
+            "213"
     })
     @DisplayName("유저 방문 날짜 입력 예외 케이스")
     void visitDay_예외(String input) {
         assertThatThrownBy(() -> new VisitDay(input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+                .hasMessageContaining(VisitDayException.ErrorMessage.VISIT_DAY_ERROR.getMessage());
     }
 }
