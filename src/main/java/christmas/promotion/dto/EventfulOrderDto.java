@@ -58,4 +58,8 @@ public class EventfulOrderDto {
     public Badge getBadge() {
         return badge;
     }
+
+    public String getBadgeName() {
+        return badge.getName();
+    }
 }
