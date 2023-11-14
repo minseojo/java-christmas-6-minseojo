@@ -25,20 +25,19 @@ public class Order {
         validate();
     }
 
-    private List<OrderMenu> createOrderFromMenuBoard(Map<String, Integer> order) {
-        List<OrderMenu> menus = new ArrayList<>();
-        for (Map.Entry<String, Integer> orderMenu : order.entrySet()) {
-            EventfulMenu menu = menuBoard.findMenu(orderMenu.getKey());
-            menus.add(new OrderMenu(menu, new Quantity(orderMenu.getValue()), this.date));
-        }
-        return menus;
+    private List<OrderMenu> createOrderFromMenuBoard(final Map<String, Integer> order) {
+        return order.entrySet().stream()
+                .map(entry -> {
+                    EventfulMenu menu = menuBoard.findMenu(entry.getKey());
+                    return new OrderMenu(menu, new Quantity(entry.getValue()), this.date);
+                })
+                .toList();
     }
 
     public Price calculateOriginalPrice() {
-        double total = 0.0;
-        for (OrderMenu orderMenu : this.orderMenus) {
-            total += orderMenu.calculateSubtotal();
-        }
+        double total = this.orderMenus.stream()
+                .mapToDouble(OrderMenu::calculateSubtotal)
+                .sum();
         return Price.of(total);
     }
 
@@ -48,11 +47,11 @@ public class Order {
     }
 
     private void validateMenuMaxSize() {
-        int size = 0;
-        for (OrderMenu orderMenu : orderMenus) {
-            size += orderMenu.getQuantity().quantity();
-        }
-        if (size > ORDER_MENU_MAX_SIZE) {
+        int totalQuantity = orderMenus.stream()
+                .mapToInt(orderMenu -> orderMenu.getQuantity().quantity())
+                .sum();
+
+        if (totalQuantity > ORDER_MENU_MAX_SIZE) {
             throw new OrderMenuException();
         }
     }
@@ -67,7 +66,7 @@ public class Order {
         throw new OrderMenuException();
     }
 
-    private boolean isNotBeverage(Menu menu) {
+    private boolean isNotBeverage(final Menu menu) {
         return !(menu instanceof Beverage);
     }
 

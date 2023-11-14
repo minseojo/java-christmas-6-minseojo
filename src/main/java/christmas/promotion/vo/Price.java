@@ -8,11 +8,11 @@ public record Price(Double price) {
     private static final Map<Double, Price> priceCache = new HashMap<>();
 
     // 생성자 대신 팩토리 메서드 사용
-    public static Price of(Double price) {
+    public static Price of(final Double price) {
         return priceCache.computeIfAbsent(price, Price::new);
     }
 
-    public Price add(double price) {
+    public Price add(final double price) {
         return of(this.price + price);
     }
 

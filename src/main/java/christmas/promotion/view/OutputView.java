@@ -1,6 +1,5 @@
 package christmas.promotion.view;
 
-import christmas.promotion.domain.order.OrderMenu;
 import christmas.promotion.dto.EventBenefitsDto;
 import christmas.promotion.dto.GiftMenusDto;
 import christmas.promotion.dto.OrderMenusDto;
@@ -34,33 +33,32 @@ public class OutputView {
         printEmptyLine();
     }
 
-    public void printEventBenefitsOnDecemberMessage(int visitDay) {
+    public void printEventBenefitsOnDecemberMessage(final int visitDay) {
         System.out.printf(Message.DECEMBER_EVENT_BENEFITS.getMessage(), visitDay);
         printEmptyLines(2);
     }
 
-    public void printOrderMenus(OrderMenusDto orderMenus) {
+    public void printOrderMenus(final OrderMenusDto orderMenus) {
         System.out.print(Message.ORDER_MENUS.getMessage());
         printEmptyLine();
 
-        for (OrderMenu orderMenu : orderMenus.orderMenus()) {
+        orderMenus.orderMenus().forEach(orderMenu -> {
             String menuName = orderMenu.getMenu().getName();
             int menuQuantity = orderMenu.getQuantity().quantity();
+            System.out.printf("%s %d개%n", menuName, menuQuantity);
+        });
 
-            System.out.print(menuName + " " + menuQuantity + "개");
-            printEmptyLine();
-        }
         printEmptyLine();
     }
 
-    public void printTotalOrderPriceBeforeDiscount(Price price) {
+    public void printTotalOrderPriceBeforeDiscount(final Price price) {
         System.out.print(Message.TOTAL_ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
         printEmptyLine();
         printPrice(price);
         printEmptyLine();
     }
 
-    public void printGiftMenus(GiftMenusDto gifts) {
+    public void printGiftMenus(final GiftMenusDto gifts) {
         System.out.print(Message.GIFT_MENUS.message);
         printEmptyLine();
 
@@ -70,13 +68,13 @@ public class OutputView {
             return;
         }
 
-        gifts.giftMenus().forEach(
-                (menu, quantity) ->
-                        System.out.println(menu.getName() + " " + quantity + "개"));
+        gifts.giftMenus().forEach((menu, quantity) ->
+                System.out.printf("%s %d개%n", menu.getName(), quantity.quantity()));
+
         printEmptyLine();
     }
 
-    public void printBenefitDetails(EventBenefitsDto eventBenefitsDto) {
+    public void printBenefitDetails(final EventBenefitsDto eventBenefitsDto) {
         System.out.print(Message.BENEFIT_DETAILS.getMessage());
         printEmptyLine();
 
@@ -85,49 +83,41 @@ public class OutputView {
                 .forEach(entry -> System.out.printf("%s: -%,.0f원\n",
                         entry.getKey().getEventName(), entry.getValue().price()));
 
-        if (!hasBenefit(eventBenefitsDto)) {
+        if (eventBenefitsDto.eventBenefits().values().stream().noneMatch(value -> value.price() > 0.0)) {
             System.out.print("없음");
             printEmptyLine();
         }
+
         printEmptyLine();
     }
 
-    private boolean hasBenefit(EventBenefitsDto eventBenefitsDto) {
-        for (Price value : eventBenefitsDto.eventBenefits().values()) {
-            if (value.price() > 0.0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void printTotalBenefitPrice(Price price) {
+    public void printTotalBenefitPrice(final Price price) {
         System.out.print(Message.TOTAL_BENEFIT_PRICE.getMessage());
         printEmptyLine();
         printPrice(price);
         printEmptyLine();
     }
 
-    public void printDiscountedFinalPrice(Price price) {
+    public void printDiscountedFinalPrice(final Price price) {
         System.out.print(Message.EXCEPTED_PAYMENT.getMessage());
         printEmptyLine();
         printPrice(price);
         printEmptyLine();
     }
 
-    public void printDecemberEventBadge(String badgeName) {
+    public void printDecemberEventBadge(final String badgeName) {
         System.out.print(Message.DECEMBER_EVNET_BADGE.getMessage());
         printEmptyLine();
         System.out.print(badgeName);
         printEmptyLine();
     }
 
-    public void printErrorMessage(String message) {
+    public void printErrorMessage(final String message) {
         System.out.print(message);
         printEmptyLine();
     }
 
-    private void printPrice(Price price) {
+    private void printPrice(final Price price) {
         if (price.price() == 0.0) {
             System.out.printf("%,.0f원", Math.abs(price.price()));
             printEmptyLine();
@@ -142,7 +132,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private void printEmptyLines(int numberOfLines) {
+    private void printEmptyLines(final int numberOfLines) {
         for (int i = 0; i < numberOfLines; i++) {
             printEmptyLine();
         }

@@ -5,9 +5,9 @@ import christmas.promotion.domain.event.discount.WeekendDiscount;
 import christmas.promotion.exception.OrderMenuException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 
 public class MenuBoard {
 
@@ -18,14 +18,11 @@ public class MenuBoard {
         initializeMenu();
     }
 
-    public EventfulMenu findMenu(String name) {
-        for (EventfulMenu menu : menuBoard) {
-            if (name.equals(menu.getName())) {
-                return menu;
-            }
-        }
-
-        throw new OrderMenuException();
+    public EventfulMenu findMenu(String menuName) {
+        return menuBoard.stream()
+                .filter(menu -> menuName.equals(menu.getName()))
+                .findFirst()
+                .orElseThrow(OrderMenuException::new);
     }
 
     private void initializeMenu() {
@@ -36,30 +33,31 @@ public class MenuBoard {
     }
 
     private void addAppetizer() {
-        for (Appetizer value : Appetizer.values()) {
-            menuBoard.add(EventfulMenu.createMenuItem(value));
-        }
+        Arrays.stream(Appetizer.values())
+                .map(EventfulMenu::createMenuItem)
+                .forEach(menuBoard::add);
     }
 
     private void addMainCourse() {
-        for (MainCourse value : MainCourse.values()) {
-            menuBoard.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekendDiscount.INSTANCE)));
-        }
+        Arrays.stream(MainCourse.values())
+                .map(value -> EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekendDiscount.INSTANCE)))
+                .forEach(menuBoard::add);
     }
 
     private void addDessert() {
-        for (Dessert value : Dessert.values()) {
-            menuBoard.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekdayDiscount.INSTANCE)));
-        }
+        Arrays.stream(Dessert.values())
+                .map(value -> EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekdayDiscount.INSTANCE)))
+                .forEach(menuBoard::add);
     }
 
     private void addBeverage() {
-        for (Beverage value : Beverage.values()) {
-            menuBoard.add(EventfulMenu.createMenuItem(value));
-        }
+        Arrays.stream(Beverage.values())
+                .map(EventfulMenu::createMenuItem)
+                .forEach(menuBoard::add);
     }
 
-    public List<EventfulMenu> getmenuBoard() {
+
+    public List<EventfulMenu> getMenuBoard() {
         return menuBoard;
     }
 }

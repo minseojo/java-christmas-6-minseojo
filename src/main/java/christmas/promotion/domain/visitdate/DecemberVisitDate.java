@@ -31,7 +31,7 @@ public class DecemberVisitDate {
         validateRangeVisitDay(visitDay);
     }
 
-    private static void validateInteger(String visitDay) {
+    private void validateInteger(String visitDay) {
         try {
             Integer.parseInt(visitDay);
         } catch (IllegalArgumentException exception) {
@@ -39,7 +39,7 @@ public class DecemberVisitDate {
         }
     }
 
-    private static void validateRangeVisitDay(String visitDay) {
+    private void validateRangeVisitDay(String visitDay) {
         int value = Integer.parseInt(visitDay);
         if (value < DECEMBER_START_DAY || value > DECEMBER_END_DAY) {
             throw new VisitDayException();
