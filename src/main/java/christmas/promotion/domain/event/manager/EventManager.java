@@ -2,7 +2,7 @@ package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.badge.Badge;
-import christmas.promotion.exception.OrderMenuException;
+import christmas.promotion.exception.OrderEventException;
 import christmas.promotion.repository.EventApplicationRepository;
 import christmas.promotion.domain.event.discount.*;
 import christmas.promotion.domain.event.gift.ChampagneGift;
@@ -70,7 +70,7 @@ public class EventManager {
          * 이 상황을 예외 처리, isPriceNegativeAfterEvent()
          */
         if (isPriceNegativeAfterEvent()) {
-            throw new OrderMenuException();
+            throw new OrderEventException();
         }
 
         EventApplicationRepository.INSTANCE.updateSalePrice(getExceptedFinalPrice().price());
