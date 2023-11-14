@@ -38,6 +38,7 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
     public boolean isBetweenDates(DecemberVisitDate date) {
         return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
+
     private boolean isSpecialDate(DecemberVisitDate date) {
         return date.isSunday() || date.isChristmas();
     }

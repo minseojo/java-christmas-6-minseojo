@@ -14,6 +14,7 @@ import java.util.Map;
 public class MapTest {
 
     private final Map<Event, Double> map = new HashMap<>();
+
     @Test
     void test() {
 

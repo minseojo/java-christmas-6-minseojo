@@ -30,12 +30,12 @@ class EventManagerTest {
     }
 
     /**
-     * @param date 날짜
-     * @param menuDetails 주문 메뉴들
-     * @param giftMenusString 증정 메뉴
-     * @param benefitPrice 총 혜택 금액
+     * @param date                 날짜
+     * @param menuDetails          주문 메뉴들
+     * @param giftMenusString      증정 메뉴
+     * @param benefitPrice         총 혜택 금액
      * @param discountedFinalPrice 할인 후 예상 결제 금액
-     * @param badgeName 배지 이름
+     * @param badgeName            배지 이름
      */
     @ParameterizedTest
     @CsvSource(value = {
@@ -43,8 +43,8 @@ class EventManagerTest {
             "2023-12-25 : 초코케이크-1,샴페인-3 : 없음 : 6423 : 83577 : 별 ",
             "2023-12-26 : 아이스크림-20 : 없음 : 40460 : 59540 : 산타",
             "2023-12-30 : 제로콜라-5,양송이수프-2,티본스테이크-5,해산물파스타-2,바비큐립-2 : 샴페인 : 43207 : 461793 : 산타"
-    }, delimiter =':')
-    void applyEvents(LocalDate date, String menuDetails, String giftMenusString, double benefitPrice ,
+    }, delimiter = ':')
+    void applyEvents(LocalDate date, String menuDetails, String giftMenusString, double benefitPrice,
                      double discountedFinalPrice, String badgeName) {
 
         Map<String, Integer> orderMenus = OrderMenusParser.parse(menuDetails);

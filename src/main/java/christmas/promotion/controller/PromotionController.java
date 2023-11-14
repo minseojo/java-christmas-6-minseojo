@@ -112,7 +112,7 @@ public class PromotionController {
     private EventfulOrder processOrderEventTransaction(Order order) {
         EventManager eventManager = new EventManager(order);
         eventManager.applyEvents();
-        return  eventManager.createEventfulOrder();
+        return eventManager.createEventfulOrder();
     }
 
     private void displayEventfulOrder(EventfulOrder eventfulOrder) {

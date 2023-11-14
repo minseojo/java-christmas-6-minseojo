@@ -20,7 +20,7 @@ public class OrderTest {
 
     /**
      * 메뉴판
-     
+     * <p>
      * <애피타이저>
      * 양송이수프(6,000), 타파스(5,500), 시저샐러드(8,000)
      * <메인>
@@ -37,7 +37,7 @@ public class OrderTest {
     @BeforeEach
     void beforeEach() {
         menuBoard = new MenuBoard();
-        date = LocalDate.of(2023,12,3);
+        date = LocalDate.of(2023, 12, 3);
     }
 
     @ParameterizedTest

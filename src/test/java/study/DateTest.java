@@ -1,6 +1,5 @@
 package study;
 
-import christmas.promotion.domain.menu.MenuBoard;
 import org.junit.jupiter.api.Test;
 
 import java.time.DateTimeException;
@@ -12,11 +11,6 @@ import static org.assertj.core.api.Assertions.*;
 
 public class DateTest {
 
-    @Test
-    void x() {
-        MenuBoard menuBoard = new MenuBoard();
-        menuBoard.findMenu("크리스마스파스타");
-    }
     @Test
     void 데이트_사용() {
         // 날짜 생성

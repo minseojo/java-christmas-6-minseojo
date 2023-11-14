@@ -23,7 +23,7 @@ public class MenuBoardTest {
     @DisplayName("instanceof 테스트")
     void 정상_케이스() {
         for (EventfulMenu eventfulMenu : menuBoard.getMenus()) {
-            if (eventfulMenu.getMenu() instanceof  Beverage) {
+            if (eventfulMenu.getMenu() instanceof Beverage) {
                 System.out.println("eventfulMenu.getMenu() " + eventfulMenu.getName());
             }
             if (eventfulMenu.getMenu().getClass() == Beverage.class) {

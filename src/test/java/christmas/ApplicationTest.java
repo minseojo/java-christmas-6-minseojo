@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.DoubleAdder;
 
 class ApplicationTest extends NsTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
+
     @BeforeEach
     void beforeEach() throws NoSuchFieldException, IllegalAccessException {
         Field eventfulMenuSalePrice = EventApplicationRepository.class.getDeclaredField("eventfulMenuSalePrice");
