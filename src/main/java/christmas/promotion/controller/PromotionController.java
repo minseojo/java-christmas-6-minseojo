@@ -47,6 +47,11 @@ public class PromotionController {
             } catch (VisitDayException exception) {
                 exception.printStackTrace();
                 outputView.printErrorMessage(exception.getMessage());
+                /**
+                 * VisitDayException
+                 * - 숫자가 아닌 경우
+                 * - 숫자 범위가 [1, 31] 이 아닌 경우
+                 */
             }
         }
     }
@@ -59,6 +64,25 @@ public class PromotionController {
             } catch (OrderMenuException | OrderEventException exception) {
                 exception.printStackTrace();
                 outputView.printErrorMessage(exception.getMessage());
+                /**
+                 * OrderMenuException
+                 * - 주문 형식이 맞지 않는 경우
+                 * - 메뉴판(MenuBoard)에 없는 메뉴를 고른 경우
+                 * - 메뉴 개수가 1이상이 아닌 경우
+                 * - 메뉴 개수를 총 20개를 넘긴 경우 (한번에 20개 까지만 가능)
+                 * - 중복된 주문을 한 경우
+                 *
+                 *
+                 * OrderEventException, 현재는 없는 상황
+                 * - 할인 된 가격이 음수인 경우
+                 *
+                 * 예를 들어, 추가된 메뉴 아이스크림(디저트)이 "2000원"이고 "5"개를 사면 = 10000원 > "이벤트 적용 가능"
+                 * - 2023-12-25에 아이스크림 5개 구매
+                 * - 크리스마스 디데이 할인: -3,400원
+                 * - 평일 할인: -10115원
+                 * - 특별 할인: -1,000원
+                 * ⇒ -4515원 (메뉴를 팔았는데, 사장이 돈을 주는 경우가 생김)
+                 */
             }
         }
     }
