@@ -2,6 +2,7 @@ package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.badge.Badge;
+import christmas.promotion.exception.OrderMenuException;
 import christmas.promotion.repository.EventApplicationRepository;
 import christmas.promotion.domain.event.discount.*;
 import christmas.promotion.domain.event.gift.ChampagneGift;
@@ -59,8 +60,25 @@ public class EventManager {
     }
 
     private void updateEventDatabase() {
-        EventApplicationRepository.INSTANCE.updateSalePrice(getExceptedDiscountPrice().price());
+        /**
+         * 예를 들어, 추가된 메뉴 아이스크림(디저트)이 2000원이고 5개를 사면 = 10000원 (이벤트 적용 가능)
+         * 2023-12-25에 아이스크림 5개 구매
+         * 크리스마스 디데이 할인: -3,400원
+         * 평일 할인: -10115원
+         * 특별 할인: -1,000원
+         * ⇒ -4515원 (메뉴를 팔았는데, 사장이 돈을 주는 경우가 생김)
+         * 이 상황을 예외 처리, isPriceNegativeAfterEvent()
+         */
+        if (isPriceNegativeAfterEvent()) {
+            throw new OrderMenuException();
+        }
+
+        EventApplicationRepository.INSTANCE.updateSalePrice(getExceptedFinalPrice().price());
         EventApplicationRepository.INSTANCE.updateEventParticipationCount();
+    }
+
+    private boolean isPriceNegativeAfterEvent() {
+        return getExceptedFinalPrice().price() <= Price.zero().price();
     }
 
     private boolean isEventApplicable() {
@@ -101,7 +119,7 @@ public class EventManager {
         return eventBenefitCalculator.getTotalEvnetBenefitPrice(getDiscountPrice(), getGiftPrice());
     }
 
-    public Price getExceptedDiscountPrice() {
+    public Price getExceptedFinalPrice() {
         return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.calculateOriginalPrice().price() - getDiscountPrice()).price());
     }
 
@@ -111,7 +129,7 @@ public class EventManager {
                 eventGifts,
                 eventBenefits,
                 getEventBenefitPrice(),
-                getExceptedDiscountPrice(),
+                getExceptedFinalPrice(),
                 badge);
     }
 }
