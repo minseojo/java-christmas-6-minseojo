@@ -34,10 +34,10 @@ public class EventManager {
         this.eventBenefits = new LinkedHashMap<>();
         this.eventGifts = new LinkedHashMap<>();
 
-        this.localEventManager = new LocalEventManager();
+        this.localEventManager = LocalEventManager.INSTANCE;
         this.globalEventManager = new GlobalEventManager(order);
-        this.badgeManager = new BadgeManager();
-        this.eventBenefitCalculator = new EventBenefitCalculator();
+        this.badgeManager = BadgeManager.INSTANCE;
+        this.eventBenefitCalculator = EventBenefitCalculator.INSTANCE;
         addEvents();
     }
 

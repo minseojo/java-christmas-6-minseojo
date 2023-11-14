@@ -8,7 +8,9 @@ import christmas.promotion.vo.Price;
 
 import java.util.Map;
 
-public class LocalEventManager {
+public enum LocalEventManager {
+    INSTANCE;
+
     public void applyMenuDiscountEvents(Order order, Map<Event, Price> eventBenefits) {
         findAndApplyMenuLocalEvent(order, eventBenefits);
     }
