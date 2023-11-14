@@ -8,7 +8,7 @@ import christmas.promotion.domain.visitdate.DecemberVisitDate;
 
 import java.time.LocalDate;
 
-public enum ChampagneGift implements GlobalEvent<Price, Price>, GiftEvent {
+public enum ChampagneGift implements GlobalEvent<Price>, GiftEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);

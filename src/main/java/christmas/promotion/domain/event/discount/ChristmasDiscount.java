@@ -7,7 +7,7 @@ import christmas.promotion.domain.visitdate.DecemberVisitDate;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEvent {
+public enum ChristmasDiscount implements GlobalEvent<Price>, DiscountEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
@@ -22,8 +22,8 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
     }
 
     @Override
-    public Price applyEvent(DecemberVisitDate date, Price price) {
-        if (!isPossibleEvent(date, price)) {
+    public Price applyEvent(DecemberVisitDate date, Price orderPrice) {
+        if (!isPossibleEvent(date, orderPrice)) {
             return NON_DISCOUNT_EVENT;
         }
 
@@ -32,12 +32,12 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
     }
 
     @Override
-    public boolean isPossibleEvent(DecemberVisitDate date, Price price) {
-        return isBetweenDates(date) && isPriceAboveMinimumThreshold(price);
+    public boolean isPossibleEvent(DecemberVisitDate date, Price orderPrice) {
+        return isBetweenDates(date) && isPriceAboveMinimumThreshold(orderPrice);
     }
 
-    private boolean isPriceAboveMinimumThreshold(Price price) {
-        return price.price() >= EVENT_PARTICIPATION_THRESHOLD;
+    private boolean isPriceAboveMinimumThreshold(Price orderPrice) {
+        return orderPrice.price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
     public boolean isBetweenDates(DecemberVisitDate date) {

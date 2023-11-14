@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * 배지를 적용할 때, for 문으로 돌면서 가장 큰 값에 적용 가능하면 바로 리턴해야한다.
  * BadgeManger 코드 참고
  */
-public enum Badge implements GlobalEvent<Badge, Price> {
+public enum Badge implements GlobalEvent<Badge> {
     SANTA("산타", 20000.0),
     TREE("트리", 10000.0),
     STAR("별", 5000.0),
