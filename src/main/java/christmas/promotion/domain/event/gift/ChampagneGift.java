@@ -30,7 +30,7 @@ public enum ChampagneGift implements GlobalEvent<Price, Price>, GiftEvent {
     @Override
     public Price applyEvent(DecemberVisitDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
-            return Price.zero();
+            return NON_GIFT_EVENT;
         }
 
         return Price.of(GIFT_MENU.getPrice() * GIFT_QUANTITY);

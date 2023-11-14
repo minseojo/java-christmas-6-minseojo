@@ -15,6 +15,9 @@ import christmas.promotion.vo.Price;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static christmas.promotion.domain.event.Event.NON_DISCOUNT_EVENT;
+import static christmas.promotion.domain.event.Event.NON_GIFT_EVENT;
+
 public class GlobalEventManager {
     private final Map<GlobalEvent, Double> globalEvents;
     private final Order order;
@@ -44,7 +47,7 @@ public class GlobalEventManager {
 
     private void applyDiscountEvent(GlobalEvent event, Map<Event, Price> eventBenefits) {
         Price discountPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
-        if (discountPrice.price() > 0) { // 할인을 한 경우
+        if (discountPrice.price() > NON_DISCOUNT_EVENT.price()) { // 할인을 한 경우
             Price currentPrice = eventBenefits.get(event);
             eventBenefits.put(event, currentPrice.add(discountPrice.price()));
         }
@@ -54,7 +57,7 @@ public class GlobalEventManager {
                                 Map<Menu, Integer> eventGifts) {
 
         Price giftPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
-        if (giftPrice.price() > 0) { // 선물을 증정한 경우
+        if (giftPrice.price() > NON_GIFT_EVENT.price()) { // 선물을 증정한 경우
             Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
             eventBenefits.put(event, currentPrice.add(giftPrice.price()));
             addGiftMenu((GiftEvent) event, eventGifts);

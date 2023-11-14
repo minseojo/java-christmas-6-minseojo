@@ -23,7 +23,7 @@ public enum SpecialDiscount implements GlobalEvent<Price, Price>, DiscountEvent 
     @Override
     public Price applyEvent(DecemberVisitDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
-            return Price.zero();
+            return NON_DISCOUNT_EVENT;
         }
 
         return DISCOUNT_PRICE;

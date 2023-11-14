@@ -24,7 +24,7 @@ public enum ChristmasDiscount implements GlobalEvent<Price, Price>, DiscountEven
     @Override
     public Price applyEvent(DecemberVisitDate date, Price price) {
         if (!isPossibleEvent(date, price)) {
-            return Price.zero();
+            return NON_DISCOUNT_EVENT;
         }
 
         int daysUntilChristmas = calculateDaysUntilChristmas(date);

@@ -22,7 +22,7 @@ public enum WeekendDiscount implements LocalEvent, DiscountEvent {
     @Override
     public Price applyEvent(DecemberVisitDate date) {
         if (!isPossibleEvent(date)) {
-            return Price.zero();
+            return NON_DISCOUNT_EVENT;
         }
 
         return DISCOUNT_PRICE;
