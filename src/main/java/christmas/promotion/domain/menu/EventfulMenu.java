@@ -31,9 +31,8 @@ public class EventfulMenu {
     public Map<Event, Double> applyEvent(DecemberVisitDate date, Quantity quantity) {
         Map<Event, Double> localEventBenefit = new LinkedHashMap<>();
 
-        Price discountPrice = Price.zero();
         for (LocalEvent localEvent : localEvents) {
-            discountPrice = localEvent.applyEvent(date);
+            Price discountPrice = localEvent.applyEvent(date);
             localEventBenefit.put(localEvent, discountPrice.price() * quantity.quantity());
         }
 
