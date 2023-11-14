@@ -30,31 +30,39 @@ public class OutputView {
     }
 
     public void printDecemberWelcomeMessage() {
-        System.out.print(Message.DECEMBER_WELCOME.getMessage() + "\n");
+        System.out.print(Message.DECEMBER_WELCOME.getMessage());
+        printEmptyLine();
     }
 
-    public void printEventBenefitsOnDecemberMessage(int day) {
-        System.out.print(String.format(Message.DECEMBER_EVENT_BENEFITS.getMessage(), day) + "\n\n");
+    public void printEventBenefitsOnDecemberMessage(int visitDay) {
+        System.out.printf(Message.DECEMBER_EVENT_BENEFITS.getMessage(), visitDay);
+        printEmptyLines(2);
     }
 
     public void printOrderMenus(OrderMenusDto orderMenus) {
-        System.out.println(Message.ORDER_MENUS.getMessage());
+        System.out.print(Message.ORDER_MENUS.getMessage());
+        printEmptyLine();
+
         for (OrderMenu orderMenu : orderMenus.orderMenus()) {
             String menuName = orderMenu.getMenu().getName();
             int menuQuantity = orderMenu.getQuantity().quantity();
-            System.out.println(menuName + " " + menuQuantity + "개");
+
+            System.out.print(menuName + " " + menuQuantity + "개");
+            printEmptyLine();
         }
         printEmptyLine();
     }
 
     public void printTotalOrderPriceBeforeDiscount(Price price) {
-        System.out.println(Message.TOTAL_ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
+        System.out.print(Message.TOTAL_ORDER_AMOUNT_BEFORE_DISCOUNT.getMessage());
+        printEmptyLine();
         printPrice(price);
         printEmptyLine();
     }
 
     public void printGiftMenus(GiftMenusDto gifts) {
-        System.out.println(Message.GIFT_MENUS.message);
+        System.out.print(Message.GIFT_MENUS.message);
+        printEmptyLine();
 
         if (gifts.getGiftMenusSize() == 0) {
             System.out.println("없음");
@@ -65,12 +73,12 @@ public class OutputView {
         gifts.giftMenus().forEach(
                 (menu, quantity) ->
                         System.out.println(menu.getName() + " " + quantity + "개"));
-
         printEmptyLine();
     }
 
     public void printBenefitDetails(EventBenefitsDto eventBenefitsDto) {
-        System.out.println(Message.BENEFIT_DETAILS.getMessage());
+        System.out.print(Message.BENEFIT_DETAILS.getMessage());
+        printEmptyLine();
 
         eventBenefitsDto.eventBenefits().entrySet().stream()
                 .filter(entry -> entry.getValue().price() > 0.0)
@@ -78,9 +86,9 @@ public class OutputView {
                         entry.getKey().getEventName(), entry.getValue().price()));
 
         if (!hasBenefit(eventBenefitsDto)) {
-            System.out.println("없음");
+            System.out.print("없음");
+            printEmptyLine();
         }
-
         printEmptyLine();
     }
 
@@ -94,36 +102,49 @@ public class OutputView {
     }
 
     public void printTotalBenefitPrice(Price price) {
-        System.out.println(Message.TOTAL_BENEFIT_PRICE.getMessage());
+        System.out.print(Message.TOTAL_BENEFIT_PRICE.getMessage());
+        printEmptyLine();
         printPrice(price);
         printEmptyLine();
     }
 
     public void printExceptedPayment(Price price) {
-        System.out.println(Message.EXCEPTED_PAYMENT.getMessage());
+        System.out.print(Message.EXCEPTED_PAYMENT.getMessage());
+        printEmptyLine();
         printPrice(price);
         printEmptyLine();
     }
 
     public void printDecemberEventBadge(String badgeName) {
-        System.out.println(Message.DECEMBER_EVNET_BADGE.getMessage());
-        System.out.println(badgeName);
+        System.out.print(Message.DECEMBER_EVNET_BADGE.getMessage());
+        printEmptyLine();
+        System.out.print(badgeName);
+        printEmptyLine();
     }
 
     public void printErrorMessage(String message) {
-        System.out.println(message);
+        System.out.print(message);
+        printEmptyLine();
     }
 
     private void printPrice(Price price) {
         if (price.price() == 0.0) {
-            System.out.printf("%,.0f원%n", Math.abs(price.price()));
+            System.out.printf("%,.0f원", Math.abs(price.price()));
+            printEmptyLine();
             return;
         }
 
-        System.out.printf("%,.0f원%n", price.price());
+        System.out.printf("%,.0f원", price.price());
+        printEmptyLine();
     }
 
     private void printEmptyLine() {
         System.out.println();
+    }
+
+    private void printEmptyLines(int numberOfLines) {
+        for (int i = 0; i < numberOfLines; i++) {
+            printEmptyLine();
+        }
     }
 }
