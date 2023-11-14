@@ -6,7 +6,7 @@ import christmas.promotion.domain.visitdate.DecemberVisitDate;
 
 import java.time.LocalDate;
 
-public enum WeekendDiscount implements LocalEvent, DiscountEvent {
+public enum WeekendDiscount implements LocalEvent<Price>, DiscountEvent {
     INSTANCE;
 
     private static final LocalDate EVENT_PERIOD_START = LocalDate.of(2023, 12, 1);
