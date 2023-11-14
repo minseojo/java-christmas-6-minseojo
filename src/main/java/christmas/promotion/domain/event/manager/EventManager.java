@@ -2,7 +2,7 @@ package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.badge.Badge;
-import christmas.promotion.domain.event.database.EventApplicationDatabase;
+import christmas.promotion.repository.EventApplicationRepository;
 import christmas.promotion.domain.event.discount.*;
 import christmas.promotion.domain.event.gift.ChampagneGift;
 import christmas.promotion.domain.event.gift.GiftEvent;
@@ -59,8 +59,8 @@ public class EventManager {
     }
 
     private void updateEventDatabase() {
-        EventApplicationDatabase.INSTANCE.updateSalePrice(getExceptedDiscountPrice().price());
-        EventApplicationDatabase.INSTANCE.updateEventParticipationCount();
+        EventApplicationRepository.INSTANCE.updateSalePrice(getExceptedDiscountPrice().price());
+        EventApplicationRepository.INSTANCE.updateEventParticipationCount();
     }
 
     private boolean isEventApplicable() {

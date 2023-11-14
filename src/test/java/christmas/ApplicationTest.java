@@ -4,7 +4,7 @@ import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
-import christmas.promotion.domain.event.database.EventApplicationDatabase;
+import christmas.promotion.repository.EventApplicationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +16,13 @@ class ApplicationTest extends NsTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     @BeforeEach
     void beforeEach() throws NoSuchFieldException, IllegalAccessException {
-        Field eventfulMenuSalePrice = EventApplicationDatabase.class.getDeclaredField("eventfulMenuSalePrice");
+        Field eventfulMenuSalePrice = EventApplicationRepository.class.getDeclaredField("eventfulMenuSalePrice");
         eventfulMenuSalePrice.setAccessible(true);
-        eventfulMenuSalePrice.set(EventApplicationDatabase.INSTANCE, new DoubleAdder());
+        eventfulMenuSalePrice.set(EventApplicationRepository.INSTANCE, new DoubleAdder());
 
-        Field eventParticipationCount = EventApplicationDatabase.class.getDeclaredField("eventParticipationCount");
+        Field eventParticipationCount = EventApplicationRepository.class.getDeclaredField("eventParticipationCount");
         eventParticipationCount.setAccessible(true);
-        eventParticipationCount.set(EventApplicationDatabase.INSTANCE, new AtomicInteger(0));
+        eventParticipationCount.set(EventApplicationRepository.INSTANCE, new AtomicInteger(0));
     }
 
     @Test
@@ -45,8 +45,8 @@ class ApplicationTest extends NsTest {
     void 모든_내용_출력() {
         assertSimpleTest(() -> {
             run("3", "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
-            assertThat(EventApplicationDatabase.INSTANCE.getSalePrice()).isEqualTo(135754);
-            assertThat(EventApplicationDatabase.INSTANCE.getEventParticipationCount()).isEqualTo(1);
+            assertThat(EventApplicationRepository.INSTANCE.getSalePrice()).isEqualTo(135754);
+            assertThat(EventApplicationRepository.INSTANCE.getEventParticipationCount()).isEqualTo(1);
             assertThat(output()).contains(
                     "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.",
                     "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)",
@@ -91,8 +91,8 @@ class ApplicationTest extends NsTest {
     void 데이터베이스_테스트() {
         assertSimpleTest(() -> {
             run("3", "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1");
-            assertThat(EventApplicationDatabase.INSTANCE.getSalePrice()).isEqualTo(135_754.0);
-            assertThat(EventApplicationDatabase.INSTANCE.getEventParticipationCount()).isEqualTo(1);
+            assertThat(EventApplicationRepository.INSTANCE.getSalePrice()).isEqualTo(135_754.0);
+            assertThat(EventApplicationRepository.INSTANCE.getEventParticipationCount()).isEqualTo(1);
         });
     }
 

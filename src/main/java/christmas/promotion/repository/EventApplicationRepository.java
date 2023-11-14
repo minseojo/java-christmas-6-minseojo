@@ -1,4 +1,4 @@
-package christmas.promotion.domain.event.database;
+package christmas.promotion.repository;
 
 import java.util.concurrent.atomic.DoubleAdder;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * List<eventfullOrder> 를 저장 해도 되지만, 목표는 위의 2가지 이므로 우선 위 2개의 정보만 저장했다.
  */
 
-public enum EventApplicationDatabase {
+public enum EventApplicationRepository {
     INSTANCE;
 
     // 스레드 세이프하기 위해, DoubleAdder, AtomicInteger 이용
