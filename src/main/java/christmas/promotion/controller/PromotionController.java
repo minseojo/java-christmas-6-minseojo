@@ -131,7 +131,7 @@ public class PromotionController {
         displayGiftMenus(eventfulOrderDto);                        // 증정 메뉴
         displayEventBenefits(eventfulOrderDto);                    // 혜택 내역
         displayTotalEventBenefitsPrice(eventfulOrderDto);          // 총 혜택 금액
-        displayExceptedPayMent(eventfulOrderDto);                  // 할인 후 예상 결제 금액
+        displayDiscountedFinalPrice(eventfulOrderDto);                  // 할인 후 예상 결제 금액
         displayEventBadge(eventfulOrderDto);                       // 이벤트 배지
     }
 
@@ -158,9 +158,9 @@ public class PromotionController {
         outputView.printTotalBenefitPrice(totalEventBenefitPrice);
     }
 
-    private void displayExceptedPayMent(EventfulOrderDto eventfulOrder) {
+    private void displayDiscountedFinalPrice(EventfulOrderDto eventfulOrder) {
         Price exceptedPayment = eventfulOrder.getDiscountedFinalPrice();
-        outputView.printExceptedPayment(exceptedPayment);
+        outputView.printDiscountedFinalPrice(exceptedPayment);
     }
 
     private void displayEventBadge(EventfulOrderDto eventfulOrder) {

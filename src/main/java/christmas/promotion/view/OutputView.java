@@ -108,7 +108,7 @@ public class OutputView {
         printEmptyLine();
     }
 
-    public void printExceptedPayment(Price price) {
+    public void printDiscountedFinalPrice(Price price) {
         System.out.print(Message.EXCEPTED_PAYMENT.getMessage());
         printEmptyLine();
         printPrice(price);
