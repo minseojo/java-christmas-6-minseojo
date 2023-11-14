@@ -9,6 +9,7 @@ import christmas.promotion.domain.order.OrderMenusParser;
 import christmas.promotion.domain.visitdate.DecemberVisitDate;
 import christmas.promotion.dto.EventfulOrderDto;
 import christmas.promotion.vo.Price;
+import christmas.promotion.vo.Quantity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -61,7 +62,7 @@ class EventManagerTest {
          */
         String[] exceptedGiftMenuNames = giftMenusString.split(",");
         int pos = 0;
-        Map<Menu, Integer> actualGiftMenus = eventfulOrderDto.getGiftMenus().giftMenus();
+        Map<Menu, Quantity> actualGiftMenus = eventfulOrderDto.getGiftMenus().giftMenus();
         for (Menu menu : actualGiftMenus.keySet()) {
             assertThat(menu.getName()).isEqualTo(exceptedGiftMenuNames[pos++]);
         }

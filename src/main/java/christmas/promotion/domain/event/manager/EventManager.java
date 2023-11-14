@@ -11,6 +11,7 @@ import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.order.EventfulOrder;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.vo.Price;
+import christmas.promotion.vo.Quantity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class EventManager {
 
     private final Order order;
     private final Map<Event, Price> eventBenefits;
-    private final Map<Menu, Integer> eventGifts;
+    private final Map<Menu, Quantity> eventGifts;
     private Badge badge;
 
     public EventManager(Order order) {
@@ -86,33 +87,17 @@ public class EventManager {
     }
 
     private double getDiscountPrice() {
-        double discountPrice = 0.0;
-
-        for (Map.Entry<Event, Price> entry : eventBenefits.entrySet()) {
-            Event event = entry.getKey();
-            Price eventPrice = entry.getValue();
-
-            if (event instanceof DiscountEvent) {
-                discountPrice += eventPrice.price();
-            }
-        }
-
-        return discountPrice;
+        return eventBenefits.entrySet().stream()
+                .filter(entry -> entry.getKey() instanceof DiscountEvent)
+                .mapToDouble(entry -> entry.getValue().price())
+                .sum();
     }
 
     private double getGiftPrice() {
-        double giftPrice = 0.0;
-
-        for (Map.Entry<Event, Price> entry : eventBenefits.entrySet()) {
-            Event event = entry.getKey();
-            Price eventPrice = entry.getValue();
-
-            if (event instanceof GiftEvent) {
-                giftPrice += eventPrice.price();
-            }
-        }
-
-        return giftPrice;
+        return eventBenefits.entrySet().stream()
+                .filter(entry -> entry.getKey() instanceof GiftEvent)
+                .mapToDouble(entry -> entry.getValue().price())
+                .sum();
     }
 
     private Price getEventBenefitPrice() {

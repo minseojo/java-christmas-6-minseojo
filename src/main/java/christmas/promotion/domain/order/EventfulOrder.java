@@ -5,6 +5,7 @@ import christmas.promotion.domain.event.badge.Badge;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.dto.EventfulOrderDto;
 import christmas.promotion.vo.Price;
+import christmas.promotion.vo.Quantity;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
 public class EventfulOrder {
     private final List<OrderMenu> orderMenus; // 주문 메뉴
     private final Price originalPrice; // 할인 전 총 주문 금액
-    private final Map<Menu, Integer> giftMenus; // 증정 메뉴
+    private final Map<Menu, Quantity> giftMenus; // 증정 메뉴
     private final Map<Event, Price> eventBenefits; // 혜택 내역
     private final Price totalBenefitPrice; // 총 혜택 금액
     private final Price discountedFinalPrice; // 할인 후 예상 결제 금액
@@ -22,7 +23,7 @@ public class EventfulOrder {
 
     public EventfulOrder(List<OrderMenu> orderMenus,
                          Price originalPrice,
-                         Map<Menu, Integer> giftMenus,
+                         Map<Menu, Quantity> giftMenus,
                          Map<Event, Price> eventBenefits,
                          Price totalBenefitPrice,
                          Price discountedPrice,
