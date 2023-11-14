@@ -1,6 +1,7 @@
 package christmas.promotion.domain.event.badge;
 
 import christmas.promotion.domain.visitdate.DecemberVisitDate;
+import christmas.promotion.vo.Price;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -32,8 +33,15 @@ class BadgeTest {
          * 1만 원 이상: 트리
          * 2만 원 이상: 산타
          */
-        Badge badge = Badge.applyEvent(new DecemberVisitDate(date), orderPrice);
-        assertThat(badge.getName()).isEqualTo(badgeName);
+
+        Badge actualBadge = Badge.NONE;
+        for (Badge badge : Badge.values()) {
+            if (badge.isPossibleEvent(new DecemberVisitDate(date), Price.of(orderPrice))) {
+                actualBadge = badge.applyEvent(new DecemberVisitDate(date), Price.of(orderPrice));
+                break;
+            }
+        }
+        assertThat(actualBadge.getName()).isEqualTo(badgeName);
     }
 
     @ParameterizedTest
@@ -46,19 +54,26 @@ class BadgeTest {
     })
     @DisplayName("날짜에 대한 이벤트 가능 판단 테스트,2023-12-1 ~ 2023-12-31")
     void isPossibleEvnet_날짜(LocalDate date, double price, boolean expected) {
-        assertThat(Badge.isPossibleEvent(new DecemberVisitDate(date), price)).isEqualTo(expected);
+        assertThat(Badge.NONE.isPossibleEvent(new DecemberVisitDate(date), Price.of(price))).isEqualTo(expected);
     }
 
     @ParameterizedTest
     @CsvSource({
-            "2023-12-25, -5000.0, false",
-            "2023-12-25, 0.0, false",
-            "2023-12-25, 4999, false",
-            "2023-12-25, 5000.0, true",
-            "2023-12-25, 300000.0, true",
+            "2023-12-25, -5000.0, 없음",
+            "2023-12-25, 0.0, 없음",
+            "2023-12-25, 5000, 별",
+            "2023-12-25, 12000.0, 트리",
+            "2023-12-25, 300000.0, 산타",
     })
     @DisplayName("금액에 대한 이벤트 가능 판단 테스트, 최소 5000원 이상 이어야 이벤트 가능")
-    void isPossibleEvnet_금액(LocalDate date, double price, boolean expected) {
-        assertThat(Badge.isPossibleEvent(new DecemberVisitDate(date), price)).isEqualTo(expected);
+    void isPossibleEvnet_금액(LocalDate date, double price, String expectedBadgeName) {
+        Badge actualBadge = Badge.NONE;
+        for (Badge badge : Badge.values()) {
+            if (badge.isPossibleEvent(new DecemberVisitDate(date), Price.of(price))) {
+                actualBadge = badge;
+                break;
+            }
+        }
+        assertThat(actualBadge.getName()).isEqualTo(expectedBadgeName);
     }
 }
