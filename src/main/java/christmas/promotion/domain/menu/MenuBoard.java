@@ -11,15 +11,15 @@ import java.util.List;
 
 public class MenuBoard {
 
-    private final List<EventfulMenu> menus;
+    private final List<EventfulMenu> menuBoard;
 
     public MenuBoard() {
-        this.menus = new ArrayList<>();
+        this.menuBoard = new ArrayList<>();
         initializeMenu();
     }
 
     public EventfulMenu findMenu(String name) {
-        for (EventfulMenu menu : menus) {
+        for (EventfulMenu menu : menuBoard) {
             if (name.equals(menu.getName())) {
                 return menu;
             }
@@ -37,29 +37,29 @@ public class MenuBoard {
 
     private void addAppetizer() {
         for (Appetizer value : Appetizer.values()) {
-            menus.add(EventfulMenu.createMenuItem(value));
+            menuBoard.add(EventfulMenu.createMenuItem(value));
         }
     }
 
     private void addMainCourse() {
         for (MainCourse value : MainCourse.values()) {
-            menus.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekendDiscount.INSTANCE)));
+            menuBoard.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekendDiscount.INSTANCE)));
         }
     }
 
     private void addDessert() {
         for (Dessert value : Dessert.values()) {
-            menus.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekdayDiscount.INSTANCE)));
+            menuBoard.add(EventfulMenu.createMenuItemWithDiscount(value, Collections.singletonList(WeekdayDiscount.INSTANCE)));
         }
     }
 
     private void addBeverage() {
         for (Beverage value : Beverage.values()) {
-            menus.add(EventfulMenu.createMenuItem(value));
+            menuBoard.add(EventfulMenu.createMenuItem(value));
         }
     }
 
-    public List<EventfulMenu> getMenus() {
-        return menus;
+    public List<EventfulMenu> getmenuBoard() {
+        return menuBoard;
     }
 }
