@@ -89,7 +89,7 @@ public class PromotionController {
         displayOrderMenus(eventfulOrderDto);                       // 주문 메뉴
         displayTotalOrderPriceBeforeDiscount(eventfulOrderDto);    // 할인 전 총 주문 금액
         displayGiftMenus(eventfulOrderDto);                        // 증정 메뉴
-        displayEvnetBenefits(eventfulOrderDto);                    // 혜택 내역
+        displayEventBenefits(eventfulOrderDto);                    // 혜택 내역
         displayTotalEventBenefitsPrice(eventfulOrderDto);          // 총 혜택 금액
         displayExceptedPayMent(eventfulOrderDto);                  // 할인 후 예상 결제 금액
         displayEventBadge(eventfulOrderDto);                       // 이벤트 배지
@@ -108,19 +108,19 @@ public class PromotionController {
         outputView.printGiftMenus(giftMenusDto);
     }
 
-    private void displayEvnetBenefits(EventfulOrderDto eventfulOrder) {
+    private void displayEventBenefits(EventfulOrderDto eventfulOrder) {
         EventBenefitsDto eventBenefitsDto = eventfulOrder.getEventBenefits();
         outputView.printBenefitDetails(eventBenefitsDto);
     }
 
     private void displayTotalEventBenefitsPrice(EventfulOrderDto eventfulOrder) {
-        Price totalEvnetBenefitPrice = eventfulOrder.getTotalBenefitPrice();
-        outputView.printTotalBenefitPrice(totalEvnetBenefitPrice);
+        Price totalEventBenefitPrice = eventfulOrder.getTotalBenefitPrice();
+        outputView.printTotalBenefitPrice(totalEventBenefitPrice);
     }
 
     private void displayExceptedPayMent(EventfulOrderDto eventfulOrder) {
-        Price exceptedPayMent = eventfulOrder.getDiscountedPrice();
-        outputView.printExceptedPayment(exceptedPayMent);
+        Price exceptedPayment = eventfulOrder.getDiscountedPrice();
+        outputView.printExceptedPayment(exceptedPayment);
     }
 
     private void displayEventBadge(EventfulOrderDto eventfulOrder) {

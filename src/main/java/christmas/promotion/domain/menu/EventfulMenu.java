@@ -29,15 +29,15 @@ public class EventfulMenu {
     }
 
     public Map<Event, Double> applyEvent(DecemberVisitDate date, Quantity quantity) {
-        Map<Event, Double> eventBenefit = new LinkedHashMap<>();
+        Map<Event, Double> localEventBenefit = new LinkedHashMap<>();
 
         Price discountPrice = Price.zero();
         for (LocalEvent localEvent : localEvents) {
-            discountPrice = (Price) localEvent.applyEvent(date);
-            eventBenefit.put(localEvent, discountPrice.price() * quantity.quantity());
+            discountPrice = localEvent.applyEvent(date);
+            localEventBenefit.put(localEvent, discountPrice.price() * quantity.quantity());
         }
 
-        return eventBenefit;
+        return localEventBenefit;
     }
 
     public Menu getMenu() {
