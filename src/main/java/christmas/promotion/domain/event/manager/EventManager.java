@@ -73,12 +73,12 @@ public class EventManager {
             throw new OrderEventException();
         }
 
-        EventApplicationRepository.INSTANCE.updateSalePrice(getExceptedFinalPrice().price());
+        EventApplicationRepository.INSTANCE.updateSalePrice(getDiscountedFinalPrice().price());
         EventApplicationRepository.INSTANCE.updateEventParticipationCount();
     }
 
     private boolean isPriceNegativeAfterEvent() {
-        return getExceptedFinalPrice().price() <= Price.zero().price();
+        return getDiscountedFinalPrice().price() <= Price.zero().price();
     }
 
     private boolean isEventApplicable() {
@@ -115,11 +115,11 @@ public class EventManager {
         return giftPrice;
     }
 
-    public Price getEventBenefitPrice() {
+    private Price getEventBenefitPrice() {
         return eventBenefitCalculator.getTotalEvnetBenefitPrice(getDiscountPrice(), getGiftPrice());
     }
 
-    public Price getExceptedFinalPrice() {
+    private Price getDiscountedFinalPrice() {
         return eventBenefitCalculator.getExceptedDiscountPrice(Price.of(order.calculateOriginalPrice().price() - getDiscountPrice()).price());
     }
 
@@ -129,7 +129,7 @@ public class EventManager {
                 eventGifts,
                 eventBenefits,
                 getEventBenefitPrice(),
-                getExceptedFinalPrice(),
+                getDiscountedFinalPrice(),
                 badge);
     }
 }

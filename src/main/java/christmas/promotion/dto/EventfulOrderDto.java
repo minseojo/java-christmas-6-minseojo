@@ -16,7 +16,7 @@ public class EventfulOrderDto {
     private final Map<Menu, Integer> giftMenus; // 증정 메뉴
     private final Map<Event, Price> eventBenefits; // 혜택 내역
     private final Price totalBenefitPrice; // 총 혜택 금액
-    private final Price discountedPrice; // 할인 후 예상 결제 금액
+    private final Price discountedFinalPrice; // 할인 후 예상 결제 금액
     private final Badge badge; // 배지
 
     public EventfulOrderDto(List<OrderMenu> orderMenus, Price originalPrice, Map<Menu, Integer> giftMenus,
@@ -27,7 +27,7 @@ public class EventfulOrderDto {
         this.giftMenus = Collections.unmodifiableMap(giftMenus);
         this.eventBenefits = Collections.unmodifiableMap(eventBenefits);
         this.totalBenefitPrice = totalBenefitPrice;
-        this.discountedPrice = discountedPrice;
+        this.discountedFinalPrice = discountedPrice;
         this.badge = badge;
     }
 
@@ -51,8 +51,8 @@ public class EventfulOrderDto {
         return totalBenefitPrice;
     }
 
-    public Price getDiscountedPrice() {
-        return discountedPrice;
+    public Price getDiscountedFinalPrice() {
+        return discountedFinalPrice;
     }
 
     public Badge getBadge() {

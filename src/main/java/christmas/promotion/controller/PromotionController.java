@@ -159,7 +159,7 @@ public class PromotionController {
     }
 
     private void displayExceptedPayMent(EventfulOrderDto eventfulOrder) {
-        Price exceptedPayment = eventfulOrder.getDiscountedPrice();
+        Price exceptedPayment = eventfulOrder.getDiscountedFinalPrice();
         outputView.printExceptedPayment(exceptedPayment);
     }
 
