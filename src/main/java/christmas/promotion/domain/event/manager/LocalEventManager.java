@@ -25,7 +25,7 @@ public enum LocalEventManager {
     private static void applyMenuLocalEvent(Map<Event, Price> eventBenefits, Map<Event, Double> map) {
         for (Map.Entry<Event, Double> event : map.entrySet()) {
             double discountPrice = event.getValue();
-            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
+            Price currentPrice = eventBenefits.getOrDefault(event.getKey(), Price.zero());
             eventBenefits.put(event.getKey(), currentPrice.add(discountPrice));
         }
     }
