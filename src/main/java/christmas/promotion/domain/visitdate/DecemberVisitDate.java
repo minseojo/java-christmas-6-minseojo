@@ -5,8 +5,8 @@ import christmas.promotion.exception.VisitDayException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-import static christmas.promotion.constant.Constants.EVENT_MONTH;
-import static christmas.promotion.constant.Constants.EVENT_YEAR;
+import static christmas.promotion.domain.event.Event.EVENT_MONTH;
+import static christmas.promotion.domain.event.Event.EVENT_YEAR;
 
 public class DecemberVisitDate {
     private static final int DECEMBER_START_DAY = 1;
