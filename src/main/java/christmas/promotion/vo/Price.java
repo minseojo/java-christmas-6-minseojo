@@ -19,4 +19,8 @@ public record Price(Double price) {
     public static Price zero() {
         return of(0.0);
     }
+
+    public Price add(Price price) {
+        return Price.of(this.price + price.price);
+    }
 }

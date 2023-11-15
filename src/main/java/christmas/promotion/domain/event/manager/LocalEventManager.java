@@ -3,7 +3,6 @@ package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.order.Order;
-import christmas.promotion.domain.order.OrderMenu;
 import christmas.promotion.vo.Price;
 
 import java.util.Map;
@@ -16,18 +15,13 @@ public enum LocalEventManager {
     }
 
     private static void findAndApplyMenuLocalEvent(Order order, Map<Event, Price> eventBenefits) {
-        for (OrderMenu orderMenu : order.getOrderMenus()) {
-            Map<Event, Double> menuLocalEvent = orderMenu.applyDiscount();
-            applyMenuLocalEvent(eventBenefits, menuLocalEvent);
-        }
+        order.getOrderMenus().forEach(orderMenu ->
+                applyMenuLocalEvent(eventBenefits, orderMenu.applyDiscount()));
     }
 
     private static void applyMenuLocalEvent(Map<Event, Price> eventBenefits, Map<Event, Double> map) {
-        for (Map.Entry<Event, Double> event : map.entrySet()) {
-            double discountPrice = event.getValue();
-            Price currentPrice = eventBenefits.getOrDefault(event.getKey(), Price.zero());
-            eventBenefits.put(event.getKey(), currentPrice.add(discountPrice));
-        }
+        map.forEach((event, discountPrice) ->
+                eventBenefits.merge(event, Price.of(discountPrice), Price::add));
     }
 }
 
