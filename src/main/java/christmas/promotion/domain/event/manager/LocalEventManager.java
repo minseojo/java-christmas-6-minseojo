@@ -11,11 +11,11 @@ import java.util.Map;
 public enum LocalEventManager {
     INSTANCE;
 
-    public Map<Event, Price> applyMenuDiscountEvents(Order order) {
+    public Map<Event, Price> applyMenuDiscountEvents(final Order order) {
         return findAndApplyMenuLocalEvent(order);
     }
 
-    private static Map<Event, Price>  findAndApplyMenuLocalEvent(Order order) {
+    private static Map<Event, Price>  findAndApplyMenuLocalEvent(final Order order) {
         Map<Event, Price> evnetBenefits = new HashMap<>();
 
         order.getOrderMenus().forEach(orderMenu ->
@@ -24,7 +24,7 @@ public enum LocalEventManager {
         return evnetBenefits;
     }
 
-    private static void applyMenuLocalEvent(Map<Event, Price> eventBenefits, Map<Event, Double> menuLocalEvents) {
+    private static void applyMenuLocalEvent(final Map<Event, Price> eventBenefits, final Map<Event, Double> menuLocalEvents) {
         menuLocalEvents.forEach((event, discountPrice) ->
                 eventBenefits.merge(event, Price.of(discountPrice), Price::add));
     }

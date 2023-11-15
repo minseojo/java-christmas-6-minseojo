@@ -9,7 +9,7 @@ import java.util.Arrays;
 public enum BadgeManager {
     INSTANCE;
 
-    public Badge applyEventBadge(Order order, double discountPrice, double giftPrice) {
+    public Badge applyEventBadge(final Order order, final double discountPrice, final double giftPrice) {
         Price totalEventPrice = Price.of(discountPrice + giftPrice);
 
         return Arrays.stream(Badge.values())

@@ -38,17 +38,17 @@ public class OrderMenusParser {
         return List.of(menuItem.split(menuDetailSplitRegex));
     }
 
-    private static void addMenuDetail(Map<String, Integer> orderMenuDetails, List<String> menuDetail) {
+    private static void addMenuDetail(final Map<String, Integer> orderMenuDetails, final List<String> menuDetail) {
         String menuName = getMenuName(menuDetail);
         int quantity = getQuantity(menuDetail);
         orderMenuDetails.put(menuName, quantity);
     }
 
-    private static String getMenuName(List<String> menuDetail) {
+    private static String getMenuName(final List<String> menuDetail) {
         return menuDetail.get(menuDetailNameIndex);
     }
 
-    private static int getQuantity(List<String> menuDetail) {
+    private static int getQuantity(final List<String> menuDetail) {
         return Integer.parseInt(menuDetail.get(menuDetailQuantityIndex));
     }
 }

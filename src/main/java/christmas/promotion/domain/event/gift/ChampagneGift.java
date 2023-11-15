@@ -28,7 +28,7 @@ public enum ChampagneGift implements GlobalEvent<Price>, GiftEvent {
     }
 
     @Override
-    public Price applyEvent(DecemberVisitDate date, Price price) {
+    public Price applyEvent(final DecemberVisitDate date, final Price price) {
         if (!isPossibleEvent(date, price)) {
             return NON_GIFT_EVENT;
         }
@@ -38,7 +38,7 @@ public enum ChampagneGift implements GlobalEvent<Price>, GiftEvent {
 
 
     @Override
-    public boolean isPossibleEvent(DecemberVisitDate date, Price price) {
+    public boolean isPossibleEvent(final DecemberVisitDate date, final Price price) {
         return isBetweenDates(date) && isPriceThresholdAboveOrEqual(price);
     }
 

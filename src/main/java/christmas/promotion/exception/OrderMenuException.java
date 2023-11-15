@@ -4,7 +4,7 @@ public class OrderMenuException extends IllegalArgumentException {
     public enum ErrorMessage {
         ORDER_MENU_ERROR("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
 
-        ErrorMessage(String message) {
+        ErrorMessage(final String message) {
             this.message = message;
         }
 

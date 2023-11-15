@@ -36,14 +36,14 @@ public class InputView {
         return orderDetails;
     }
 
-    private void validateDecemberVisitDate(String visitDay) {
+    private void validateDecemberVisitDate(final String visitDay) {
         int dateMaxLength = 2;
         if (visitDay.isBlank() || visitDay.length() > dateMaxLength) {
             throw new VisitDayException();
         }
     }
 
-    private static void validateOrderDetails(String orderDetails) {
+    private static void validateOrderDetails(final String orderDetails) {
         int orderDetailsMaxLength = 1000;
         // 주문은 한번에 최대 20개 이므로, 글자가 가장 긴 '크리스마스파스타-1' 글자 수는 10 * 20 = 200이다.
         // 그래서 여유롭게 주문 상세가 1000글자 이상이면 예외를 던진다.

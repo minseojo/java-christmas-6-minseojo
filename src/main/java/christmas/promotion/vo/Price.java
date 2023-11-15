@@ -20,7 +20,7 @@ public record Price(Double price) {
         return of(0.0);
     }
 
-    public Price add(Price price) {
+    public Price add(final Price price) {
         return Price.of(this.price + price.price);
     }
 }

@@ -17,7 +17,7 @@ public enum EventApplicationRepository {
     private final DoubleAdder eventfulMenuSalePrice = new DoubleAdder();
     private final AtomicInteger eventParticipationCount = new AtomicInteger(0);
 
-    public void updateSalePrice(double eventfulMenuSalePrice) {
+    public void updateSalePrice(final double eventfulMenuSalePrice) {
         this.eventfulMenuSalePrice.add(eventfulMenuSalePrice);
     }
 

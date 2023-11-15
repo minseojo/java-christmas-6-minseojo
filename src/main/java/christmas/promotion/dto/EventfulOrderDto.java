@@ -20,13 +20,13 @@ public class EventfulOrderDto {
     private final Price discountedFinalPrice; // 할인 후 예상 결제 금액
     private final Badge badge; // 배지
 
-    public EventfulOrderDto(List<OrderMenu> orderMenus,
-                            Price originalPrice,
-                            Map<Menu, Quantity> giftMenus,
-                            Map<Event, Price> eventBenefits,
-                            Price totalBenefitPrice,
-                            Price discountedPrice,
-                            Badge badge) {
+    public EventfulOrderDto(final List<OrderMenu> orderMenus,
+                            final Price originalPrice,
+                            final Map<Menu, Quantity> giftMenus,
+                            final Map<Event, Price> eventBenefits,
+                            final Price totalBenefitPrice,
+                            final Price discountedPrice,
+                            final Badge badge) {
         this.orderMenus = List.copyOf(orderMenus);
         this.originalPrice = originalPrice;
         this.giftMenus = Collections.unmodifiableMap(giftMenus);

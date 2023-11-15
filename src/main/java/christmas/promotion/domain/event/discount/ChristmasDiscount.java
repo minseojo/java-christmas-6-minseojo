@@ -22,7 +22,7 @@ public enum ChristmasDiscount implements GlobalEvent<Price>, DiscountEvent {
     }
 
     @Override
-    public Price applyEvent(DecemberVisitDate date, Price orderPrice) {
+    public Price applyEvent(final DecemberVisitDate date, final Price orderPrice) {
         if (!isPossibleEvent(date, orderPrice)) {
             return NON_DISCOUNT_EVENT;
         }
@@ -32,19 +32,19 @@ public enum ChristmasDiscount implements GlobalEvent<Price>, DiscountEvent {
     }
 
     @Override
-    public boolean isPossibleEvent(DecemberVisitDate date, Price orderPrice) {
+    public boolean isPossibleEvent(final DecemberVisitDate date, final Price orderPrice) {
         return isBetweenDates(date) && isPriceAboveMinimumThreshold(orderPrice);
     }
 
-    private boolean isPriceAboveMinimumThreshold(Price orderPrice) {
+    private boolean isPriceAboveMinimumThreshold(final Price orderPrice) {
         return orderPrice.price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 
-    public boolean isBetweenDates(DecemberVisitDate date) {
+    public boolean isBetweenDates(final DecemberVisitDate date) {
         return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 
-    private int calculateDaysUntilChristmas(DecemberVisitDate date) {
+    private int calculateDaysUntilChristmas(final DecemberVisitDate date) {
         return (int) ChronoUnit.DAYS.between(EVENT_PERIOD_START, date.getVisitDate());
     }
 }

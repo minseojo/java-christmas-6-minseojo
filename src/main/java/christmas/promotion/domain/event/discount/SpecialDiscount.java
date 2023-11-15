@@ -20,7 +20,7 @@ public enum SpecialDiscount implements GlobalEvent<Price>, DiscountEvent {
     }
 
     @Override
-    public Price applyEvent(DecemberVisitDate date, Price price) {
+    public Price applyEvent(final DecemberVisitDate date, final Price price) {
         if (!isPossibleEvent(date, price)) {
             return NON_DISCOUNT_EVENT;
         }
@@ -29,20 +29,20 @@ public enum SpecialDiscount implements GlobalEvent<Price>, DiscountEvent {
     }
 
     @Override
-    public boolean isPossibleEvent(DecemberVisitDate date, Price price) {
+    public boolean isPossibleEvent(final DecemberVisitDate date, final Price price) {
         return isBetweenDates(date) && isSpecialDate(date) && isPriceAboveMinimumThreshold(price);
     }
 
     @Override
-    public boolean isBetweenDates(DecemberVisitDate date) {
+    public boolean isBetweenDates(final DecemberVisitDate date) {
         return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 
-    private boolean isSpecialDate(DecemberVisitDate date) {
+    private boolean isSpecialDate(final DecemberVisitDate date) {
         return date.isSunday() || date.isChristmas();
     }
 
-    private boolean isPriceAboveMinimumThreshold(Price price) {
+    private boolean isPriceAboveMinimumThreshold(final Price price) {
         return price.price() >= EVENT_PARTICIPATION_THRESHOLD;
     }
 }

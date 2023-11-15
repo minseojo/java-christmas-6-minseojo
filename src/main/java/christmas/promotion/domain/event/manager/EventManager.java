@@ -30,14 +30,14 @@ public class EventManager {
     private final Map<Menu, Quantity> eventGifts;
     private Badge badge;
 
-    public EventManager(Order order) {
+    public EventManager(final Order order) {
         this.order = order;
         this.badge = Badge.NONE;
         this.eventBenefits = new LinkedHashMap<>();
         this.eventGifts = new LinkedHashMap<>();
 
         this.localEventManager = LocalEventManager.INSTANCE;
-        this.globalEventManager = new GlobalEventManager(order);
+        this.globalEventManager = new GlobalEventManager();
         this.badgeManager = BadgeManager.INSTANCE;
         this.eventBenefitCalculator = EventBenefitCalculator.INSTANCE;
         addEvents();
@@ -82,7 +82,7 @@ public class EventManager {
         addGiftEventGifts(giftEventResult);
     }
 
-    private void addGiftEventBenefits(GiftEventsResult giftEventResult) {
+    private void addGiftEventBenefits(final GiftEventsResult giftEventResult) {
         Map<Event, Price> giftEventBenefits = giftEventResult.getGiftEventBenefits();
         for (Map.Entry<Event, Price> event : giftEventBenefits.entrySet()) {
             Price currentGiftedPrice = eventBenefits.getOrDefault(event, Price.zero());
@@ -90,7 +90,7 @@ public class EventManager {
         }
     }
 
-    private void addGiftEventGifts(GiftEventsResult giftEventResult) {
+    private void addGiftEventGifts(final GiftEventsResult giftEventResult) {
         Map<Menu, Quantity> giftMenus = giftEventResult.getGiftMenus();
         for (Map.Entry<Menu, Quantity> giftMenu : giftMenus.entrySet()) {
             Menu menu = giftMenu.getKey();

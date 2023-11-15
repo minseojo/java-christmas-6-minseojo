@@ -11,7 +11,7 @@ public class OrderEventException extends IllegalArgumentException {
     public enum ErrorMessage {
         ORDER_EVENT_ERROR("[ERROR] 할인을 적용한 총 가격이 0원 보다 커야합니다. 다시 입력해 주세요.");
 
-        ErrorMessage(String message) {
+        ErrorMessage(final String message) {
             this.message = message;
         }
 

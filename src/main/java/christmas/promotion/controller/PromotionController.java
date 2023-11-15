@@ -22,7 +22,7 @@ public class PromotionController {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public PromotionController(InputView inputView, OutputView outputView) {
+    public PromotionController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -56,7 +56,7 @@ public class PromotionController {
         }
     }
 
-    private EventfulOrder processOrderTransaction(DecemberVisitDate decemberVisitDate) {
+    private EventfulOrder processOrderTransaction(final DecemberVisitDate decemberVisitDate) {
         while (true) {
             try {
                 Order order = createOrder(decemberVisitDate);
@@ -79,7 +79,7 @@ public class PromotionController {
         }
     }
 
-    private Order createOrder(DecemberVisitDate decemberVisitDate) {
+    private Order createOrder(final DecemberVisitDate decemberVisitDate) {
         MenuBoard menuBoard = new MenuBoard();
 
         Map<String, Integer> orderMenus = getOrderMenus();
@@ -102,21 +102,21 @@ public class PromotionController {
         }
     }
 
-    private Map<String, Integer> parseOrderMenuDetails(String orderDetails) {
+    private Map<String, Integer> parseOrderMenuDetails(final String orderDetails) {
         return OrderMenusParser.parse(orderDetails);
     }
 
-    private void displayEventBenefitsOnDecember(DecemberVisitDate decemberVisitDate) {
+    private void displayEventBenefitsOnDecember(final DecemberVisitDate decemberVisitDate) {
         outputView.printEventBenefitsOnDecemberMessage(decemberVisitDate.getVisitDay());
     }
 
-    private EventfulOrder processOrderEventTransaction(Order order) {
+    private EventfulOrder processOrderEventTransaction(final Order order) {
         EventManager eventManager = new EventManager(order);
         eventManager.applyEvents();
         return eventManager.createEventfulOrder();
     }
 
-    private void displayEventfulOrder(EventfulOrder eventfulOrder) {
+    private void displayEventfulOrder(final EventfulOrder eventfulOrder) {
         EventfulOrderDto eventfulOrderDto = eventfulOrder.toEventfulOrderDto();
 
         displayOrderMenus(eventfulOrderDto);                       // 주문 메뉴
@@ -128,35 +128,35 @@ public class PromotionController {
         displayEventBadge(eventfulOrderDto);                       // 이벤트 배지
     }
 
-    private void displayOrderMenus(EventfulOrderDto eventfulOrder) {
+    private void displayOrderMenus(final EventfulOrderDto eventfulOrder) {
         outputView.printOrderMenus(eventfulOrder.getOrderMenus());
     }
 
-    private void displayTotalOrderPriceBeforeDiscount(EventfulOrderDto eventfulOrder) {
+    private void displayTotalOrderPriceBeforeDiscount(final EventfulOrderDto eventfulOrder) {
         outputView.printTotalOrderPriceBeforeDiscount(eventfulOrder.getOriginalPrice());
     }
 
-    private void displayGiftMenus(EventfulOrderDto eventfulOrder) {
+    private void displayGiftMenus(final EventfulOrderDto eventfulOrder) {
         GiftMenusDto giftMenusDto = eventfulOrder.getGiftMenus();
         outputView.printGiftMenus(giftMenusDto);
     }
 
-    private void displayEventBenefits(EventfulOrderDto eventfulOrder) {
+    private void displayEventBenefits(final EventfulOrderDto eventfulOrder) {
         EventBenefitsDto eventBenefitsDto = eventfulOrder.getEventBenefits();
         outputView.printBenefitDetails(eventBenefitsDto);
     }
 
-    private void displayTotalEventBenefitsPrice(EventfulOrderDto eventfulOrder) {
+    private void displayTotalEventBenefitsPrice(final EventfulOrderDto eventfulOrder) {
         Price totalEventBenefitPrice = eventfulOrder.getTotalBenefitPrice();
         outputView.printTotalBenefitPrice(totalEventBenefitPrice);
     }
 
-    private void displayDiscountedFinalPrice(EventfulOrderDto eventfulOrder) {
+    private void displayDiscountedFinalPrice(final EventfulOrderDto eventfulOrder) {
         Price exceptedPayment = eventfulOrder.getDiscountedFinalPrice();
         outputView.printDiscountedFinalPrice(exceptedPayment);
     }
 
-    private void displayEventBadge(EventfulOrderDto eventfulOrder) {
+    private void displayEventBadge(final EventfulOrderDto eventfulOrder) {
         outputView.printDecemberEventBadge(eventfulOrder.getBadgeName());
     }
 }

@@ -12,7 +12,7 @@ public class GiftEventsResult {
     private final Map<Event, Price> giftEventBenefits;
     private final Map<Menu, Quantity> giftMenus;
 
-    public GiftEventsResult(Map<Event, Price> giftEventBenefits, Map<Menu, Quantity> giftMenus) {
+    public GiftEventsResult(final Map<Event, Price> giftEventBenefits, final Map<Menu, Quantity> giftMenus) {
         this.giftEventBenefits = Collections.unmodifiableMap(giftEventBenefits);
         this.giftMenus = Collections.unmodifiableMap(giftMenus);
     }

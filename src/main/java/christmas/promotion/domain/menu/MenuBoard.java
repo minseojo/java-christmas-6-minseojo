@@ -18,7 +18,7 @@ public class MenuBoard {
         initializeMenu();
     }
 
-    public EventfulMenu findMenu(String menuName) {
+    public EventfulMenu findMenu(final String menuName) {
         return menuBoard.stream()
                 .filter(menu -> menuName.equals(menu.getName()))
                 .findFirst()

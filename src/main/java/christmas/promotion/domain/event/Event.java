@@ -11,5 +11,5 @@ public interface Event {
     Price NON_GIFT_EVENT = Price.zero();
     String getEventName();
 
-    boolean isBetweenDates(DecemberVisitDate date);
+    boolean isBetweenDates(final DecemberVisitDate date);
 }

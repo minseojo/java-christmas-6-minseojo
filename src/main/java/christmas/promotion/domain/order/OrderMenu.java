@@ -13,7 +13,7 @@ public class OrderMenu {
     private final Quantity quantity;
     private final DecemberVisitDate date;
 
-    public OrderMenu(EventfulMenu menu, Quantity quantity, DecemberVisitDate date) {
+    public OrderMenu(final EventfulMenu menu, final Quantity quantity, final DecemberVisitDate date) {
         this.menu = menu;
         this.quantity = quantity;
         this.date = date;

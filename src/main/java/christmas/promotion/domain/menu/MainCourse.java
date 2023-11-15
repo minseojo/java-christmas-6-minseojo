@@ -9,7 +9,7 @@ public enum MainCourse implements Menu {
     private final String name;
     private final double price;
 
-    MainCourse(String name, double price) {
+    MainCourse(final String name, final double price) {
         this.name = name;
         this.price = price;
     }

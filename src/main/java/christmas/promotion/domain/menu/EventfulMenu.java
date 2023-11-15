@@ -15,20 +15,20 @@ public class EventfulMenu {
     private final Menu menu;
     private final List<LocalEvent> localEvents;
 
-    private EventfulMenu(Menu menu, List<LocalEvent> localEvents) {
+    private EventfulMenu(final Menu menu, final List<LocalEvent> localEvents) {
         this.menu = menu;
         this.localEvents = localEvents;
     }
 
-    public static EventfulMenu createMenuItem(Menu menu) {
+    public static EventfulMenu createMenuItem(final Menu menu) {
         return new EventfulMenu(menu, Collections.emptyList());
     }
 
-    public static EventfulMenu createMenuItemWithDiscount(Menu menu, List<LocalEvent> localEvents) {
+    public static EventfulMenu createMenuItemWithDiscount(final Menu menu, final List<LocalEvent> localEvents) {
         return new EventfulMenu(menu, localEvents);
     }
 
-    public Map<Event, Double> applyEvent(DecemberVisitDate date, Quantity quantity) {
+    public Map<Event, Double> applyEvent(final DecemberVisitDate date, final Quantity quantity) {
         Map<Event, Double> localEventBenefit = new LinkedHashMap<>();
 
         for (LocalEvent localEvent : localEvents) {

@@ -7,7 +7,7 @@ public enum Dessert implements Menu {
     private final String name;
     private final double price;
 
-    Dessert(String name, double price) {
+    Dessert(final String name, final double price) {
         this.name = name;
         this.price = price;
     }

@@ -8,7 +8,7 @@ public enum Beverage implements Menu {
     private final String name;
     private final double price;
 
-    Beverage(String name, double price) {
+    Beverage(final String name, final double price) {
         this.name = name;
         this.price = price;
     }

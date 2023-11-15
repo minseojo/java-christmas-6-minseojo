@@ -20,7 +20,7 @@ public enum WeekdayDiscount implements LocalEvent<Price>, DiscountEvent {
     }
 
     @Override
-    public Price applyEvent(DecemberVisitDate date) {
+    public Price applyEvent(final DecemberVisitDate date) {
         if (!isPossibleEvent(date)) {
             return NON_DISCOUNT_EVENT;
         }
@@ -29,12 +29,12 @@ public enum WeekdayDiscount implements LocalEvent<Price>, DiscountEvent {
     }
 
     @Override
-    public boolean isPossibleEvent(DecemberVisitDate date) {
+    public boolean isPossibleEvent(final DecemberVisitDate date) {
         return isBetweenDates(date) && date.isWeekday();
     }
 
     @Override
-    public boolean isBetweenDates(DecemberVisitDate date) {
+    public boolean isBetweenDates(final DecemberVisitDate date) {
         return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 }

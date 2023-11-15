@@ -24,7 +24,7 @@ import static christmas.promotion.domain.event.Event.NON_GIFT_EVENT;
 public class GlobalEventManager {
     private final Map<GlobalEvent, Double> globalEvents;
 
-    public GlobalEventManager(Order order) {
+    public GlobalEventManager() {
         this.globalEvents = new LinkedHashMap<>();
         addGlobalEvents();
     }
@@ -35,7 +35,7 @@ public class GlobalEventManager {
         globalEvents.put(ChampagneGift.INSTANCE, 0.0);
     }
 
-    public Map<Event, Price> applyDiscountEvents(Order order) {
+    public Map<Event, Price> applyDiscountEvents(final Order order) {
         Map<Event, Price> discountEventBenefits = new HashMap<>();
 
         for (GlobalEvent event : globalEvents.keySet()) {
@@ -47,7 +47,10 @@ public class GlobalEventManager {
         return discountEventBenefits;
     }
 
-    private void applyDiscountEvent(Order order, GlobalEvent event, Map<Event, Price> eventBenefits) {
+    private void applyDiscountEvent(final Order order,
+                                    final GlobalEvent event,
+                                    final Map<Event, Price> eventBenefits) {
+
         Price discountPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
 
         if (discountPrice.price() > NON_DISCOUNT_EVENT.price()) { // 할인을 한 경우
@@ -56,7 +59,7 @@ public class GlobalEventManager {
         }
     }
 
-    public GiftEventsResult applyGiftEvents(Order order) {
+    public GiftEventsResult applyGiftEvents(final Order order) {
         Map<Event, Price> giftEventBenefits = new HashMap<>();
         Map<Menu, Quantity> giftMenus = new HashMap<>();
         for (GlobalEvent globalEvent : globalEvents.keySet()) {
@@ -68,8 +71,11 @@ public class GlobalEventManager {
         return new GiftEventsResult(giftEventBenefits, giftMenus);
     }
 
-    private void applyGiftEvent(Order order, GlobalEvent giftEvent,
-                                               Map<Event, Price> giftEventBenefits, Map<Menu, Quantity> giftMenus) {
+    private void applyGiftEvent(final Order order,
+                                final GlobalEvent giftEvent,
+                                final Map<Event, Price> giftEventBenefits,
+                                final Map<Menu, Quantity> giftMenus) {
+
         Price giftPrice = (Price) giftEvent.applyEvent(order.getDate(), order.calculateOriginalPrice());
 
         if (giftPrice.price() > NON_GIFT_EVENT.price()) { // 선물을 증정한 경우
@@ -79,7 +85,7 @@ public class GlobalEventManager {
         }
     }
 
-    private void addGiftMenu(GiftEvent giftEvent, Map<Menu, Quantity> giftMenus) {
+    private void addGiftMenu(final GiftEvent giftEvent, final Map<Menu, Quantity> giftMenus) {
         Menu menu = giftEvent.getGiftMenu();
         Quantity quantity = new Quantity(giftEvent.getGiftQuantity());
         giftMenus.put(menu, quantity);

@@ -16,13 +16,13 @@ public class DecemberVisitDate {
     //Integer 는 -128 ~ 127까지 캐싱 되므로, 1 ~ 31일은 캐싱 데이터를 안 만들었다.
     private final LocalDate visitDate;
 
-    public DecemberVisitDate(String value) {
+    public DecemberVisitDate(final String value) {
         validate(value);
         int visitDay = Integer.parseInt(value);
         this.visitDate = LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay);
     }
 
-    public DecemberVisitDate(LocalDate value) {
+    public DecemberVisitDate(final LocalDate value) {
         this.visitDate = value;
     }
 
@@ -31,7 +31,7 @@ public class DecemberVisitDate {
         validateRangeVisitDay(visitDay);
     }
 
-    private void validateInteger(String visitDay) {
+    private void validateInteger(final String visitDay) {
         try {
             Integer.parseInt(visitDay);
         } catch (IllegalArgumentException exception) {
@@ -39,7 +39,7 @@ public class DecemberVisitDate {
         }
     }
 
-    private void validateRangeVisitDay(String visitDay) {
+    private void validateRangeVisitDay(final String visitDay) {
         int value = Integer.parseInt(visitDay);
         if (value < DECEMBER_START_DAY || value > DECEMBER_END_DAY) {
             throw new VisitDayException();
@@ -54,7 +54,7 @@ public class DecemberVisitDate {
         return visitDate.getDayOfMonth();
     }
 
-    public boolean isBetweenDates(LocalDate start, LocalDate end) {
+    public boolean isBetweenDates(final LocalDate start, final LocalDate end) {
         return !visitDate.isBefore(start) && !visitDate.isAfter(end);
     }
 
@@ -75,7 +75,7 @@ public class DecemberVisitDate {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

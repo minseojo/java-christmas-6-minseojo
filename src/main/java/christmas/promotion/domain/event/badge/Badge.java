@@ -23,7 +23,7 @@ public enum Badge implements GlobalEvent<Badge> {
     private final double threshold;
 
 
-    Badge(String name, double threshold) {
+    Badge(final String name, final double threshold) {
         this.name = name;
         this.threshold = threshold;  // 수정: Badge.None 대신에 threshold 값을 할당
     }
@@ -38,7 +38,7 @@ public enum Badge implements GlobalEvent<Badge> {
     }
 
     @Override
-    public Badge applyEvent(DecemberVisitDate date, Price eventfulPrice) {
+    public Badge applyEvent(final DecemberVisitDate date, final Price eventfulPrice) {
         if (isPossibleEvent(date, eventfulPrice)) {
             return this;
         }
@@ -47,12 +47,12 @@ public enum Badge implements GlobalEvent<Badge> {
     }
 
     @Override
-    public boolean isPossibleEvent(DecemberVisitDate date, Price eventfulPrice) {
+    public boolean isPossibleEvent(final DecemberVisitDate date, final Price eventfulPrice) {
         return isBetweenDates(date) && eventfulPrice.price() >= this.threshold;
     }
 
     @Override
-    public boolean isBetweenDates(DecemberVisitDate date) {
+    public boolean isBetweenDates(final DecemberVisitDate date) {
         return date.isBetweenDates(EVENT_PERIOD_START, EVENT_PERIOD_END);
     }
 }

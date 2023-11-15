@@ -21,13 +21,13 @@ public class EventfulOrder {
     private final Badge badge; // 배지
 
 
-    public EventfulOrder(List<OrderMenu> orderMenus,
-                         Price originalPrice,
-                         Map<Menu, Quantity> giftMenus,
-                         Map<Event, Price> eventBenefits,
-                         Price totalBenefitPrice,
-                         Price discountedPrice,
-                         Badge badge) {
+    public EventfulOrder(final List<OrderMenu> orderMenus,
+                         final Price originalPrice,
+                         final Map<Menu, Quantity> giftMenus,
+                         final Map<Event, Price> eventBenefits,
+                         final Price totalBenefitPrice,
+                         final Price discountedPrice,
+                         final Badge badge) {
 
         this.orderMenus = List.copyOf(orderMenus);
         this.originalPrice = originalPrice;
