@@ -53,10 +53,19 @@ public class EventManager {
 
     public void applyEvents() {
         if (isEventApplicable()) {
-            localEventManager.applyMenuDiscountEvents(order, eventBenefits);
+            applyOrderMenuDiscountEvents();
             globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
             this.badge = badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
             updateEventDatabase();
+        }
+    }
+
+    private void applyOrderMenuDiscountEvents() {
+        Map<Event, Price> OrderMenuDiscountBenefits = localEventManager.applyMenuDiscountEvents(order);
+
+        for (Map.Entry<Event, Price> menuEvent : OrderMenuDiscountBenefits.entrySet()) {
+            Price currentMenuEventPrice = eventBenefits.getOrDefault(menuEvent, Price.zero());
+            eventBenefits.put(menuEvent.getKey(), currentMenuEventPrice.add(menuEvent.getValue().price()));
         }
     }
 
