@@ -96,6 +96,7 @@ public class PromotionController {
                 String orderMenuDetails = inputView.readOrderDetails();
                 return parseOrderMenuDetails(orderMenuDetails);
             } catch (OrderMenuException exception) {
+                exception.printStackTrace();
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
