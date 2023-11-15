@@ -8,11 +8,13 @@ import christmas.promotion.domain.event.discount.DiscountEvent;
 import christmas.promotion.domain.event.discount.SpecialDiscount;
 import christmas.promotion.domain.event.gift.ChampagneGift;
 import christmas.promotion.domain.event.gift.GiftEvent;
+import christmas.promotion.domain.event.gift.GiftEventsResult;
 import christmas.promotion.domain.menu.Menu;
 import christmas.promotion.domain.order.Order;
 import christmas.promotion.vo.Price;
 import christmas.promotion.vo.Quantity;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -21,10 +23,8 @@ import static christmas.promotion.domain.event.Event.NON_GIFT_EVENT;
 
 public class GlobalEventManager {
     private final Map<GlobalEvent, Double> globalEvents;
-    private final Order order;
 
     public GlobalEventManager(Order order) {
-        this.order = order;
         this.globalEvents = new LinkedHashMap<>();
         addGlobalEvents();
     }
@@ -35,41 +35,54 @@ public class GlobalEventManager {
         globalEvents.put(ChampagneGift.INSTANCE, 0.0);
     }
 
-    public void applyGlobalEvents(Map<Event, Price> eventBenefits, Map<Menu, Quantity> eventGifts) {
-        for (GlobalEvent globalEvent : globalEvents.keySet()) {
-            if (globalEvent instanceof DiscountEvent) {
-                applyDiscountEvent(globalEvent, eventBenefits);
-            }
-            if (globalEvent instanceof GiftEvent) {
-                applyGiftEvent(globalEvent, eventBenefits, eventGifts);
+    public Map<Event, Price> applyDiscountEvents(Order order) {
+        Map<Event, Price> discountEventBenefits = new HashMap<>();
+
+        for (GlobalEvent event : globalEvents.keySet()) {
+            if (event instanceof DiscountEvent) {
+                applyDiscountEvent(order, event, discountEventBenefits);
             }
         }
+
+        return discountEventBenefits;
     }
 
-    private void applyDiscountEvent(GlobalEvent event, Map<Event, Price> eventBenefits) {
+    private void applyDiscountEvent(Order order, GlobalEvent event, Map<Event, Price> eventBenefits) {
         Price discountPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
 
         if (discountPrice.price() > NON_DISCOUNT_EVENT.price()) { // 할인을 한 경우
-            Price currentPrice = eventBenefits.get(event);
+            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
             eventBenefits.put(event, currentPrice.add(discountPrice.price()));
         }
     }
 
-    private void applyGiftEvent(GlobalEvent event, Map<Event, Price> eventBenefits,
-                                Map<Menu, Quantity> eventGifts) {
-        Price giftPrice = (Price) event.applyEvent(order.getDate(), order.calculateOriginalPrice());
+    public GiftEventsResult applyGiftEvents(Order order) {
+        Map<Event, Price> giftEventBenefits = new HashMap<>();
+        Map<Menu, Quantity> giftMenus = new HashMap<>();
+        for (GlobalEvent globalEvent : globalEvents.keySet()) {
+            if (globalEvent instanceof GiftEvent) {
+                applyGiftEvent(order, globalEvent, giftEventBenefits, giftMenus);
+            }
+        }
+
+        return new GiftEventsResult(giftEventBenefits, giftMenus);
+    }
+
+    private void applyGiftEvent(Order order, GlobalEvent giftEvent,
+                                               Map<Event, Price> giftEventBenefits, Map<Menu, Quantity> giftMenus) {
+        Price giftPrice = (Price) giftEvent.applyEvent(order.getDate(), order.calculateOriginalPrice());
 
         if (giftPrice.price() > NON_GIFT_EVENT.price()) { // 선물을 증정한 경우
-            Price currentPrice = eventBenefits.getOrDefault(event, Price.zero());
-            eventBenefits.put(event, currentPrice.add(giftPrice.price()));
-            addGiftMenu((GiftEvent) event, eventGifts);
+            Price currentPrice = giftEventBenefits.getOrDefault(giftEvent, Price.zero()); // 이미 같은 선물이 있는 경우 덧 붙이기
+            giftEventBenefits.put(giftEvent, currentPrice.add(giftPrice.price()));
+            addGiftMenu((GiftEvent) giftEvent, giftMenus);
         }
     }
 
-    private void addGiftMenu(GiftEvent event, Map<Menu, Quantity> eventGifts) {
-        Menu menu = event.getGiftMenu();
-        Quantity quantity = new Quantity(event.getGiftQuantity());
-        eventGifts.put(menu, quantity);
+    private void addGiftMenu(GiftEvent giftEvent, Map<Menu, Quantity> giftMenus) {
+        Menu menu = giftEvent.getGiftMenu();
+        Quantity quantity = new Quantity(giftEvent.getGiftQuantity());
+        giftMenus.put(menu, quantity);
     }
 }
 

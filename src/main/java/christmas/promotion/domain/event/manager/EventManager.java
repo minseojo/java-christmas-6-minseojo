@@ -2,6 +2,7 @@ package christmas.promotion.domain.event.manager;
 
 import christmas.promotion.domain.event.Event;
 import christmas.promotion.domain.event.badge.Badge;
+import christmas.promotion.domain.event.gift.GiftEventsResult;
 import christmas.promotion.exception.OrderEventException;
 import christmas.promotion.repository.EventApplicationRepository;
 import christmas.promotion.domain.event.discount.*;
@@ -53,14 +54,52 @@ public class EventManager {
 
     public void applyEvents() {
         if (isEventApplicable()) {
-            applyOrderMenuDiscountEvents();
-            globalEventManager.applyGlobalEvents(eventBenefits, eventGifts);
+            applyLocalEvents();
+            applyGlobalEvents();
             this.badge = badgeManager.applyEventBadge(order, getDiscountPrice(), getGiftPrice());
             updateEventDatabase();
         }
     }
 
-    private void applyOrderMenuDiscountEvents() {
+    private void applyGlobalEvents() {
+        applyGlobalDiscountEvents();
+        applyGlobalGiftEvents();
+    }
+
+    private void applyGlobalDiscountEvents() {
+        Map<Event, Price> discountEventBenefits = globalEventManager.applyDiscountEvents(order);
+
+        for (Map.Entry<Event, Price> discountEvent : discountEventBenefits.entrySet()) {
+            Price currentDiscountedPrice = eventBenefits.getOrDefault(discountEvent, Price.zero());
+            eventBenefits.put(discountEvent.getKey(), currentDiscountedPrice.add(discountEvent.getValue().price()));
+        }
+    }
+
+    private void applyGlobalGiftEvents() {
+        GiftEventsResult giftEventResult= globalEventManager.applyGiftEvents(order);
+
+        addGiftEventBenefits(giftEventResult);
+        addGiftEventGifts(giftEventResult);
+    }
+
+    private void addGiftEventBenefits(GiftEventsResult giftEventResult) {
+        Map<Event, Price> giftEventBenefits = giftEventResult.getGiftEventBenefits();
+        for (Map.Entry<Event, Price> event : giftEventBenefits.entrySet()) {
+            Price currentGiftedPrice = eventBenefits.getOrDefault(event, Price.zero());
+            this.eventBenefits.put(event.getKey(), currentGiftedPrice.add(event.getValue().price()));
+        }
+    }
+
+    private void addGiftEventGifts(GiftEventsResult giftEventResult) {
+        Map<Menu, Quantity> giftMenus = giftEventResult.getGiftMenus();
+        for (Map.Entry<Menu, Quantity> giftMenu : giftMenus.entrySet()) {
+            Menu menu = giftMenu.getKey();
+            Quantity quantity = giftMenu.getValue();
+            this.eventGifts.put(menu, quantity);
+        }
+    }
+
+    private void applyLocalEvents() {
         Map<Event, Price> OrderMenuDiscountBenefits = localEventManager.applyMenuDiscountEvents(order);
 
         for (Map.Entry<Event, Price> menuEvent : OrderMenuDiscountBenefits.entrySet()) {
